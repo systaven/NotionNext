@@ -5,7 +5,8 @@
  *  1. 开启方式 在blog.config.js 将主题配置为 `HEO`
  *  2. 更多说明参考此[文档](https://docs.tangly1024.com/article/notionnext-heo)
  */
-
+import Head from 'next/head'
+import Script from 'next/script'
 import Comment from '@/components/Comment'
 import { AdSlot } from '@/components/GoogleAdsense'
 import { HashTag } from '@/components/HeroIcons'
@@ -158,7 +159,7 @@ const LayoutIndex = props => {
  */
 const LayoutPostList = props => {
   return (
-    <div id='post-outer-wrapper' className='px-5  md:px-0'>
+    <div id='post-outer-wrapper' className='px-5  md:px-0'>-
       {/* 文章分类条 */}
       <CategoryBar {...props} />
       {siteConfig('POST_LIST_STYLE') === 'page' ? (
@@ -311,6 +312,18 @@ const LayoutSlug = props => {
                 <ArticleExpirationNotice post={post} />
                 <AISummary aiSummary={post.aiSummary} />
                 <WWAds orientation='horizontal' className='w-full' />
+                <Head>
+                  <link rel="stylesheet" href="https://ai.zhheo.com/static/public/tianli_gpt.min.css" />
+                </Head>
+                <Script id="tianli-gpt-config">
+                  {`
+                    let tianliGPT_postSelector = '#notion-article';
+                    let tianliGPT_postURL = '*/article/*';
+                    let tianliGPT_Title = 'AI摘要';
+                    let tianliGPT_key = 'S-NS96WHEH8R59YYSG';
+                  `}
+                </Script>
+                <Script id="tianli-gpt-main" src="https://ai.zhheo.com/static/public/tianli_gpt.min.js" strategy="lazyOnload" />
                 {post && <NotionPage post={post} />}
                 <WWAds orientation='horizontal' className='w-full' />
               </section>
