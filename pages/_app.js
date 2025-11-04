@@ -10,7 +10,7 @@ import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'
 import { getBaseLayoutByTheme } from '@/themes/theme'
 import { useRouter } from 'next/router'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useEffect } from 'react'
 import { getQueryParam } from '../lib/utils'
 
 // 各种扩展插件 这个要阻塞引入
@@ -34,6 +34,34 @@ const MyApp = ({ Component, pageProps }) => {
   useAdjustStyle()
 
   const route = useRouter()
+
+  useEffect(() => {
+    const links = document.querySelectorAll('a[href]');
+    const whitelist = BLOG.LINK_WHITELIST || [];
+
+    links.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      const isExternal = /^https?:\/\//i.test(href) && !href.includes(location.hostname);
+      if (isExternal) {
+        // Check if the link is in the whitelist
+        const inWhitelist = whitelist.some(domain => href.includes(domain));
+        if (inWhitelist) return;
+        
+        // Prevent duplicate event binding
+        if (link.dataset.interceptionAdded) return;
+        link.dataset.interceptionAdded = "true";
+
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          sessionStorage.setItem('externalTarget', href);
+          route.push('/go');
+        });
+      }
+    });
+  }, [route.asPath]);
+
   const theme = useMemo(() => {
     return (
       getQueryParam(route.asPath, 'theme') ||
