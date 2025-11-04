@@ -36,30 +36,56 @@ const MyApp = ({ Component, pageProps }) => {
   const route = useRouter()
 
   useEffect(() => {
-    const links = document.querySelectorAll('a[href]');
     const whitelist = BLOG.LINK_WHITELIST || [];
 
-    links.forEach(link => {
-      const href = link.getAttribute('href');
-      if (!href) return;
+    const applyInterception = (rootNode) => {
+      if (!rootNode || typeof rootNode.querySelectorAll !== 'function') {
+        return;
+      }
+      
+      const links = rootNode.querySelectorAll('a[href]');
 
-      const isExternal = /^https?:\/\//i.test(href) && !href.includes(location.hostname);
-      if (isExternal) {
-        // Check if the link is in the whitelist
-        const inWhitelist = whitelist.some(domain => href.includes(domain));
-        if (inWhitelist) return;
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || link.dataset.interceptionAdded) return;
+
+        const isExternal = /^https?:\/\//i.test(href) && !href.includes(location.hostname);
         
-        // Prevent duplicate event binding
-        if (link.dataset.interceptionAdded) return;
-        link.dataset.interceptionAdded = "true";
+        if (isExternal) {
+          const inWhitelist = whitelist.some(domain => href.includes(domain));
+          if (inWhitelist) return;
 
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          sessionStorage.setItem('externalTarget', href);
-          route.push('/go');
-        });
+          link.dataset.interceptionAdded = "true";
+          link.addEventListener('click', e => {
+            e.preventDefault();
+            sessionStorage.setItem('externalTarget', href);
+            route.push('/go');
+          });
+        }
+      });
+    };
+
+    applyInterception(document.body);
+
+    const observer = new MutationObserver(mutations => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList') {
+          for (const node of mutation.addedNodes) {
+            applyInterception(node);
+          }
+        }
       }
     });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+
   }, [route.asPath]);
 
   const theme = useMemo(() => {
