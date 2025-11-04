@@ -50,13 +50,13 @@ export default function GoPage() {
     return () => clearInterval(timer);
   }, [target]);
 
-  // Show a loading message while the router is getting ready
+  // Return null if the target isn't ready yet, preventing any flash of loading content.
   if (!target) {
-    return <p className="flex items-center justify-center min-h-screen">正在解析安全链接...</p>;
+    return null;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-white">
+    <div className="flex flex-col items-center justify-start pt-24 md:pt-32 min-h-screen text-center p-6 bg-white">
       <h1 className="text-3xl font-semibold mb-4 text-red-500">⚠️ 您即将离开本站</h1>
       <p className="mb-4 text-gray-600 max-w-full">
         即将跳转到外部网站：
@@ -72,7 +72,7 @@ export default function GoPage() {
       <p className="text-sm text-gray-500 mb-6">
         为保障您的账户和财产安全，请勿在外部网站输入任何敏感信息。
       </p>
-      <p className="text-lg font-bold text-gray-800 mb-6">
+      <p className="text-lg font-bold text-gray-800 mb-5">
         页面将在 {countdown} 秒后自动跳转
       </p>
       <div className="flex gap-4">
