@@ -38,40 +38,46 @@ const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
     const whitelist = BLOG.LINK_WHITELIST || [];
 
-    const applyInterception = (rootNode) => {
+    const rewriteLinks = (rootNode) => {
       if (!rootNode || typeof rootNode.querySelectorAll !== 'function') {
         return;
       }
-      
+
       const links = rootNode.querySelectorAll('a[href]');
 
       links.forEach(link => {
         const href = link.getAttribute('href');
-        if (!href || link.dataset.interceptionAdded) return;
+        // 如果没有 href，或者是锚点链接，或者已经被重写，则跳过
+        if (!href || href.startsWith('#') || href.startsWith('/go?') || link.dataset.linkRewritten) {
+          return;
+        }
 
         const isExternal = /^https?:\/\//i.test(href) && !href.includes(location.hostname);
-        
+
         if (isExternal) {
           const inWhitelist = whitelist.some(domain => href.includes(domain));
-          if (inWhitelist) return;
+          // 标记为已处理，无论是否在白名单内
+          link.dataset.linkRewritten = "true";
 
-          link.dataset.interceptionAdded = "true";
-          link.addEventListener('click', e => {
-            e.preventDefault();
-            sessionStorage.setItem('externalTarget', href);
-            route.push('/go');
-          });
+          if (inWhitelist) {
+            return; // 在白名单内，不重写
+          }
+
+          const newHref = `/go?target=${encodeURIComponent(href)}`;
+          link.setAttribute('href', newHref);
         }
       });
     };
 
-    applyInterception(document.body);
+    // 首次加载时重写链接
+    rewriteLinks(document.body);
 
+    // 使用 MutationObserver 监视动态添加的内容
     const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
         if (mutation.type === 'childList') {
           for (const node of mutation.addedNodes) {
-            applyInterception(node);
+            rewriteLinks(node);
           }
         }
       }
@@ -82,6 +88,7 @@ const MyApp = ({ Component, pageProps }) => {
       subtree: true
     });
 
+    // 组件卸载时断开观察
     return () => {
       observer.disconnect();
     };

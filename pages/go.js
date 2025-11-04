@@ -9,17 +9,33 @@ export default function GoPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const saved = sessionStorage.getItem("externalTarget");
-    if (saved && /^https?s?:\/\//i.test(saved)) {
-      setTarget(saved);
-    } else {
-      // 如果没有有效的链接，则返回首页
-      router.push("/");
+    // Wait until router is ready to access query parameters
+    if (!router.isReady) {
+      return;
     }
-  }, [router]);
+
+    const { target: targetFromQuery } = router.query;
+
+    if (targetFromQuery) {
+      try {
+        const decodedUrl = decodeURIComponent(targetFromQuery);
+        if (/^https?:\/\//i.test(decodedUrl)) {
+          setTarget(decodedUrl);
+          return; // Exit if a valid URL is found and set
+        }
+      } catch (e) {
+        console.error("Failed to decode URL:", e);
+      }
+    }
+
+    // If no valid target is found, redirect to the homepage.
+    router.replace("/");
+
+  }, [router.isReady, router.query]);
 
   useEffect(() => {
     if (!target) return;
+
     const timer = setInterval(() => {
       setCountdown(c => {
         if (c <= 1) {
@@ -30,11 +46,14 @@ export default function GoPage() {
         return c - 1;
       });
     }, 1000);
+
     return () => clearInterval(timer);
   }, [target]);
 
-  // 在目标链接加载完成前，可以显示一个加载状态或什么都不显示
-  if (!target) return <p>加载中...</p>;
+  // Show a loading message while the router is getting ready
+  if (!target) {
+    return <p className="flex items-center justify-center min-h-screen">正在解析安全链接...</p>;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-white">
