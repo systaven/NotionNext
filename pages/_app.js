@@ -113,22 +113,33 @@ const MyApp = ({ Component, pageProps }) => {
   )
 
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  // 根据路由路径决定页面内容
+  const pageContent = (
+    route.pathname === '/go'
+      ? <Component {...pageProps} />
+      : <GLayout {...pageProps}>
+          <SEO {...pageProps} />
+          <Component {...pageProps} />
+        </GLayout>
+  )
+
   const content = (
     <GlobalContextProvider {...pageProps}>
-      <GLayout {...pageProps}>
-        <SEO {...pageProps} />
-        <Component {...pageProps} />
-      </GLayout>
-      <ExternalPlugins {...pageProps} />
+      {pageContent}
+      {route.pathname !== '/go' && <ExternalPlugins {...pageProps} />}
     </GlobalContextProvider>
   )
+
   return (
     <>
-      {enableClerk ? (
+      {enableClerk
+        ? (
         <ClerkProvider localization={zhCN}>{content}</ClerkProvider>
-      ) : (
-        content
-      )}
+          )
+        : (
+            content
+          )}
     </>
   )
 }
