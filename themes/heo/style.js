@@ -9,7 +9,7 @@ const Style = () => {
     <style jsx global>{`
       @font-face {
         font-family: 'AaMaoMaoXueTuanZiKeAiTi';
-        src: url('/fonts/AaMaoMaoXueTuanZiKeAiTi-2.ttf') format('truetype');
+        src: url('/fonts/AaMaoMaoXueTuanZiKeAiTi-2.woff2') format('truetype');
         font-display: swap;
       }
       body, #theme-heo {
