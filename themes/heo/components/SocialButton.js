@@ -30,7 +30,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'github'}
             href={CONTACT_GITHUB}>
-            <i className='transform hover:scale-125 duration-150 fab fa-github dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-github dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_TWITTER && (
@@ -39,7 +39,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'twitter'}
             href={CONTACT_TWITTER}>
-            <i className='transform hover:scale-125 duration-150 fab fa-twitter dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-twitter dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_TELEGRAM && (
@@ -48,7 +48,7 @@ const SocialButton = () => {
             rel='noreferrer'
             href={CONTACT_TELEGRAM}
             title={'telegram'}>
-            <i className='transform hover:scale-125 duration-150 fab fa-telegram dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-telegram dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_LINKEDIN && (
@@ -57,7 +57,7 @@ const SocialButton = () => {
             rel='noreferrer'
             href={CONTACT_LINKEDIN}
             title={'linkIn'}>
-            <i className='transform hover:scale-125 duration-150 fab fa-linkedin dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-linkedin dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_WEIBO && (
@@ -66,7 +66,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'weibo'}
             href={CONTACT_WEIBO}>
-            <i className='transform hover:scale-125 duration-150 fab fa-weibo dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-weibo dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_INSTAGRAM && (
@@ -75,7 +75,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'instagram'}
             href={CONTACT_INSTAGRAM}>
-            <i className='transform hover:scale-125 duration-150 fab fa-instagram dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-instagram dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_EMAIL && (
@@ -84,7 +84,7 @@ const SocialButton = () => {
             title='email'
             className='cursor-pointer'
             ref={emailIcon}>
-            <i className='transform hover:scale-125 duration-150 fas fa-envelope dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fas fa-envelope dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {ENABLE_RSS && (
@@ -93,7 +93,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'RSS'}
             href={'/rss/feed.xml'}>
-            <i className='transform hover:scale-125 duration-150 fas fa-rss dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fas fa-rss dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_BILIBILI && (
@@ -102,7 +102,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'bilibili'}
             href={CONTACT_BILIBILI}>
-            <i className='transform hover:scale-125 duration-150 fab fa-bilibili dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-bilibili dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
         {CONTACT_YOUTUBE && (
@@ -111,7 +111,7 @@ const SocialButton = () => {
             rel='noreferrer'
             title={'youtube'}
             href={CONTACT_YOUTUBE}>
-            <i className='transform hover:scale-125 duration-150 fab fa-youtube dark:hover:text-indigo-400 hover:text-indigo-600' />
+            <i className='transform hover:scale-125 duration-150 fab fa-youtube dark:hover:text-[#df364e] hover:text-[#df364e]' />
           </a>
         )}
       </div>

@@ -21,11 +21,11 @@ const Style = () => {
 
       // 公告栏中的字体固定白色
       #theme-heo #announcement-content .notion {
-        color: rgba(220, 41, 65, 1);
+        color: #df364e;
       }
 
       ::-webkit-scrollbar-thumb {
-        background: rgba(131, 45, 114, 0.4);
+        background: rgba(223, 54, 78, 0.4);
         border-radius: 8px;
         cursor: pointer;
       }
@@ -68,6 +68,22 @@ const Style = () => {
         100% {
           transform: translateX(-50%);
         }
+      }
+
+      .cursor-follower {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        transition: transform 0.1s ease-out, border-color 0.3s ease;
+      }
+
+      html.dark .cursor-follower {
+        border-color: #fff;
       }
     `}</style>
   )

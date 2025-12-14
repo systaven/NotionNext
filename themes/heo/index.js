@@ -44,6 +44,7 @@ import CONFIG from './config'
 import { Style } from './style'
 import AISummary from '@/components/AISummary'
 import ArticleExpirationNotice from '@/components/ArticleExpirationNotice'
+import CursorFollower from './components/CursorFollower'
 
 /**
  * 基础布局 采用上中下布局，移动端使用顶部侧边导航栏
@@ -97,6 +98,7 @@ const LayoutBase = props => {
       id='theme-heo'
       className={`${siteConfig('FONT_STYLE')} bg-[#FFF0F8] dark:bg-[#2E031B] h-full min-h-screen flex flex-col scroll-smooth`}>
       <Style />
+      <CursorFollower />
 
       {/* 顶部嵌入 导航栏，首页放hero，文章页放文章详情 */}
       {headerSlot}
