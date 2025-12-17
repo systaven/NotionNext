@@ -7,6 +7,7 @@ import { useState } from 'react'
 import CONFIG from '../config'
 import Announcement from './Announcement'
 import Card from './Card'
+import DailyQuote from './DailyQuote'
 
 /**
  * 社交信息卡
@@ -45,7 +46,10 @@ export function InfoCard(props) {
       {/* 公告栏 */}
       <Announcement post={notice} style={{ color: 'white !important' }} />
 
-      <div className='flex justify-between'>
+      {/* 每日一言 */}
+      
+
+      <div className='flex justify-between mt-2'>
         <div className='flex space-x-3  hover:text-black dark:hover:text-white'>
           {/* 两个社交按钮 */}
           {url1 && (
@@ -117,3 +121,5 @@ function GreetingsWords() {
     </div>
   )
 }
+
+<DailyQuote />
