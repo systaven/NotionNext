@@ -46,9 +46,6 @@ export function InfoCard(props) {
       {/* 公告栏 */}
       <Announcement post={notice} style={{ color: 'white !important' }} />
 
-      {/* 每日一言 */}
-      
-
       <div className='flex justify-between mt-2'>
         <div className='flex space-x-3  hover:text-black dark:hover:text-white'>
           {/* 两个社交按钮 */}
@@ -70,6 +67,8 @@ export function InfoCard(props) {
         {/* 第三个按钮 */}
         <MoreButton />
       </div>
+      {/* 每日一言 */}
+      <DailyQuote />
     </Card>
   )
 }
@@ -121,5 +120,3 @@ function GreetingsWords() {
     </div>
   )
 }
-
-<DailyQuote />
