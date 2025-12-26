@@ -1,65 +1,51 @@
 
-import React, { useEffect } from 'react';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import CONFIG from '../config';
-
-// 从独立文件中导入组件
-import MusicPlayer from './MusicPlayer';
-import Pio from './Pio';
+import React from 'react';
+import { ThemeProvider } from './ThemeContext';
+import MizukiGlobalStyles from '../style';
 import Navbar from './Navbar';
-import Footer from './Footer';
+import DisplaySettings from './DisplaySettings';
+import CONFIG from '../config';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 /**
- * 基础布局，处理`<head>`，全局脚本和基本页面结构
- * @param {*} props
- * @returns
+ * 基础布局
+ * @param {object} props
+ * @returns {JSX.Element}
  */
-const Layout = (props) => {
-  const { children, meta } = props;
-  const router = useRouter();
+const MizukiLayout = (props) => {
+  const { children, post } = props;
 
-  const pageTitle = meta?.title ? `${meta.title} - ${CONFIG.MIZUKI_NAV_TITLE}` : `${CONFIG.MIZUKI_NAV_TITLE} - ${"Subtitle from config"}`;
-  const description = meta?.description || pageTitle;
-
-  useEffect(() => {
-    console.log("Layout.js mounted - 可以在这里初始化客户端脚本");
-
-    const handleRouteChange = (url) => {
-      console.log(`页面切换到: ${url}. 可以在这里执行页面清理和初始化。`);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+  // 根据 post 对象是否存在来决定是否在 body 上添加 'post-page' 类
+  const bodyClassName = post ? 'post-page' : 'not-post-page';
 
   return (
-    <div>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {CONFIG.MIZUKI_PIO_WIDGET && <link rel="stylesheet" href="/pio/static/pio.css" />}
-      </Head>
+    <ThemeProvider>
+      <MizukiGlobalStyles />
+      <div id='Mizuki-wrapper' className={`${CONFIG.MIZUKI_LANG} font-sans`}>
+        <Navbar {...props} />
 
-      <div className="mizuki-theme">
-        <Navbar />
+        <div id='page-wrapper' className={`m-auto max-w-[var(--page-width)] min-h-screen ${bodyClassName}`}>
+          <div className='w-full h-full min-h-screen flex flex-col items-center gap-8 justify-between onload-animation-2'>
+            <span className='text-center font-bold text-4xl mt-32 dark:text-white'>
+              {CONFIG.MIZUKI_NAV_TITLE}
+            </span>
+            <span className='text-center text-md dark:text-white/75'>
+              {CONFIG.MIZUKI_SUBTITLE} 
+            </span>
+          </div>
 
-        <main id="main-grid">
-          {children}
-        </main>
-        
-        <Footer />
-        
-        {CONFIG.MIZUKI_WIDGET_MUSIC.ENABLE && <MusicPlayer />}
-        {CONFIG.MIZUKI_PIO_WIDGET && <Pio />}
+          <main id="main-grid" className="relative z-10 w-full bg-transparent min-h-screen">
+            {children}
+          </main>
+        </div>
 
+        <DisplaySettings />
       </div>
-    </div>
+      {CONFIG.ANALYTICS_VERCEL && <Analytics />}
+      {CONFIG.ANALYTICS_SPEED_INSIGHTS && <SpeedInsights />}
+    </ThemeProvider>
   );
 };
 
-export default Layout;
+export default MizukiLayout;

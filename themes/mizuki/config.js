@@ -1,3 +1,4 @@
+
 // 注意：这只是一个初步的移植版本，我们将在后续步骤中根据需要进行调整。
 const CONFIG = {
   // ----------------------------------------------------
@@ -6,6 +7,7 @@ const CONFIG = {
 
   MIZUKI_LANG: 'zh-CN', // 语言, 例如 'en', 'zh-CN', 'ja'
   MIZUKI_THEME_COLOR_HUE: 230, // 主题色调 (0-360)
+  MIZUKI_SUBTITLE: '一个简约而优雅的 NotionNext 主题', // 副标题
 
   // ----------------------------------------------------
   // 页面与布局
@@ -31,23 +33,15 @@ const CONFIG = {
   // 顶部导航栏
   // ----------------------------------------------------
 
-  MIZUKI_NAV_TITLE: 'MizukiUI',
-  MIZUKI_NAV_TITLE_ICON: '/assets/home/home.png',
+  MIZUKI_NAV_TITLE: 'Mizuki', // 更新网站标题
 
+  // 导航菜单链接
   MIZUKI_MENU_LINKS: [
-    // 预设链接，之后我们会用 React 组件来实现
-    // LinkPreset.Home,
-    // LinkPreset.Archive,
-    {
-      name: 'Links',
-      url: '/links/',
-      icon: 'material-symbols:link',
-      children: [
-        { name: 'GitHub', url: 'https://github.com/matsuzaka-yuki/Mizuki', external: true, icon: 'fa6-brands:github' },
-        { name: 'Bilibili', url: 'https://space.bilibili.com/701864046', external: true, icon: 'fa6-brands:bilibili' }
-      ]
-    }
-    // ... 其他菜单项
+    { name: '首页', path: '/' },
+    { name: '搜索', path: '/search' },
+    { name: '归档', path: '/archive' },
+    // 您可以在这里添加更多的链接，例如：
+    // { name: '关于', path: '/about' },
   ],
 
   // ----------------------------------------------------
@@ -62,7 +56,6 @@ const CONFIG = {
     { type: 'tags', enable: true, order: 5, position: 'top', sidebar: 'left' },
     { type: 'site-stats', enable: true, order: 5, position: 'top', sidebar: 'right' },
     { type: 'calendar', enable: true, order: 6, position: 'top', sidebar: 'right' }
-    // 我们将在这里动态渲染小组件
   ],
 
   // ----------------------------------------------------
@@ -91,7 +84,7 @@ const CONFIG = {
   // 音乐播放器
   MIZUKI_WIDGET_MUSIC: {
     ENABLE: true,
-    MODE: 'meting', // 'local' or 'meting'
+    MODE: 'meting',
     ID: '14164869977',
     SERVER: 'netease',
     TYPE: 'playlist'
