@@ -3,8 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronRight } from 'react-feather'
 import { useConfig } from '@/lib/config'
-import { useLocale } from '@/lib/locale'
-import { formatDate } from '@/lib/formatDate'
+import { useLocale } from '@/lib/lang'
+import { formatDate } from '@/lib/utils/formatDate'
 
 /**
  * @param {{ post: import('notion-next').Post }} props

@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import { useConfig } from '@/lib/config'
-import { formatDate } from '@/lib/formatDate'
+import { formatDate } from '@/lib/utils/formatDate'
 
 const BlogPostArchive = ({ post }) => {
   const BLOG = useConfig()

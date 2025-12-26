@@ -1,6 +1,6 @@
 
 import BlogPostCard from './BlogPostCard'
-import { Pagination } from '@/components/Pagination'
+import { Pagination } from './Pagination'
 
 export const BlogPostList = ({ posts = [], page, totalPage }) => {
   return (
