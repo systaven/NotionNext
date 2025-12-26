@@ -7,7 +7,7 @@ import CONFIG from '../config';
 
 /**
  * 归档页布局
- * @param {{ posts: object[], archiveTitle: string, ...props }} props
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
 const LayoutArchive = (props) => {

@@ -5,9 +5,10 @@ import CONFIG from '../../config';
 
 /**
  * 个人信息卡片小组件
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
-const WidgetProfile = () => {
+const WidgetProfile = (props) => {
   const { AVATAR, NAME, BIO, LINKS } = CONFIG.MIZUKI_WIDGET_PROFILE;
 
   return (

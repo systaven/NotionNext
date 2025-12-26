@@ -1,19 +1,41 @@
 
-import { LAYOUT_MAPPING } from './layout';
-import MizukiLayout from './components/Layout';
+import { LayoutIndex } from './layout/LayoutIndex'
+import { LayoutPost } from './layout/LayoutPost'
+import { LayoutTimeline } from './layout/LayoutTimeline'
+import { LayoutSearch } from './layout/LayoutSearch'
+import { LayoutCategory } from './layout/LayoutCategory'
+import { LayoutTag } from './layout/LayoutTag'
 
 /**
- * 主题的入口文件
- * @param {*} props
- * @returns
+ * Theme Csonfig for Mizuki
+ * @type {import('notion-next').ThemeConfig}
  */
-const Index = (props) => {
-  const { layout } = props;
+const theme = {
+  //  layouts
+  'layout-index': LayoutIndex,
+  'layout-post': LayoutPost,
+  'layout-timeline': LayoutTimeline,
+  'layout-search': LayoutSearch,
+  'layout-category': LayoutCategory,
+  'layout-tag': LayoutTag,
 
-  // 根据 layout 名称从 LAYOUT_MAPPING 中获取对应的布局组件
-  const LayoutComponent = LAYOUT_MAPPING[layout] || MizukiLayout; // 默认为 MizukiLayout
+  // metadata
+  meta: {
+    author: 'Your Name',
+    title: 'Mizuki',
+    description: 'A simple and elegant blog theme.',
+    link: 'https://your-domain.com',
+    icon: '/favicon.ico',
+    avatar: '/avatar.png',
+    keywords: ['blog', 'notion', 'nextjs', 'mizuki'],
+    ogImage: 'og.png'
+  },
 
-  return <LayoutComponent {...props} />;
-};
+  // Theme-specific configurations (if any)
+  config: {
+    // Add any theme-specific settings here
+    // e.g., APPEARANCE: 'auto' // auto, light, dark
+  }
+}
 
-export default Index;
+export default theme

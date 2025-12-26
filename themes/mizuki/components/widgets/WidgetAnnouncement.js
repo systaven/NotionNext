@@ -4,9 +4,10 @@ import CONFIG from '../../config';
 
 /**
  * 网站公告小组件
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
-const WidgetAnnouncement = () => {
+const WidgetAnnouncement = (props) => {
   const { title, content } = CONFIG.MIZUKI_WIDGET_ANNOUNCEMENT || {};
 
   // 如果没有内容，则不渲染组件

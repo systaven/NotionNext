@@ -5,7 +5,7 @@ import LayoutBase from './LayoutBase';
 
 /**
  * 404 页面布局
- * @param {{ ...props }} props
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
 const Layout404 = (props) => {

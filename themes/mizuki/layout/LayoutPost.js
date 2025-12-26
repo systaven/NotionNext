@@ -1,44 +1,76 @@
 
-import React from 'react';
-import LayoutBase from './LayoutBase';
-import Comment from '@/components/Comment';
-import Sidebar from '@/themes/mizuki/components/Sidebar';
-import CONFIG from '../config';
+import { useRef, useEffect } from 'react'
+import { Container } from '@/components/Container'
+import { useConfig } from '@/lib/config'
+import { NotionRenderer } from 'react-notion-x'
+import mediumZoom from 'medium-zoom'
+import 'react-notion-x/src/styles.css'
+import 'prismjs/themes/prism-tomorrow.css'
+import 'katex/dist/katex.min.css'
+import { Collection } from 'react-notion-x/build/third-party/collection'
+
+// Mizuki Theme Components
+import { PostHeader } from '../components/PostHeader'
+import { PostFooter } from '../components/PostFooter'
+import { TableOfContents } from '../components/TableOfContents'
+import { Comments } from '@/components/Comments'
 
 /**
- * 文章页布局
- * @param {{ frontMatter: object, children: React.ReactNode, ...props }} props
+ * 文章详情页布局
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
-const LayoutPost = (props) => {
-  const { frontMatter, children } = props;
-  const hasSidebar = CONFIG.MIZUKI_SIDEBAR_WIDGETS && CONFIG.MIZUKI_SIDEBAR_WIDGETS.length > 0;
+export const LayoutPost = ({ post, prev, next, blockMap, fullWidth = false }) => {
+  const BLOG = useConfig()
+  const containerRef = useRef(null)
+  const tocRef = useRef(null)
+
+  useEffect(() => {
+    // Image zoom functionality
+    if (containerRef.current) {
+      const zoom = mediumZoom(containerRef.current.querySelectorAll('img'), {
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+      return () => zoom.detach()
+    }
+  }, [post])
 
   return (
-    <LayoutBase {...props}>
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap -mx-4">
-          {/* Main Content */}
-          <div className={`w-full ${hasSidebar ? 'lg:w-3/4' : 'lg:w-full'} px-4 py-8`}>
-            <article className="prose dark:prose-dark">
-              {children}
+    <Container
+      title={post.title}
+      description={post.summary}
+      date={post.date?.start_date ? new Date(post.date.start_date) : new Date()}
+      type="article"
+      fullWidth={fullWidth}
+    >
+      <div className="w-full flex justify-center">
+        <div className={`w-full max-w-5xl flex-grow`}>
+          <PostHeader post={post} />
+
+          <div className="relative flex justify-between">
+            <article ref={containerRef} className="w-full md:w-3/4 max-w-full prose dark:prose-dark">
+              {blockMap && (
+                <NotionRenderer
+                  recordMap={blockMap}
+                  components={{ Collection }}
+                  mapPageUrl={slug => `${BLOG.PATH}/${slug}`}
+                />
+              )}
+              <PostFooter post={post} prev={prev} next={next} />
             </article>
-            
-            <div className="mt-12">
-              <Comment frontMatter={frontMatter} />
-            </div>
+
+            <aside className="hidden md:block md:w-1/4 sticky top-16 self-start pl-8">
+              <div ref={tocRef} className="max-h-[calc(100vh-8rem)] overflow-y-auto">
+                <TableOfContents blockMap={blockMap} />
+              </div>
+            </aside>
           </div>
 
-          {/* Sidebar */}
-          {hasSidebar && (
-            <div className="w-full lg:w-1/4 px-4 py-8">
-              <Sidebar {...props} />
-            </div>
-          )}
+          <div className="w-full md:w-3/4 mt-8">
+            <Comments frontMatter={post} />
+          </div>
         </div>
       </div>
-    </LayoutBase>
-  );
-};
-
-export default LayoutPost;
+    </Container>
+  )
+}

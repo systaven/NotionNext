@@ -4,13 +4,13 @@ import CONFIG from '../config';
 import WidgetProfile from './widgets/WidgetProfile';
 import WidgetAnnouncement from './widgets/WidgetAnnouncement';
 import WidgetCategories from './widgets/WidgetCategories';
-// import WidgetTags from './widgets/WidgetTags';
-// import WidgetSiteStats from './widgets/WidgetSiteStats';
+import WidgetTags from './widgets/WidgetTags';
+import WidgetSiteStats from './widgets/WidgetSiteStats';
 // import WidgetCalendar from './widgets/WidgetCalendar';
 
 /**
  * 侧边栏组件，根据配置动态渲染小组件
- * @param {{ ...props }} props
+ * @param {import('notion-next').ThemeProps} props
  * @returns {JSX.Element}
  */
 const Sidebar = (props) => {
@@ -19,8 +19,8 @@ const Sidebar = (props) => {
     profile: WidgetProfile,
     announcement: WidgetAnnouncement,
     categories: WidgetCategories,
-    // tags: WidgetTags,
-    // 'site-stats': WidgetSiteStats,
+    tags: WidgetTags,
+    'site-stats': WidgetSiteStats,
     // calendar: WidgetCalendar,
   };
 

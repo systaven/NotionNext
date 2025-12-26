@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 /**
  * 文章分类小组件
- * @param {{ categories: object[], currentCategory: string }} props
+ * @param {{ categories: import('notion-next').Category[], currentCategory: string }}
  * @returns {JSX.Element}
  */
 const WidgetCategories = ({ categories, currentCategory }) => {

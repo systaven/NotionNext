@@ -1,33 +1,31 @@
 
-import React from 'react';
-import LayoutBase from './LayoutBase';
-import BlogPostListScroll from '@/components/BlogPostListScroll';
-import Sidebar from '@/themes/mizuki/components/Sidebar'; // Corrected import path
-import CONFIG from '../config';
+import { Container } from '@/components/Container'
+import { BlogPostList } from '../components/BlogPostList'
+import { Sidebar } from '../components/Sidebar'
 
-const LayoutIndex = (props) => {
-  const { posts } = props;
-  const hasSidebar = CONFIG.MIZUKI_SIDEBAR_WIDGETS && CONFIG.MIZUKI_SIDEBAR_WIDGETS.length > 0;
+/**
+ * 首页布局
+ * @param {import('notion-next').ThemeProps} props
+ * @returns {JSX.Element}
+ */
+export const LayoutIndex = (props) => {
+  const { posts, page, totalPage } = props
 
   return (
-    <LayoutBase {...props}>
-      <div className="container mx-auto px-4">
-        <div className="flex flex-wrap -mx-4">
+    <Container>
+      <div className="w-full flex justify-center">
+        <div className="w-full flex flex-col-reverse md:flex-row md:justify-between gap-8">
           {/* Main Content */}
-          <div className={`w-full ${hasSidebar ? 'lg:w-3/4' : 'lg:w-full'} px-4`}>
-            <BlogPostListScroll posts={posts} />
-          </div>
+          <main className="md:w-2/3 w-full">
+            <BlogPostList posts={posts} page={page} totalPage={totalPage} />
+          </main>
 
           {/* Sidebar */}
-          {hasSidebar && (
-            <div className="w-full lg:w-1/4 px-4">
-              <Sidebar {...props} />
-            </div>
-          )}
+          <aside className="md:w-1/3 w-full">
+            <Sidebar {...props} />
+          </aside>
         </div>
       </div>
-    </LayoutBase>
-  );
-};
-
-export default LayoutIndex;
+    </Container>
+  )
+}
