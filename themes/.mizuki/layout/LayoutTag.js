@@ -1,5 +1,5 @@
 
-import { Container } from '@/components/Container'
+import { Container } from '../components/Container'
 import { BlogPostList } from '../components/BlogPostList'
 import { Sidebar } from '../components/Sidebar'
 

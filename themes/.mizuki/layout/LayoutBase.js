@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Header from '@/themes/mizuki/components/Header'; // 导入 Header 组件
+import Header from '../../../themes/mizuki/components/Header'; // 导入 Header 组件
 
 /**
  * 基础布局组件，为所有页面提供一个统一的内容容器

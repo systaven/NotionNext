@@ -1,9 +1,9 @@
 
 import React from 'react';
 import LayoutBase from './LayoutBase';
-import BlogPostArchive from '@/components/BlogPostArchive';
-import Sidebar from '@/themes/mizuki/components/Sidebar';
-import CONFIG from '../config';
+import BlogPostArchive from '../components/BlogPostArchive';
+import Sidebar from '../components/Sidebar';
+import { useConfig } from '../../../lib/config';
 
 /**
  * 归档页布局
@@ -12,6 +12,7 @@ import CONFIG from '../config';
  */
 const LayoutArchive = (props) => {
   const { posts, archiveTitle } = props;
+  const CONFIG = useConfig();
   const hasSidebar = CONFIG.MIZUKI_SIDEBAR_WIDGETS && CONFIG.MIZUKI_SIDEBAR_WIDGETS.length > 0;
 
   return (

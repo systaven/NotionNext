@@ -1,8 +1,8 @@
 
-import { Container } from '@/components/Container'
+import { Container } from '../components/Container'
 import { BlogPostList } from '../components/BlogPostList'
 import { Sidebar } from '../components/Sidebar'
-import { useLocale } from '@/lib/locale'
+import { useLocale } from '../../../lib/lang'
 
 export const LayoutSearch = (props) => {
   const { posts, keyword } = props

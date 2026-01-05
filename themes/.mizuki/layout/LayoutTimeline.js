@@ -1,7 +1,7 @@
 
-import { Container } from '@/components/Container'
+import { Container } from '../components/Container'
 import BlogPostArchive from '../components/BlogPostArchive'
-import { useConfig } from '@/lib/config'
+import { useConfig } from '../../../lib/config'
 
 export const LayoutTimeline = ({ posts }) => {
   const BLOG = useConfig()

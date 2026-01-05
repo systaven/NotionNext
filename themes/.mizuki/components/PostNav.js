@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-import { useConfig } from '@/lib/config'
+import { useConfig } from '../../../lib/config'
 
 export const PostNav = ({ prev, next }) => {
   const BLOG = useConfig()

@@ -1,8 +1,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useConfig } from '@/lib/config'
-import { formatDate } from '@/lib/formatDate'
+import { useConfig } from '../../../lib/config'
+import { formatDate } from '../../../lib/utils/formatDate'
 
 export const PostHeader = ({ post }) => {
   const BLOG = useConfig()

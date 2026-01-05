@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import CONFIG from '../../config';
+import { useConfig } from '../../../lib/config';
 
 const Pio = () => {
+  const CONFIG = useConfig();
   useEffect(() => {
     // Live2D 看板娘的初始化逻辑将在这里实现
     // 需要加载 pio.js 脚本并进行配置

@@ -1,6 +1,6 @@
 
 import Link from 'next/link'
-import { useConfig } from '@/lib/config'
+import { useConfig } from '../../../lib/config'
 import { PostNav } from './PostNav'
 
 export const PostFooter = ({ post, prev, next }) => {

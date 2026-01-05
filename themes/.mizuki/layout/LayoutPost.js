@@ -1,7 +1,7 @@
 
 import { useRef, useEffect } from 'react'
-import { Container } from '@/components/Container'
-import { useConfig } from '@/lib/config'
+import { Container } from '../components/Container'
+import { useConfig } from '../../../lib/config'
 import { NotionRenderer } from 'react-notion-x'
 import mediumZoom from 'medium-zoom'
 import 'react-notion-x/src/styles.css'
@@ -13,7 +13,7 @@ import { Collection } from 'react-notion-x/build/third-party/collection'
 import { PostHeader } from '../components/PostHeader'
 import { PostFooter } from '../components/PostFooter'
 import { TableOfContents } from '../components/TableOfContents'
-import { Comments } from '@/components/Comments'
+import { Comments } from '../../../components/Comments'
 
 /**
  * 文章详情页布局
