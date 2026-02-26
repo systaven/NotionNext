@@ -139,7 +139,7 @@ const Header = props => {
         className={`z-20 h-16 sticky top-0 w-full duration-300 transition-all
             ${fixedNav ? 'shadow' : ''} 
             ${textWhite ? 'text-white ' : 'text-black dark:text-white'}  
-            ${navBgWhite ? 'bg-white dark:bg-[#18171d]' : 'bg-transparent'}`}>
+            ${navBgWhite ? 'bg-white dark:bg-[#2E031B]' : 'bg-transparent'}`}>
         <div className='flex h-full mx-auto justify-between items-center max-w-[86rem] px-6'>
           {/* 左侧logo */}
           <Logo {...props} />

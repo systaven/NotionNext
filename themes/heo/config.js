@@ -89,7 +89,7 @@ const CONFIG = {
       color_1: '#FFB8E3',
       title_2: 'heart-regular-full',
       img_2: '/images/heo/icon/heart-regular-full.svg',
-      color_2: '#18171d'
+      color_2: '#2E031B'
     }
   ],
 

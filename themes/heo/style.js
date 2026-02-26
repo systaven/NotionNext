@@ -16,7 +16,7 @@ const Style = () => {
         font-family: 'AaMaoMaoXueTuanZiKeAiTi', sans-serif;
       }
       body {
-        background-color: #fcf8ff;
+        background-color: #FFF0F8;
       }
 
       // 公告栏中的字体固定白色
