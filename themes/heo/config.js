@@ -1,6 +1,6 @@
 const CONFIG = {
   HEO_HOME_POST_TWO_COLS: true, // 首页博客两列显示，若为false则只显示一列
-  HEO_LOADING_COVER: true, // 页面加载的遮罩动画
+  HEO_LOADING_COVER: false, // 页面加载的遮罩动画
 
   HEO_HOME_BANNER_ENABLE: true,
 
@@ -89,7 +89,7 @@ const CONFIG = {
       color_1: '#FFB8E3',
       title_2: 'heart-regular-full',
       img_2: '/images/heo/icon/heart-regular-full.svg',
-      color_2: '#2E031B'
+      color_2: '#18171d'
     }
   ],
 

@@ -89,7 +89,7 @@ export default function SlideOver(props) {
                     </div>
                   </Transition.Child>
                   {/* 内容 */}
-                  <div className='flex h-full flex-col overflow-y-scroll bg-white dark:bg-[#2E031B] py-6 shadow-xl'>
+                  <div className='flex h-full flex-col overflow-y-scroll bg-white dark:bg-[#18171d] py-6 shadow-xl'>
                     <div className='relative mt-6 flex-1 flex-col space-y-3 px-4 sm:px-6 dark:text-white '>
                       <section className='space-y-2 flex flex-col'>
                         <div className="flex justify-between">
@@ -162,7 +162,7 @@ function Button({ title, url }) {
     <SmartLink
       href={url}
       className={
-  'duration-200 hover:text-white hover:shadow-md flex cursor-pointer justify-between items-center px-2 py-2 border dark:border-gray-600 bg-white hover:bg-blue-600 dark:bg-[#701E49] rounded-lg'
+  'duration-200 hover:text-white hover:shadow-md flex cursor-pointer justify-between items-center px-2 py-2 border dark:border-gray-600 bg-white hover:bg-blue-600 dark:bg-[#201f26] rounded-lg'
       }>
       {title}
     </SmartLink>

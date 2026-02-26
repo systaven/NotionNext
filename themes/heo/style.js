@@ -9,14 +9,14 @@ const Style = () => {
     <style jsx global>{`
       @font-face {
         font-family: 'AaMaoMaoXueTuanZiKeAiTi';
-        src: url('/fonts/AaMaoMaoXueTuanZiKeAiTi-2.woff2') format('truetype');
+        src: url('/fonts/AaMaoMaoXueTuanZiKeAiTi-2.woff2') format('woff2');
         font-display: swap;
       }
       body, #theme-heo {
         font-family: 'AaMaoMaoXueTuanZiKeAiTi', sans-serif;
       }
       body {
-        background-color: #FFF0F8;
+        background-color: #fcf8ff;
       }
 
       // 公告栏中的字体固定白色

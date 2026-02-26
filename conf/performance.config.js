@@ -34,7 +34,7 @@ module.exports = {
   
   // 预取配置
   PREFETCH_LINKS: process.env.NEXT_PUBLIC_PREFETCH_LINKS || true,
-  PREFETCH_IMAGES: process.env.NEXT_PUBLIC_PREFETCH_IMAGES || false,
+  PREFETCH_IMAGES: process.env.NEXT_PUBLIC_PREFETCH_IMAGES || true,
   
   // 性能监控
   ENABLE_WEB_VITALS: process.env.NEXT_PUBLIC_ENABLE_WEB_VITALS || true,
