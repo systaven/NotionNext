@@ -66,10 +66,10 @@ const LayoutBase = props => {
 
       {/* 通知横幅 */}
       {router.route === '/' ? (
-        <div className="min-h-[64px]">
+        <>
           <NoticeBar />
           <Hero {...props} />
-        </div>
+        </>
       ) : null}
       {fullWidth ? null : <PostHeader {...props} isDarkMode={isDarkMode} />}
     </header>
@@ -385,7 +385,7 @@ const Layout404 = props => {
             leaveTo='opacity-0 -translate-y-16'
             unmount={false}>
             {/* 404卡牌 */}
-            <div className='error-content flex flex-col md:flex-row w-full mt-12 h-[30rem] md:h-96 justify-center items-center bg-white dark:bg-[#701E49] border dark:border-gray-800 rounded-3xl'>
+            <div className='error-content flex flex-col md:flex-row w-full mt-12 h-[30rem] md:h-96 justify-center items-center bg-white dark:bg-[#A12D6F] border dark:border-gray-800 rounded-3xl'>
               {/* 左侧动图 */}
               <LazyImage
                 className='error-img h-60 md:h-full p-4'

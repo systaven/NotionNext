@@ -102,11 +102,11 @@ function Banner(props) {
         id='banner-cover'
         style={{ backdropFilter: 'blur(15px)' }}
         className={
-          'z-20 rounded-xl overflow-hidden opacity-0 group-hover:opacity-100 duration-300 transition-all bg-[#FFD9EF] dark:bg-[#201f26] dark:text-white cursor-pointer absolute w-full h-full top-0 flex justify-start items-center'
+          'z-20 rounded-xl overflow-hidden opacity-0 group-hover:opacity-100 duration-300 transition-all bg-[#FFD9EF] dark:bg-[#A12D6F] dark:text-white cursor-pointer absolute w-full h-full top-0 flex justify-start items-center'
         }>
         <div className='ml-12 -translate-x-32 group-hover:translate-x-0 duration-300 transition-all ease-in'>
-          <div className='text-7xl text-[#333] dark:text-white font-extrabold'>{coverTitle}</div>
-          <div className='-ml-3 text-[#666] dark:text-gray-300'>
+          <div className='text-7xl text-white font-extrabold'>{coverTitle}</div>
+          <div className='-ml-3 text-gray-300'>
             <ArrowSmallRight className={'w-24 h-24 stroke-2'} />
           </div>
         </div>
@@ -139,8 +139,6 @@ function TagsGroupBar() {
                   priority={true}
                   src={g.img_1}
                   title={g.title_1}
-                  width={112}
-                  height={112}
                   className='w-2/3 hidden xl:block'
                 />
               </div>
@@ -153,8 +151,6 @@ function TagsGroupBar() {
                   priority={true}
                   src={g.img_2}
                   title={g.title_2}
-                  width={112}
-                  height={112}
                   className='w-2/3 hidden xl:block'
                 />
               </div>
@@ -250,8 +246,6 @@ function TopGroup(props) {
                   className='h-24 object-cover'
                   alt={p?.title}
                   src={p?.pageCoverThumbnail || siteInfo?.pageCover}
-                  width={200}
-                  height={96}
                 />
                 <div className='group-hover:text-indigo-600 dark:group-hover:text-yellow-600 line-clamp-2 overflow-hidden m-2 font-semibold'>
                   {p?.title}

@@ -32,12 +32,12 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           top: 0;
           left: 0;
           box-shadow: 110px -130px 500px 100px
-            ${isDarkMode ? '#701E49' : '#FFD9EF'} inset;
+            ${isDarkMode ? '#A12D6F' : '#FFD9EF'} inset;
         }
       `}</style>
 
       <div
-  className={`${isDarkMode ? 'bg-[#701E49]' : 'bg-[#FFD9EF]'} absolute top-0 w-full h-full py-10 flex justify-center items-center`}>
+  className={`${isDarkMode ? 'bg-[#A12D6F]' : 'bg-[#FFD9EF]'} absolute top-0 w-full h-full py-10 flex justify-center items-center`}>
         {/* 文章背景图 */}
         <div
           id='post-cover-wrapper'
@@ -80,10 +80,10 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
                     href={`/tag/${encodeURIComponent(tag.name)}`}
                     passHref
                     className={
-                      `cursor-pointer inline-block duration-200 py-0.5 px-1 whitespace-nowrap ${isDarkMode ? 'text-gray-50 hover:text-white' : 'text-[#444] hover:text-[#000]'}`
+                      'cursor-pointer inline-block text-gray-50 hover:text-white duration-200 py-0.5 px-1 whitespace-nowrap '
                     }>
                     <div className='font-light flex items-center'>
-                      <HashTag className={`${isDarkMode ? 'text-gray-200' : 'text-[#666]'} stroke-2 mr-0.5 w-3 h-3`} />{' '}
+                      <HashTag className='text-gray-200 stroke-2 mr-0.5 w-3 h-3' />{' '}
                       {tag.name + (tag.count ? `(${tag.count})` : '')}{' '}
                     </div>
                   </SmartLink>
@@ -93,7 +93,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           </div>
 
           {/* 文章Title */}
-          <div className={`max-w-5xl font-bold text-3xl lg:text-5xl md:leading-snug shadow-text-md flex justify-center md:justify-start ${isDarkMode ? 'text-white' : 'text-[#333]'}`}>
+          <div className='max-w-5xl font-bold text-3xl lg:text-5xl md:leading-snug shadow-text-md flex  justify-center md:justify-start text-white'>
             {siteConfig('POST_TITLE_ICON') && (
               <NotionIcon icon={post.pageIcon} />
             )}
@@ -101,7 +101,7 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
           </div>
 
           {/* 标题底部补充信息 */}
-          <section className={`flex-wrap shadow-text-md flex text-sm justify-center md:justify-start mt-4 font-light leading-8 ${isDarkMode ? 'text-gray-200 text-opacity-70' : 'text-[#444]'}`}>
+          <section className='flex-wrap dark:text-gray-200 text-opacity-70 shadow-text-md flex text-sm  justify-center md:justify-start mt-4 text-white font-light leading-8'>
             <div className='flex justify-center '>
               <div className='mr-2'>
                 <WordCount
