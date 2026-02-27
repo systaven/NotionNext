@@ -133,11 +133,16 @@ const Header = props => {
         }
       `}</style>
 
+      {/* fixed时留白高度 */}
+      {fixedNav && !document?.querySelector('#post-bg') && (
+        <div className='h-16'></div>
+      )}
+
       {/* 顶部导航菜单栏 */}
       <nav
         id='nav'
-        className={`z-20 h-16 sticky top-0 w-full duration-300 transition-all
-            ${fixedNav ? 'shadow' : ''} 
+        className={`z-20 h-16 top-0 w-full duration-300 transition-all
+            ${fixedNav ? 'fixed shadow' : 'relative bg-transparent'} 
             ${textWhite && isBrowser && document?.querySelector('#post-bg') && (window.localStorage.getItem('theme') === 'dark' || document.documentElement.classList.contains('dark')) ? 'text-white' : 'text-[#333] dark:text-white'}  
             ${navBgWhite ? 'bg-white dark:bg-[#2E031B]' : 'bg-transparent'}`}>
         <div className='flex h-full mx-auto justify-between items-center max-w-[86rem] px-6'>
