@@ -105,8 +105,8 @@ function Banner(props) {
           'z-20 rounded-xl overflow-hidden opacity-0 group-hover:opacity-100 duration-300 transition-all bg-[#FFD9EF] dark:bg-[#A12D6F] dark:text-white cursor-pointer absolute w-full h-full top-0 flex justify-start items-center'
         }>
         <div className='ml-12 -translate-x-32 group-hover:translate-x-0 duration-300 transition-all ease-in'>
-          <div className='text-7xl text-white font-extrabold'>{coverTitle}</div>
-          <div className='-ml-3 text-gray-300'>
+          <div className='text-7xl text-[#333] dark:text-white font-extrabold'>{coverTitle}</div>
+          <div className='-ml-3 text-[#666] dark:text-gray-300'>
             <ArrowSmallRight className={'w-24 h-24 stroke-2'} />
           </div>
         </div>
