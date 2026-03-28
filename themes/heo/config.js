@@ -8,9 +8,9 @@ const CONFIG = {
 
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
-    { title: '欢迎来到奇怪的博客', url: 'https://blog.stavmb.me' },
-    { title: '可以点点查看站主的信息喵～', url: 'https://blog.stavmb.me/about' },
-    { title: '可以随便逛逛呀～', url: 'https://blog.stavmb.me/links' }
+    { title: '欢迎来到奇怪的博客', url: 'https://blog.vachiika.me' },
+    { title: '可以点点查看站主的信息喵～', url: 'https://blog.vachiika.me/about' },
+    { title: '可以随便逛逛呀～', url: 'https://blog.vachiika.me/links' }
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -24,7 +24,7 @@ const CONFIG = {
   HEO_HERO_TITLE_3: 'Stavmb',
   HEO_HERO_TITLE_4: '点击进入',
   HEO_HERO_TITLE_5: '神奇的小房间',
-  HEO_HERO_TITLE_LINK: 'https://blog.stavmb.me/',
+  HEO_HERO_TITLE_LINK: 'https://blog.vachiika.me/',
   // 英雄区遮罩文字
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
@@ -54,7 +54,7 @@ const CONFIG = {
   HEO_INFO_CARD_ICON1: 'fas fa-user',
   HEO_INFO_CARD_URL2: 'https://github.com/systaven',
   HEO_INFO_CARD_ICON2: 'fab fa-github',
-  HEO_INFO_CARD_URL3: 'https://blog.stavmb.me/about',
+  HEO_INFO_CARD_URL3: 'https://blog.vachiika.me/about',
   HEO_INFO_CARD_TEXT3: '了解更多',
 
   // 用户技能图标
@@ -97,7 +97,7 @@ const CONFIG = {
   HEO_SOCIAL_CARD_TITLE_1: '交流频道',
   HEO_SOCIAL_CARD_TITLE_2: '加入我们的社群讨论分享',
   HEO_SOCIAL_CARD_TITLE_3: '点击加入社群',
-  HEO_SOCIAL_CARD_URL: 'https://blog.stavmb.me/article/how-to-question',
+  HEO_SOCIAL_CARD_URL: 'https://blog.vachiika.me/article/how-to-question',
 
   // 底部统计面板文案
   HEO_POST_COUNT_TITLE: '文章数:',

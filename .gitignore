@@ -55,3 +55,5 @@ package-lock.json
 # yarn.lock
 
 .notion-api-lock
+.gemini/
+gha-creds-*.json
