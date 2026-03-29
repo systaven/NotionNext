@@ -9,8 +9,8 @@ const CONFIG = {
   // 首页顶部通知条滚动内容，如不需要可以留空 []
   HEO_NOTICE_BAR: [
     { title: '欢迎来到奇怪的博客', url: 'https://blog.vachiika.me' },
-    { title: '可以点点查看站主的信息喵～', url: 'https://blog.vachiika.me/about' },
-    { title: '可以随便逛逛呀～', url: 'https://blog.vachiika.me/links' }
+    { title: '欢迎来到我的博客', url: 'https://blog.vachiika.me/about' },
+    { title: '友情链接', url: 'https://blog.vachiika.me/links' }
   ],
 
   // 英雄区左右侧组件颠倒位置
@@ -19,7 +19,7 @@ const CONFIG = {
   HEO_HERO_BODY_REVERSE: false,
 
   // 英雄区(首页顶部大卡)
-  HEO_HERO_TITLE_1: '分享可爱的事情',
+  HEO_HERO_TITLE_1: '分享事情',
   HEO_HERO_TITLE_2: 'To look up future',
   HEO_HERO_TITLE_3: 'Stavmb',
   HEO_HERO_TITLE_4: '点击进入',
@@ -29,9 +29,9 @@ const CONFIG = {
   HEO_HERO_COVER_TITLE: '随便逛逛',
 
   // 英雄区显示三个置顶分类
-  HEO_HERO_CATEGORY_1: { title: '猫猫推荐', url: '/tag/suggest' },
-  HEO_HERO_CATEGORY_2: { title: '实用教程', url: '/tag/trending' },
-  HEO_HERO_CATEGORY_3: { title: '生活记录', url: '/tag/diary' },
+  HEO_HERO_CATEGORY_1: { title: '推荐', url: '/tag/suggest' },
+  HEO_HERO_CATEGORY_2: { title: '教程', url: '/tag/trending' },
+  HEO_HERO_CATEGORY_3: { title: '记录', url: '/tag/diary' },
 
   // 英雄区右侧推荐文章标签, 例如 [推荐] , 最多六篇文章; 若留空白''，则推荐最近更新文章
   HEO_HERO_RECOMMEND_POST_TAG: '',
