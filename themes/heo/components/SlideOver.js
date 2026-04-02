@@ -94,14 +94,16 @@ export default function SlideOver(props) {
                       <section className='space-y-2 flex flex-col'>
                         <div className="flex justify-between">
                           <DarkModeBlockButton />
-                          <div className="p-2">
-                            <SignedOut>
-                              <SignInButton />
-                            </SignedOut>
-                            <SignedIn>
-                              <UserButton />
-                            </SignedIn>
-                          </div>
+                          {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && (
+                            <div className="p-2">
+                              <SignedOut>
+                                <SignInButton />
+                              </SignedOut>
+                              <SignedIn>
+                                <UserButton />
+                              </SignedIn>
+                            </div>
+                          )}
                         </div>
                       </section>
 
