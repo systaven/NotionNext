@@ -203,7 +203,16 @@ const nextConfig = {
           {
             source: '/:path*.html',
             destination: '/:path*'
-          }
+          },
+          // IndexNow 密钥验证文件
+          ...(process.env.NEXT_PUBLIC_INDEXNOW_KEY
+            ? [
+                {
+                  source: `/${process.env.NEXT_PUBLIC_INDEXNOW_KEY}.txt`,
+                  destination: '/api/indexnow'
+                }
+              ]
+            : [])
         ]
       },
   headers: process.env.EXPORT
