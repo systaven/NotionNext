@@ -79,24 +79,21 @@ const Slug = props => {
     const blockMap = post?.blockMap?.block
     if (!blockMap) return
 
-    // 1. 找到根 Page Block (其 parent_id 是 post.id)
-    const pageBlockId = Object.keys(blockMap).find(
-      key => blockMap[key]?.value?.type === 'page' && blockMap[key]?.value?.parent_id === post.id
-    ) || post.id
+    // 1. 找到根 Page Block
+    // 优先从 post.id 找，找不到再遍历查找 type 为 page 的块
+    const pageBlockId = blockMap[post.id] ? post.id : Object.keys(blockMap).find(
+      key => blockMap[key]?.value?.type === 'page'
+    )
     
     const pageBlock = blockMap[pageBlockId]
-    if (!pageBlock?.value?.content) return
+    const allBlockIds = pageBlock?.value?.content || []
 
-    // 2. 获取有序的子 Block ID 列表
-    const allBlockIds = pageBlock.value.content
-
-    // 3. 扫描暗码
+    // 2. 扫描暗码
     let splitIndex = -1
     let lockType = null // 'password' | 'signin'
 
     for (let i = 0; i < allBlockIds.length; i++) {
       const b = blockMap[allBlockIds[i]]
-      // 提取文字内容
       const title = b?.value?.properties?.title
       const text = title ? JSON.stringify(title) : ''
       
@@ -112,49 +109,40 @@ const Slug = props => {
       }
     }
 
-    // 4. 判断是否需要锁定
+    // 3. 综合判断当前的锁定状态
     const hasDbPassword = post?.password && post?.password !== ''
     const isLoginOnly = post?.lock_by_login || lockType === 'signin'
-    const isPasswordOnly = hasDbPassword || lockType === 'password'
+    const isPasswordOnly = hasDbPassword || (lockType === 'password' && !hasDbPassword)
 
     let isLocked = false
     if (isLoginOnly && !isSignedIn) {
       isLocked = true
     } else if (isPasswordOnly) {
-      isLocked = lock // 沿用父级密码锁状态
+      // 如果是密码锁，取决于全局的 lock 状态（该状态由密码输入回调 validPassword 控制）
+      isLocked = lock
     }
 
-    // 5. 执行物理截断
-    if (isLocked && splitIndex !== -1) {
-      // 截断 Page Block 的 content 数组，这是决定渲染顺序的关键
-      const keepIds = allBlockIds.slice(0, splitIndex)
-      const dropIds = allBlockIds.slice(splitIndex)
-      
-      pageBlock.value.content = keepIds
-      
-      // 物理删除 blockMap 中的数据
-      dropIds.forEach(id => {
-        delete blockMap[id]
-      })
-
-      post.content = keepIds
-      post.isPartialLock = true
-      post.lockType = lockType
-      setLock(true)
-    } else if (isLocked && splitIndex === -1) {
-      // 全量锁定
-      post.content = []
+    // 4. 执行锁定或解锁
+    if (isLocked) {
+      if (splitIndex !== -1) {
+        // 部分锁定：截断渲染列表
+        pageBlock.value.content = allBlockIds.slice(0, splitIndex)
+        post.isPartialLock = true
+        post.lockType = lockType
+      } else {
+        // 全量锁定：清空渲染列表
+        pageBlock.value.content = []
+        post.isPartialLock = false
+      }
       setLock(true)
     } else {
-      // 解锁状态
-      post.content = allBlockIds
+      // 完全解锁：还原所有 Block
+      pageBlock.value.content = allBlockIds
       post.isPartialLock = false
-      if (!hasDbPassword && !post?.lock_by_login) {
-        setLock(false)
-      }
+      setLock(false)
     }
 
-    // 生成目录
+    // 重新生成目录
     post.toc = getPageTableOfContents(post, post.blockMap)
   }, [post, lock, isSignedIn])
 
