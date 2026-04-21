@@ -171,7 +171,7 @@ const Header = props => {
             {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && (
               <div className="mr-2">
                 <SignedOut>
-                  <SignInButton />
+                  <SignInButton mode="modal" />
                 </SignedOut>
                 <SignedIn>
                   <UserButton />
