@@ -11,7 +11,7 @@ import { DynamicLayout } from '@/themes/theme'
 import md5 from 'js-md5'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { isExport } from '@/lib/utils/buildMode'
 import { getPriorityPages, prefetchAllBlockMaps } from '@/lib/build/prefetch'
 
@@ -27,11 +27,11 @@ const Slug = props => {
   const { locale, isSignedIn } = useGlobal()
   const { showNotification, Notification } = useNotification()
 
-  // 1. 同步计算文章内容和锁定状态 (为了不污染 originalPost，我们在这里生成一个新的 post 对象)
+  // 1. 同步计算文章内容和锁定状态
   const { post, isLocked, lockType } = useMemo(() => {
     if (!originalPost) return { post: null, isLocked: false, lockType: null }
     
-    // 浅拷贝原始对象，防止污染
+    // 浅拷贝原始对象
     const post = { ...originalPost }
     const blockMap = post.blockMap?.block
     if (!blockMap) return { post, isLocked: false, lockType: null }
@@ -65,28 +65,41 @@ const Slug = props => {
     // 综合判断是否锁定
     const hasDbPassword = post.password && post.password !== ''
     const dbLockType = post.lock_by_login ? 'signin' : (hasDbPassword ? 'password' : null)
-    
-    // 最终锁类型优先级：DB设置 > 正文暗码
     const finalLockType = dbLockType || contentLockType
     
     let isLocked = false
     if (finalLockType === 'signin') {
       isLocked = !isSignedIn
     } else if (finalLockType === 'password') {
-      // 这里的逻辑依然受外部控制，但我们默认假设需要锁
       isLocked = true 
     }
 
     // 处理内容截断
     if (isLocked) {
       if (splitIndex !== -1) {
-        // 部分锁定：克隆 pageBlock 及其 content 以免污染
-        post.blockMap = { ...post.blockMap, block: { ...blockMap, [pageBlockId]: { ...pageBlock, value: { ...pageBlock.value, content: allBlockIds.slice(0, splitIndex) } } } }
+        post.blockMap = { 
+          ...post.blockMap, 
+          block: { 
+            ...blockMap, 
+            [pageBlockId]: { 
+              ...pageBlock, 
+              value: { ...pageBlock.value, content: allBlockIds.slice(0, splitIndex) } 
+            } 
+          } 
+        }
         post.isPartialLock = true
         post.lockType = finalLockType
-      } else if (hasDbPassword || post.lock_by_login || splitIndex === -1) {
-        // 全量锁定：清空内容
-        post.blockMap = { ...post.blockMap, block: { ...blockMap, [pageBlockId]: { ...pageBlock, value: { ...pageBlock.value, content: [] } } } }
+      } else {
+        post.blockMap = { 
+          ...post.blockMap, 
+          block: { 
+            ...blockMap, 
+            [pageBlockId]: { 
+              ...pageBlock, 
+              value: { ...pageBlock.value, content: [] } 
+            } 
+          } 
+        }
         post.isPartialLock = false
       }
     }
@@ -94,21 +107,16 @@ const Slug = props => {
     return { post, isLocked, lockType: finalLockType }
   }, [originalPost, isSignedIn])
 
-  // 2. 状态管理：只处理密码锁的 state
+  // 2. 状态管理：密码锁
   const [passwordUnlocked, setPasswordUnlocked] = useState(false)
   
-  // 最终的锁状态：如果是密码锁，还需要判断是否已输入密码
   const finalLock = useMemo(() => {
     if (!isLocked) return false
     if (lockType === 'password') return !passwordUnlocked
     return true
   }, [isLocked, lockType, passwordUnlocked])
 
-  /**
-   * 验证文章密码
-   * @param {*} passInput
-   */
-  const validPassword = passInput => {
+  const validPassword = (passInput) => {
     if (!post) return false
     const encrypt = md5(post?.slug + passInput)
     if (passInput && encrypt === originalPost?.password) {
@@ -120,7 +128,6 @@ const Slug = props => {
     return false
   }
 
-  // 自动尝试本地保存的密码
   useEffect(() => {
     const passInputs = getPasswordQuery(router.asPath)
     if (passInputs.length > 0) {
@@ -130,7 +137,6 @@ const Slug = props => {
     }
   }, [originalPost])
 
-  // 生成目录（如果是锁定的，目录也会被 useMemo 里的 content 截断自动处理）
   useEffect(() => {
     if (post && !finalLock) {
       post.toc = getPageTableOfContents(post, post.blockMap)
@@ -138,13 +144,12 @@ const Slug = props => {
   }, [post, finalLock])
 
   const theme = siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG)
+  const finalProps = { ...props, post, lock: finalLock, validPassword }
+
   return (
     <>
-      {/* 文章布局 */}
       <DynamicLayout theme={theme} layoutName='LayoutSlug' {...finalProps} />
-      {/* 解锁密码提示框 */}
       {originalPost?.password && originalPost?.password !== '' && !finalLock && <Notification />}
-      {/* 导流工具 */}
       <OpenWrite />
     </>
   )
@@ -168,7 +173,6 @@ export async function getStaticPaths() {
   const from = 'slug-paths'
   const { allPages } = await fetchGlobalAllData({ from })
 
-  // Export 模式：全量预生成
   if (isExport()) {
     await prefetchAllBlockMaps(allPages)
     return {
@@ -179,7 +183,6 @@ export async function getStaticPaths() {
     }
   }
 
-  // ISR 模式：预生成最新10篇，其余按需渲染
   const tops = getPriorityPages(allPages)
   await prefetchAllBlockMaps(tops)
 
