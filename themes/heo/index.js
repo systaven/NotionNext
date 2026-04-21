@@ -37,6 +37,7 @@ import PostAdjacent from './components/PostAdjacent'
 import PostCopyright from './components/PostCopyright'
 import PostHeader from './components/PostHeader'
 import { PostLock } from './components/PostLock'
+import ClerkLock from '@/components/ClerkLock'
 import PostRecommend from './components/PostRecommend'
 import SearchNav from './components/SearchNav'
 import SideRight from './components/SideRight'
@@ -297,7 +298,7 @@ const LayoutSlug = props => {
       <div
   className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#2E031B] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
         {/* 文章锁 */}
-        {lock && <PostLock validPassword={validPassword} />}
+        {lock && post?.lock_by_login ? <ClerkLock /> : lock && <PostLock validPassword={validPassword} />}
 
         {!lock && post && (
           <div className='mx-auto md:w-full md:px-5'>

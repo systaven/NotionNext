@@ -24,10 +24,13 @@ import { getPriorityPages, prefetchAllBlockMaps } from '@/lib/build/prefetch'
 const Slug = props => {
   const { post } = props
   const router = useRouter()
-  const { locale } = useGlobal()
+  const { locale, isSignedIn } = useGlobal()
 
   // 文章锁🔐
-  const [lock, setLock] = useState(post?.password && post?.password !== '')
+  const [lock, setLock] = useState(
+    (post?.password && post?.password !== '') ||
+    (post?.lock_by_login && !isSignedIn)
+  )
   const { showNotification, Notification } = useNotification()
 
   /**
@@ -54,6 +57,8 @@ const Slug = props => {
     // 文章加密
     if (post?.password && post?.password !== '') {
       setLock(true)
+    } else if (post?.lock_by_login && !isSignedIn) {
+      setLock(true)
     } else {
       setLock(false)
     }
@@ -67,7 +72,7 @@ const Slug = props => {
         }
       }
     }
-  }, [post])
+  }, [post, isSignedIn])
 
   // 文章加载
   useEffect(() => {
