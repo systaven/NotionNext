@@ -297,10 +297,13 @@ const LayoutSlug = props => {
     <>
       <div
   className={`article h-full w-full ${fullWidth ? '' : 'xl:max-w-5xl'} ${hasCode ? 'xl:w-[73.15vw]' : ''}  bg-white dark:bg-[#2E031B] dark:border-gray-600 lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 `}>
-        {/* 文章锁 */}
-        {lock && post?.lock_by_login ? <ClerkLock /> : lock && <PostLock validPassword={validPassword} />}
+        {/* 全量锁定：显示锁屏界面 */}
+        {lock && !post?.isPartialLock && (
+           post?.lock_by_login ? <ClerkLock /> : <PostLock validPassword={validPassword} />
+        )}
 
-        {!lock && post && (
+        {/* 解锁状态 或 部分锁定状态 */}
+        {(!lock || post?.isPartialLock) && post && (
           <div className='mx-auto md:w-full md:px-5'>
             {/* 文章主体 */}
             <article
@@ -315,6 +318,14 @@ const LayoutSlug = props => {
                 <AISummary aiSummary={post.aiSummary} />
                 <WWAds orientation='horizontal' className='w-full' />
                 {post && <NotionPage post={post} />}
+
+                {/* 部分锁定：在内容末尾追加锁组件 */}
+                {lock && post?.isPartialLock && (
+                  <div className='mt-10 border-t-2 border-dashed pt-10'>
+                    {post.lockType === 'signin' || post.lock_by_login ? <ClerkLock /> : <PostLock validPassword={validPassword} />}
+                  </div>
+                )}
+
                 <WWAds orientation='horizontal' className='w-full' />
               </section>
 

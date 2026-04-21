@@ -74,19 +74,71 @@ const Slug = props => {
     }
   }, [post, isSignedIn])
 
-  // 文章加载
+  // 文章加载逻辑：处理部分内容锁定
   useEffect(() => {
-    if (lock) {
-      return
+    if (!post?.blockMap?.block) return
+
+    // 1. 获取所有顶级 Block ID
+    const allBlockIds = Object.keys(post.blockMap.block).filter(
+      key => post.blockMap.block[key]?.value?.parent_id === post.id
+    )
+
+    // 2. 扫描暗码
+    let splitIndex = -1
+    let lockType = null // 'password' | 'signin'
+
+    for (let i = 0; i < allBlockIds.length; i++) {
+      const b = post.blockMap.block[allBlockIds[i]]
+      const text = JSON.stringify(b.value?.properties?.title || '')
+      if (text.includes('==LOCK==') || text.includes('==锁==')) {
+        splitIndex = i
+        lockType = 'password'
+        break
+      }
+      if (text.includes('==SIGNIN==') || text.includes('==登录==')) {
+        splitIndex = i
+        lockType = 'signin'
+        break
+      }
     }
-    // 文章解锁后生成目录与内容
-    if (post?.blockMap?.block) {
-      post.content = Object.keys(post.blockMap.block).filter(
-        key => post.blockMap.block[key]?.value?.parent_id === post.id
-      )
-      post.toc = getPageTableOfContents(post, post.blockMap)
+
+    // 3. 判断是否需要锁定
+    const hasDbPassword = post?.password && post?.password !== ''
+    const isLoginOnly = post?.lock_by_login || lockType === 'signin'
+    const isPasswordOnly = hasDbPassword || lockType === 'password'
+
+    let isLocked = false
+    if (isLoginOnly && !isSignedIn) {
+      isLocked = true
+    } else if (isPasswordOnly) {
+      // 检查密码锁，如果是部分锁定且未输入过密码，则锁定
+      isLocked = lock // 沿用父级 state 逻辑
     }
-  }, [router, lock])
+
+    // 4. 根据锁定状态处理内容
+    if (isLocked && splitIndex !== -1) {
+      // 部分锁定：只保留暗码前的 ID
+      post.content = allBlockIds.slice(0, splitIndex)
+      post.isPartialLock = true // 标记为部分锁定
+      post.lockType = lockType // 传递锁定类型
+      setLock(true)
+    } else if (isLocked && splitIndex === -1) {
+      // 全量锁定
+      post.content = []
+      setLock(true)
+    } else {
+      // 全量解锁
+      post.content = allBlockIds
+      post.isPartialLock = false
+      // 如果没有数据库密码，也不是登录锁，则确保解锁
+      if (!hasDbPassword && !post?.lock_by_login) {
+        setLock(false)
+      }
+    }
+
+    // 生成目录
+    post.toc = getPageTableOfContents(post, post.blockMap)
+  }, [post, lock, isSignedIn])
 
   props = { ...props, lock, validPassword }
   const theme = siteConfig('THEME', BLOG.THEME, props.NOTION_CONFIG)
