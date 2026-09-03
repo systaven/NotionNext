@@ -298,6 +298,27 @@ const nextConfig = {
             }
           ]
         },
+        // Font files are versioned with each deployment. Let browsers and the
+        // Appwrite CDN reuse them across page views instead of transferring a
+        // multi-megabyte CJK font on every visit.
+        {
+          source: '/fonts/:path*',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable'
+            }
+          ]
+        },
+        {
+          source: '/webfonts/:path*',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable'
+            }
+          ]
+        },
         {
           source: '/:path*{/}?',
           headers: [
