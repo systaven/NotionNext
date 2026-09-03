@@ -4,6 +4,8 @@ jest.mock('p-limit', () => () => fn => fn())
 import {
   formatNotionBlock,
   hasExpiredSignedUrls,
+  hydrateHtmlArtifacts,
+  isNotionHtmlArtifactBlock,
   preferStablePdfSignedUrls
 } from '@/lib/db/notion/getPostBlocks'
 import {
@@ -291,6 +293,63 @@ describe('formatNotionBlock', () => {
         }
       })
     ).toBe(true)
+  })
+
+  it('requests a signed URL for Notion HTML attachment embeds', () => {
+    const recordMap = {
+      signed_urls: {},
+      block: {
+        html: {
+          value: {
+            id: 'html',
+            type: 'embed',
+            properties: {
+              source: [['attachment:block-id:calculator.html']]
+            }
+          }
+        }
+      }
+    }
+
+    expect(isNotionHtmlArtifactBlock(recordMap.block.html.value)).toBe(true)
+    expect(hasExpiredSignedUrls(recordMap)).toBe(true)
+  })
+
+  it('loads a signed HTML attachment into the sandbox document', async () => {
+    const html = '<!doctype html><html><body><h1>Calculator</h1></body></html>'
+    const bytes = new TextEncoder().encode(html)
+    const originalFetch = global.fetch
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      headers: { get: () => String(bytes.byteLength) },
+      arrayBuffer: async () => bytes.buffer
+    })
+
+    const recordMap = {
+      signed_urls: { html: 'https://file.notion.so/signed-calculator' },
+      block: {
+        html: {
+          value: {
+            id: 'html',
+            type: 'embed',
+            properties: {
+              source: [['attachment:block-id:calculator.html']]
+            }
+          }
+        }
+      }
+    }
+
+    try {
+      await expect(hydrateHtmlArtifacts(recordMap)).resolves.toBe(true)
+      expect(global.fetch).toHaveBeenCalledWith(recordMap.signed_urls.html)
+      expect(recordMap.block.html.value.format).toMatchObject({
+        embed_variant: 'html_artifact',
+        html_artifact_content: html
+      })
+    } finally {
+      global.fetch = originalFetch
+    }
   })
 
   it('uses stable Notion signed entry for pdf preview URLs', () => {
