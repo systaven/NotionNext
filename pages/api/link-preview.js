@@ -1,4 +1,4 @@
-import { extractLinkPreview } from '@/lib/utils/linkPreview'
+import { extractLinkPreview, getFaviconServiceUrl } from '@/lib/utils/linkPreview'
 import { validateExternalRedirectTarget } from '@/lib/utils/externalLink'
 import { siteConfig } from '@/lib/config'
 import { getOrSetDataWithCustomCache } from '@/lib/cache/cache_manager'
@@ -66,7 +66,7 @@ export default async function handler(req, res) {
             title: new URL(targetUrl).hostname,
             description: null,
             image: null,
-            favicon: `${new URL(targetUrl).origin}/favicon.ico`,
+            favicon: getFaviconServiceUrl(targetUrl),
             siteName: new URL(targetUrl).hostname,
             url: response.url || targetUrl
           }
@@ -90,7 +90,7 @@ export default async function handler(req, res) {
       title: null,
       description: null,
       image: null,
-      favicon: `${new URL(targetUrl).origin}/favicon.ico`,
+      favicon: getFaviconServiceUrl(targetUrl),
       siteName: new URL(targetUrl).hostname,
       url: targetUrl,
       error: 'preview_unavailable'

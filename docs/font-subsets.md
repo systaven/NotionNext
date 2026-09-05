@@ -8,6 +8,10 @@
 这是浏览器原生的条件加载逻辑，也适用于客户端路由切换和动态插入的评论，无需扫描 DOM 或阻塞渲染（[MDN unicode-range](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40font-face/unicode-range)）。
 `font-display: swap` 让文字先使用系统字体显示。不要预加载全部切片，否则会失去按需加载的收益。
 
+页面还使用 `Font Face Observer` 观察 400 字重的基础字包；最长等待 5 秒。加载成功后，
+正文以 180ms 淡入切换到文楷；失败或超时则保持系统字体。它只验证基础字包，实际文章
+需要的中文切片仍由浏览器按 `unicode-range` 按需请求。
+
 ## 重新生成
 
 ```sh

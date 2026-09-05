@@ -18,6 +18,7 @@ import ErrorHandler from '@/lib/utils/errorHandler'
 // 各种扩展插件 这个要阻塞引入
 import BLOG from '@/blog.config'
 import ExternalPlugins from '@/components/ExternalPlugins'
+import FontLoader from '@/components/FontLoader'
 import { GlobalStyle } from '@/components/GlobalStyle'
 import PWAInstaller from '@/components/PWAInstaller'
 import SEO from '@/components/SEO'
@@ -98,6 +99,7 @@ const MyApp = ({ Component, pageProps }) => {
   const content = (
     <AppErrorBoundary>
       <GlobalContextProvider {...pageProps}>
+        <FontLoader />
         {pageContent}
         <PWAInstaller NOTION_CONFIG={pageProps?.NOTION_CONFIG} />
         <ExternalPlugins {...pageProps} />
