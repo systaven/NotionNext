@@ -75,7 +75,9 @@ const LayoutBase = props => {
   }, [])
 
   const showHomeHero =
-    (router.pathname === '/' || router.pathname === '/page/[page]' || props.post) &&
+    !props.post &&
+    (router.pathname === '/' || router.pathname === '/page/[page]') &&
+    siteConfig('FUWARI_HERO_ENABLE', true, CONFIG) &&
     heroStyle === 'banner'
   const threeColumns = siteConfig('FUWARI_LAYOUT_THREE_COLUMNS', true, CONFIG)
   const showRightSidebar = threeColumns && postListLayout !== 'grid'
@@ -167,7 +169,9 @@ const LayoutSlug = props => {
     post?.comment !== 'Hide'
   const articleCoverSrc =
     siteConfig('FUWARI_ARTICLE_COVER_HERO', true, CONFIG) &&
-    (post.pageCover || post.pageCoverThumbnail)
+    (post.pageCover || post.pageCoverThumbnail ||
+      siteConfig('FUWARI_HERO_BG_IMAGE', '', CONFIG) ||
+      props.siteInfo?.pageCover || siteConfig('HOME_BANNER_IMAGE'))
   return (
     <>
       {lock ? (

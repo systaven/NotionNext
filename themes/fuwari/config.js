@@ -99,8 +99,8 @@ const CONFIG = {
   FUWARI_WIDGET_ANALYTICS: true,
   /** 顶栏调色板内的色相滑块等；false 时展开调色板无控件 */
   FUWARI_WIDGET_THEME_COLOR_SWITCHER: true,
-  /** 默认品牌色相 0–360 (HEO 风格推荐 350 左右) */
-  FUWARI_THEME_COLOR_HUE: 350,
+  /** 默认品牌色相 0–360，200 为蓝色 */
+  FUWARI_THEME_COLOR_HUE: 200,
   /** true：隐藏顶栏调色盘按钮，无法在站内改色相 */
   FUWARI_THEME_COLOR_FIXED: false,
   /** 文章页右侧浮动区：跳转评论区按钮 */
@@ -168,8 +168,8 @@ const CONFIG = {
   // ---------------------------------------------------------------------------
   // 文章页
   // ---------------------------------------------------------------------------
-  /** 有 Notion 封面时，在详情页文章卡片内顶部展示封面图（object-cover，不占满屏） */
-  FUWARI_ARTICLE_COVER_HERO: false,
+  /** 详情页卡片内展示短封面；无文章封面时沿用站点背景图 */
+  FUWARI_ARTICLE_COVER_HERO: true,
   /** 文首：日期、分类、标签等元信息 */
   FUWARI_ARTICLE_META: true,
   /** 分享条 */

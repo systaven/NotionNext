@@ -1,16 +1,3 @@
-/*
- * Keep the primary display font in the repository so visitors do not need to
- * reach a third-party CDN before the page can render. WOFF2 keeps the same
- * complete LXGW WenKai glyph set while substantially reducing transfer size.
- */
-@font-face {
-  font-family: 'LXGW WenKai';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/LXGWWenKai-Regular.9a343ba0.woff2') format('woff2');
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

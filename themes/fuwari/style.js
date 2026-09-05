@@ -5,7 +5,7 @@ import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 const Style = () => {
   return <style jsx global>{`
     #theme-fuwari {
-      --fuwari-hue: 350;
+      --fuwari-hue: 200;
       --fuwari-bg: hsl(var(--fuwari-hue), 100%, 97%);
       --fuwari-bg-soft: hsl(var(--fuwari-hue), 100%, 94%);
       --fuwari-surface: #ffffff;

@@ -18,7 +18,7 @@ function hslToHex(h, s, l) {
 
 const ThemeColorSwitch = ({ onColorChange }) => {
   const enabled = siteConfig('FUWARI_WIDGET_THEME_COLOR_SWITCHER', true, CONFIG)
-  const defaultHue = siteConfig('FUWARI_THEME_COLOR_HUE', 350, CONFIG)
+  const defaultHue = siteConfig('FUWARI_THEME_COLOR_HUE', 200, CONFIG)
   const [hue, setHue] = useState(defaultHue)
   const color = useMemo(() => hslToHex(hue, 85, 62), [hue])
 
@@ -66,7 +66,7 @@ const ThemeColorSwitch = ({ onColorChange }) => {
           </button>
           <button
             type='button'
-            onClick={copyHex}
+            onClick={() => { void copyHex().catch(() => {}) }}
             className='px-2 h-8 rounded-md bg-[var(--fuwari-bg-soft)] border border-[var(--fuwari-border)] text-[var(--fuwari-primary)] font-bold'>
             {hue}
           </button>
