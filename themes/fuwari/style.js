@@ -255,16 +255,12 @@ const Style = () => {
       will-change: opacity, transform;
     }
     #theme-fuwari .fuwari-hero-entering {
-      animation: fuwari-hero-enter .3s ease-out both;
-      will-change: opacity, transform;
-    }
-    #theme-fuwari .fuwari-article-route-leave {
-      animation: fuwari-article-route-leave .16s ease-in both;
-      will-change: opacity, transform;
+      animation: fuwari-hero-enter .18s ease-out both;
+      will-change: transform;
     }
     #theme-fuwari .fuwari-article-route-enter {
-      animation: fuwari-article-route-enter .3s ease-out both;
-      will-change: opacity, transform;
+      animation: fuwari-article-route-enter .18s ease-out both;
+      will-change: transform;
     }
     /* 全屏布局下的卡片透明度 */
     .fuwari-fullscreen-layout .fuwari-card {
@@ -719,20 +715,15 @@ const Style = () => {
       to { opacity: 0; transform: translateY(-8px); }
     }
     @keyframes fuwari-hero-enter {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: none; }
-    }
-    @keyframes fuwari-article-route-leave {
-      to { opacity: 0; transform: translateY(-8px); }
+      from { transform: translateY(6px); }
+      to { transform: none; }
     }
     @keyframes fuwari-article-route-enter {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: none; }
+      from { transform: translateY(6px); }
+      to { transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #theme-fuwari .fuwari-hero-leaving,
       #theme-fuwari .fuwari-hero-entering,
-      #theme-fuwari .fuwari-article-route-leave,
       #theme-fuwari .fuwari-article-route-enter { animation: none; }
     }
 

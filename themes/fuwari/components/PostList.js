@@ -1,7 +1,7 @@
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CONFIG from '../config'
 
 const getCurrentSearchQuery = router => {
@@ -31,10 +31,8 @@ const getArchiveHref = (publishDay, router) => {
 
 const PostCard = ({ post, layout }) => {
   const router = useRouter()
-  const navigationTimer = useRef(null)
   const isGrid = layout === 'grid'
   const postHref = post.href || `/${post.slug}`
-  const articleTransitionEnabled = siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG)
 
   const coverColPx = Math.min(
     360,
@@ -49,34 +47,6 @@ const PostCard = ({ post, layout }) => {
   const showRail = !showCover
   const listCoverOn = siteConfig('FUWARI_POST_LIST_COVER', true, CONFIG)
   const showCoverBlock = listCoverOn && showCover
-
-  const handlePostNavigation = event => {
-    if (
-      !articleTransitionEnabled ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) return
-
-    if (
-      event.defaultPrevented ||
-      event.button !== 0 ||
-      event.metaKey ||
-      event.altKey ||
-      event.ctrlKey ||
-      event.shiftKey
-    ) return
-
-    event.preventDefault()
-    if (navigationTimer.current) return
-
-    window.dispatchEvent(new CustomEvent('fuwari-post-navigation', {
-      detail: { href: postHref }
-    }))
-    navigationTimer.current = window.setTimeout(() => {
-      router.push(postHref)
-    }, 160)
-  }
-
-  useEffect(() => () => window.clearTimeout(navigationTimer.current), [])
 
   const gridTemplateColumns = (() => {
     if (showCoverBlock) {
@@ -95,7 +65,7 @@ const PostCard = ({ post, layout }) => {
         {/* Cover Image for Grid Mode (renders at top) */}
         {showCoverBlock && isGrid && (
           <div className='w-full aspect-[2/1] rounded-xl overflow-hidden mb-3.5 shrink-0'>
-            <SmartLink href={postHref} onClick={handlePostNavigation}>
+            <SmartLink href={postHref}>
               <div
                 className={`fuwari-cover-wrap h-full ${siteConfig('FUWARI_POST_LIST_COVER_HOVER_ENLARGE', true, CONFIG) ? 'fuwari-cover-enlarge' : ''}`}>
                 <img
@@ -113,7 +83,7 @@ const PostCard = ({ post, layout }) => {
         <div className={`min-w-0 flex-1 flex flex-col justify-between ${!isGrid ? 'md:pr-1' : ''}`}>
           <div>
             <h2 className={`fuwari-post-title font-bold mb-1.5 leading-tight ${isGrid ? 'text-xl md:text-2xl line-clamp-2' : 'text-[2rem]'}`}>
-              <SmartLink href={postHref} onClick={handlePostNavigation} className='hover:opacity-90 transition-opacity'>
+              <SmartLink href={postHref} className='hover:opacity-90 transition-opacity'>
                 {post.title}
               </SmartLink>
             </h2>
@@ -163,7 +133,7 @@ const PostCard = ({ post, layout }) => {
         {/* Cover Image for List Mode (renders at right on desktop) */}
         {showCoverBlock && !isGrid && (
           <div className='mt-4 md:mt-0'>
-            <SmartLink href={postHref} onClick={handlePostNavigation}>
+            <SmartLink href={postHref}>
               <div
                 className={`fuwari-cover-wrap h-full ${siteConfig('FUWARI_POST_LIST_COVER_HOVER_ENLARGE', true, CONFIG) ? 'fuwari-cover-enlarge' : ''}`}>
                 <img
@@ -178,7 +148,7 @@ const PostCard = ({ post, layout }) => {
         )}
 
         {!isGrid && showRail && (
-          <SmartLink href={postHref} onClick={handlePostNavigation} className='hidden md:flex fuwari-readmore-rail'>
+          <SmartLink href={postHref} className='hidden md:flex fuwari-readmore-rail'>
             <i className='fas fa-chevron-right' />
           </SmartLink>
         )}

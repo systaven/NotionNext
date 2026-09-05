@@ -42,16 +42,6 @@ const Lenis = dynamic(() => import('@/components/Lenis'), { ssr: false })
 const CursorDot = dynamic(() => import('@/components/CursorDot'), { ssr: false })
 const Live2D = dynamic(() => import('@/components/Live2D'), { ssr: false })
 const getLocale = () => generateLocaleDict(siteConfig('LANG', 'zh-CN'))
-const isHomeRoute = path => {
-  const pathname = path.split(/[?#]/, 1)[0]
-  return pathname === '/' || /^\/page\/\d+\/?$/.test(pathname)
-}
-const isArticleRoute = path => {
-  const pathname = path.split(/[?#]/, 1)[0]
-  const reservedPaths = ['/archive', '/category', '/tag', '/search', '/page', '/auth', '/dashboard']
-  return pathname !== '/' && !reservedPaths.some(prefix => pathname === prefix || pathname.startsWith(`${prefix}/`))
-}
-
 const LayoutBase = props => {
   const { children } = props
   const locale = getLocale()
@@ -59,15 +49,6 @@ const LayoutBase = props => {
   const router = useRouter()
   const [heroStyle, setHeroStyle] = useState(siteConfig('FUWARI_HERO_STYLE', 'banner', CONFIG))
   const [postListLayout, setPostListLayout] = useState('list')
-  const [routePhase, setRoutePhase] = useState('idle')
-  const routePhaseRef = useRef('idle')
-  const transitionDirectionRef = useRef(null)
-  const routeTransitionTimer = useRef(null)
-
-  const updateRoutePhase = phase => {
-    routePhaseRef.current = phase
-    setRoutePhase(phase)
-  }
 
   useEffect(() => {
     // 加载初始状态
@@ -91,49 +72,6 @@ const LayoutBase = props => {
       window.removeEventListener('fuwari-post-list-layout-change', handleLayoutChange)
     }
   }, [])
-
-  useEffect(() => {
-    if (!siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG)) return
-
-    const resetTransition = () => {
-      window.clearTimeout(routeTransitionTimer.current)
-      transitionDirectionRef.current = null
-      updateRoutePhase('idle')
-    }
-    const startTransition = url => {
-      const fromHome = isHomeRoute(router.asPath)
-      const toHome = isHomeRoute(url)
-      if (fromHome && isArticleRoute(url)) {
-        transitionDirectionRef.current = 'to-article'
-        updateRoutePhase('leaving')
-      } else if (!fromHome && toHome) {
-        transitionDirectionRef.current = 'to-home'
-        updateRoutePhase('leaving')
-      }
-    }
-    const finishTransition = () => {
-      if (routePhaseRef.current !== 'leaving') return
-      requestAnimationFrame(() => {
-        updateRoutePhase('entering')
-        routeTransitionTimer.current = window.setTimeout(resetTransition, 360)
-      })
-    }
-
-    router.events.on('routeChangeStart', startTransition)
-    router.events.on('routeChangeComplete', finishTransition)
-    router.events.on('routeChangeError', resetTransition)
-    const startPostNavigation = event => {
-      startTransition(event.detail?.href || '')
-    }
-    window.addEventListener('fuwari-post-navigation', startPostNavigation)
-    return () => {
-      window.clearTimeout(routeTransitionTimer.current)
-      router.events.off('routeChangeStart', startTransition)
-      router.events.off('routeChangeComplete', finishTransition)
-      router.events.off('routeChangeError', resetTransition)
-      window.removeEventListener('fuwari-post-navigation', startPostNavigation)
-    }
-  }, [router])
 
   const showHomeHero =
     !props.post &&
@@ -162,14 +100,15 @@ const LayoutBase = props => {
 
       {showHomeHero && (
         <HeroBanner
+          key={router.asPath}
           {...props}
-          leaving={routePhase === 'leaving' && transitionDirectionRef.current === 'to-article'}
-          entering={routePhase === 'entering' && transitionDirectionRef.current === 'to-home'}
+          entering={siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG)}
         />
       )}
 
       <main
-        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && routePhase === 'leaving' && transitionDirectionRef.current === 'to-home' ? 'fuwari-article-route-leave' : ''} ${props.post && routePhase === 'entering' && transitionDirectionRef.current === 'to-article' ? 'fuwari-article-route-enter' : ''}`}>
+        key={router.asPath}
+        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG) ? 'fuwari-article-route-enter' : ''}`}>
         <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[280px_minmax(0,1fr)_280px] md:grid-cols-[240px_minmax(0,1fr)]' : 'md:grid-cols-[280px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
           <div className='hidden md:block sticky top-4 self-start'>
             <SidePanel {...props} isLeft={threeColumns} />
