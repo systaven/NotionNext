@@ -164,6 +164,8 @@ const CONFIG = {
   FUWARI_EFFECT_LENIS: false,
   /** 自定义光标圆点 */
   FUWARI_EFFECT_CURSOR_DOT: true,
+  /** 从首页打开文章时，显示横幅离场与文章入场过渡 */
+  FUWARI_EFFECT_ARTICLE_TRANSITION: true,
 
   // ---------------------------------------------------------------------------
   // 文章页

@@ -6,7 +6,7 @@ import CONFIG from '../config'
 import WavesArea from './WavesArea'
 
 const HeroBanner = (props) => {
-  const { siteInfo, allNavPages, post } = props
+  const { siteInfo, allNavPages, post, leaving = false } = props
   const router = useRouter()
   const isPostPage = !!post
 
@@ -84,8 +84,6 @@ const HeroBanner = (props) => {
     }
   }, [strings, isPostPage, speed, deleteSpeed, pauseTime])
 
-  if (!siteConfig('FUWARI_HERO_ENABLE', true, CONFIG)) return null
-
   // 整理当前页面所需的背景图片
   const cover = isPostPage
     ? (post.pageCover || post.pageCoverThumbnail || siteConfig('FUWARI_HERO_BG_IMAGE', '', CONFIG) || siteConfig('HOME_BANNER_IMAGE'))
@@ -120,8 +118,10 @@ const HeroBanner = (props) => {
   const title5 = siteConfig('HEO_HERO_TITLE_5', null, CONFIG)
   const heroStyle = siteConfig('FUWARI_HERO_STYLE', 'banner', CONFIG)
 
+  if (!siteConfig('FUWARI_HERO_ENABLE', true, CONFIG)) return null
+
   return (
-    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle}`}>
+    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle} ${leaving ? 'fuwari-hero-leaving' : ''}`}>
       <style dangerouslySetInnerHTML={{ __html: `
         .fuwari-typewriter-cursor {
           animation: fuwari-blink 0.9s infinite;
