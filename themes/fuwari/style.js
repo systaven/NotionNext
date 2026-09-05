@@ -254,6 +254,14 @@ const Style = () => {
       animation: fuwari-hero-leave .16s ease-in both;
       will-change: opacity, transform;
     }
+    #theme-fuwari .fuwari-hero-entering {
+      animation: fuwari-hero-enter .3s ease-out both;
+      will-change: opacity, transform;
+    }
+    #theme-fuwari .fuwari-article-route-leave {
+      animation: fuwari-article-route-leave .16s ease-in both;
+      will-change: opacity, transform;
+    }
     #theme-fuwari .fuwari-article-route-enter {
       animation: fuwari-article-route-enter .3s ease-out both;
       will-change: opacity, transform;
@@ -710,12 +718,21 @@ const Style = () => {
     @keyframes fuwari-hero-leave {
       to { opacity: 0; transform: translateY(-8px); }
     }
+    @keyframes fuwari-hero-enter {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes fuwari-article-route-leave {
+      to { opacity: 0; transform: translateY(-8px); }
+    }
     @keyframes fuwari-article-route-enter {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       #theme-fuwari .fuwari-hero-leaving,
+      #theme-fuwari .fuwari-hero-entering,
+      #theme-fuwari .fuwari-article-route-leave,
       #theme-fuwari .fuwari-article-route-enter { animation: none; }
     }
 

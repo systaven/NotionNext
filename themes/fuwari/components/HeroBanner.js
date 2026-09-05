@@ -6,7 +6,7 @@ import CONFIG from '../config'
 import WavesArea from './WavesArea'
 
 const HeroBanner = (props) => {
-  const { siteInfo, allNavPages, post, leaving = false } = props
+  const { siteInfo, allNavPages, post, leaving = false, entering = false } = props
   const router = useRouter()
   const isPostPage = !!post
 
@@ -121,7 +121,7 @@ const HeroBanner = (props) => {
   if (!siteConfig('FUWARI_HERO_ENABLE', true, CONFIG)) return null
 
   return (
-    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle} ${leaving ? 'fuwari-hero-leaving' : ''}`}>
+    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle} ${leaving ? 'fuwari-hero-leaving' : ''} ${entering ? 'fuwari-hero-entering' : ''}`}>
       <style dangerouslySetInnerHTML={{ __html: `
         .fuwari-typewriter-cursor {
           animation: fuwari-blink 0.9s infinite;

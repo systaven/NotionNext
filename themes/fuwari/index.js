@@ -61,6 +61,7 @@ const LayoutBase = props => {
   const [postListLayout, setPostListLayout] = useState('list')
   const [routePhase, setRoutePhase] = useState('idle')
   const routePhaseRef = useRef('idle')
+  const transitionDirectionRef = useRef(null)
   const routeTransitionTimer = useRef(null)
 
   const updateRoutePhase = phase => {
@@ -96,10 +97,17 @@ const LayoutBase = props => {
 
     const resetTransition = () => {
       window.clearTimeout(routeTransitionTimer.current)
+      transitionDirectionRef.current = null
       updateRoutePhase('idle')
     }
     const startTransition = url => {
-      if (isHomeRoute(router.asPath) && isArticleRoute(url)) {
+      const fromHome = isHomeRoute(router.asPath)
+      const toHome = isHomeRoute(url)
+      if (fromHome && isArticleRoute(url)) {
+        transitionDirectionRef.current = 'to-article'
+        updateRoutePhase('leaving')
+      } else if (!fromHome && toHome) {
+        transitionDirectionRef.current = 'to-home'
         updateRoutePhase('leaving')
       }
     }
@@ -107,7 +115,7 @@ const LayoutBase = props => {
       if (routePhaseRef.current !== 'leaving') return
       requestAnimationFrame(() => {
         updateRoutePhase('entering')
-        routeTransitionTimer.current = window.setTimeout(resetTransition, 220)
+        routeTransitionTimer.current = window.setTimeout(resetTransition, 360)
       })
     }
 
@@ -152,10 +160,16 @@ const LayoutBase = props => {
       />
       <AlgoliaSearchModal cRef={searchModal} {...props} />
 
-      {showHomeHero && <HeroBanner {...props} leaving={routePhase === 'leaving'} />}
+      {showHomeHero && (
+        <HeroBanner
+          {...props}
+          leaving={routePhase === 'leaving' && transitionDirectionRef.current === 'to-article'}
+          entering={routePhase === 'entering' && transitionDirectionRef.current === 'to-home'}
+        />
+      )}
 
       <main
-        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && routePhase === 'entering' ? 'fuwari-article-route-enter' : ''}`}>
+        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && routePhase === 'leaving' && transitionDirectionRef.current === 'to-home' ? 'fuwari-article-route-leave' : ''} ${props.post && routePhase === 'entering' && transitionDirectionRef.current === 'to-article' ? 'fuwari-article-route-enter' : ''}`}>
         <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[280px_minmax(0,1fr)_280px] md:grid-cols-[240px_minmax(0,1fr)]' : 'md:grid-cols-[280px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
           <div className='hidden md:block sticky top-4 self-start'>
             <SidePanel {...props} isLeft={threeColumns} />
