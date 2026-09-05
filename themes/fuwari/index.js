@@ -62,7 +62,6 @@ const LayoutBase = props => {
   const [routePhase, setRoutePhase] = useState('idle')
   const routePhaseRef = useRef('idle')
   const routeTransitionTimer = useRef(null)
-  const routeTransitionStartedAt = useRef(0)
 
   const updateRoutePhase = phase => {
     routePhaseRef.current = phase
@@ -101,29 +100,30 @@ const LayoutBase = props => {
     }
     const startTransition = url => {
       if (isHomeRoute(router.asPath) && isArticleRoute(url)) {
-        routeTransitionStartedAt.current = Date.now()
-        updateRoutePhase('cover')
+        updateRoutePhase('leaving')
       }
     }
     const finishTransition = () => {
-      if (routePhaseRef.current !== 'cover') return
-      const coverRemaining = Math.max(0, 220 - (Date.now() - routeTransitionStartedAt.current))
-      routeTransitionTimer.current = window.setTimeout(() => {
-        requestAnimationFrame(() => {
-          updateRoutePhase('reveal')
-          routeTransitionTimer.current = window.setTimeout(resetTransition, 440)
-        })
-      }, coverRemaining)
+      if (routePhaseRef.current !== 'leaving') return
+      requestAnimationFrame(() => {
+        updateRoutePhase('entering')
+        routeTransitionTimer.current = window.setTimeout(resetTransition, 220)
+      })
     }
 
     router.events.on('routeChangeStart', startTransition)
     router.events.on('routeChangeComplete', finishTransition)
     router.events.on('routeChangeError', resetTransition)
+    const startPostNavigation = event => {
+      startTransition(event.detail?.href || '')
+    }
+    window.addEventListener('fuwari-post-navigation', startPostNavigation)
     return () => {
       window.clearTimeout(routeTransitionTimer.current)
       router.events.off('routeChangeStart', startTransition)
       router.events.off('routeChangeComplete', finishTransition)
       router.events.off('routeChangeError', resetTransition)
+      window.removeEventListener('fuwari-post-navigation', startPostNavigation)
     }
   }, [router])
 
@@ -152,17 +152,10 @@ const LayoutBase = props => {
       />
       <AlgoliaSearchModal cRef={searchModal} {...props} />
 
-      {showHomeHero && <HeroBanner {...props} leaving={routePhase === 'cover'} />}
-
-      {routePhase !== 'idle' && (
-        <div
-          aria-hidden='true'
-          className={`fuwari-route-veil fuwari-route-veil-${routePhase}`}
-        />
-      )}
+      {showHomeHero && <HeroBanner {...props} leaving={routePhase === 'leaving'} />}
 
       <main
-        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && routePhase === 'reveal' ? 'fuwari-article-route-enter' : ''}`}>
+        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && routePhase === 'entering' ? 'fuwari-article-route-enter' : ''}`}>
         <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[280px_minmax(0,1fr)_280px] md:grid-cols-[240px_minmax(0,1fr)]' : 'md:grid-cols-[280px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
           <div className='hidden md:block sticky top-4 self-start'>
             <SidePanel {...props} isLeft={threeColumns} />

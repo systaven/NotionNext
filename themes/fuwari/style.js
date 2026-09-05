@@ -251,27 +251,12 @@ const Style = () => {
       display: none;
     }
     #theme-fuwari .fuwari-hero-leaving {
-      animation: fuwari-hero-leave .24s cubic-bezier(.22, 1, .36, 1) both;
-    }
-    #theme-fuwari .fuwari-route-veil {
-      position: fixed;
-      inset: 0;
-      z-index: 80;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 35%, hsla(var(--fuwari-hue), 90%, 78%, .56), transparent 48%),
-        hsla(var(--fuwari-hue), 62%, 24%, .58);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-    }
-    #theme-fuwari .fuwari-route-veil-cover {
-      animation: fuwari-route-cover .24s cubic-bezier(.22, 1, .36, 1) both;
-    }
-    #theme-fuwari .fuwari-route-veil-reveal {
-      animation: fuwari-route-reveal .42s cubic-bezier(.22, 1, .36, 1) both;
+      animation: fuwari-hero-leave .16s ease-in both;
+      will-change: opacity, transform;
     }
     #theme-fuwari .fuwari-article-route-enter {
-      animation: fuwari-article-route-enter .42s cubic-bezier(.22, 1, .36, 1) both;
+      animation: fuwari-article-route-enter .3s ease-out both;
+      will-change: opacity, transform;
     }
     /* 全屏布局下的卡片透明度 */
     .fuwari-fullscreen-layout .fuwari-card {
@@ -723,22 +708,13 @@ const Style = () => {
       to { opacity: 1; transform: none; }
     }
     @keyframes fuwari-hero-leave {
-      to { opacity: .66; transform: scale(1.035); filter: saturate(1.1); }
-    }
-    @keyframes fuwari-route-cover {
-      from { opacity: 0; transform: scale(1.05); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    @keyframes fuwari-route-reveal {
-      from { opacity: 1; }
-      to { opacity: 0; }
+      to { opacity: 0; transform: translateY(-8px); }
     }
     @keyframes fuwari-article-route-enter {
-      from { opacity: .72; transform: translateY(18px) scale(.992); }
+      from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #theme-fuwari .fuwari-route-veil { display: none; }
       #theme-fuwari .fuwari-hero-leaving,
       #theme-fuwari .fuwari-article-route-enter { animation: none; }
     }
