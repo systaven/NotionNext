@@ -15,6 +15,7 @@ import ArticleAdjacent from './components/ArticleAdjacent'
 import ArticleCopyright from './components/ArticleCopyright'
 import ArticleHeader from './components/ArticleHeader'
 import ArticleLock from './components/ArticleLock'
+import CategoryBar from './components/CategoryBar'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import ArticleHeroCover from './components/ArticleHeroCover'
@@ -180,9 +181,10 @@ const LayoutIndex = props => <LayoutPostList {...props} />
 
 const LayoutPostList = props => {
   const locale = getLocale()
-  const { category, tag } = props
+  const { category, tag, categoryOptions, postCount } = props
   return (
     <>
+      {!category && !tag && <CategoryBar categoryOptions={categoryOptions} postCount={postCount} />}
       {(category || tag) && (
         <div className='fuwari-card p-5 mb-4'>
           <p className='text-sm uppercase tracking-widest text-[var(--fuwari-muted)] mb-2'>
@@ -259,7 +261,7 @@ const LayoutSearch = props => {
   useEffect(() => {
     if (isBrowser && keyword) {
       replaceSearchResult({
-        doms: document.getElementById('posts-wrapper'),
+        doms: document.getElementById('post-list-container'),
         search: keyword,
         target: {
           element: 'span',

@@ -81,13 +81,7 @@ const PostCard = ({ post, layout }) => {
         {/* Text content details */}
         <div className={`min-w-0 flex-1 flex flex-col justify-between ${!isGrid ? 'md:pr-1' : ''}`}>
           <div>
-            <h2 className={`fuwari-post-title font-bold mb-1.5 leading-tight ${isGrid ? 'text-xl md:text-2xl line-clamp-2' : 'text-[2rem]'}`}>
-              <SmartLink href={post.href || `/${post.slug}`} className='hover:opacity-90 transition-opacity'>
-                {post.title}
-              </SmartLink>
-            </h2>
-            
-            <div className='fuwari-meta-row mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--fuwari-muted)]'>
+            <div className='fuwari-meta-row fuwari-post-meta flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2 mb-4 text-xs'>
               <SmartLink href={getArchiveHref(post.publishDay, router)} className='fuwari-meta-item flex items-center gap-1 hover:text-[var(--fuwari-primary)] transition-colors'>
                 <i className='far fa-calendar-alt text-xs' />
                 <span>{post.publishDay}</span>
@@ -105,6 +99,11 @@ const PostCard = ({ post, layout }) => {
                 </>
               )}
             </div>
+            <h2 className={`fuwari-post-title font-bold mb-1.5 leading-tight ${isGrid ? 'text-xl md:text-2xl line-clamp-2' : 'text-[2rem]'}`}>
+              <SmartLink href={post.href || `/${post.slug}`} className='hover:opacity-90 transition-opacity'>
+                {post.title}
+              </SmartLink>
+            </h2>
             
             {siteConfig('FUWARI_POST_LIST_SUMMARY', true, CONFIG) && post.summary && (
               <p className={`text-sm leading-relaxed text-[var(--fuwari-muted)] fuwari-summary mb-3 ${isGrid ? 'line-clamp-2' : 'line-clamp-3'}`}>
@@ -171,7 +170,7 @@ const PostList = ({ posts = [] }) => {
   }, [])
 
   return (
-    <div id='posts-wrapper' className={`grid gap-4 w-full min-w-0 max-w-full ${layout === 'grid' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+    <div id='post-list-container' className={`grid gap-4 w-full min-w-0 max-w-full ${layout === 'grid' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
       {posts.map(post => (
         <PostCard key={post.id} post={post} layout={layout} />
       ))}

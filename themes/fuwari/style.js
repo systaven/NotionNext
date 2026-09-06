@@ -243,6 +243,40 @@ const Style = () => {
       padding-top: 92px;
       transition: all 0.5s ease;
     }
+    #theme-fuwari .fuwari-category-bar {
+      overflow: hidden;
+    }
+    #theme-fuwari .fuwari-category-divider {
+      width: 1px;
+      align-self: stretch;
+      background: var(--fuwari-border);
+      flex: 0 0 auto;
+    }
+    #theme-fuwari .fuwari-category-scroll {
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+    #theme-fuwari .fuwari-category-scroll::-webkit-scrollbar { display: none; }
+    #theme-fuwari .fuwari-category-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .25rem;
+      white-space: nowrap;
+      flex: 0 0 auto;
+      padding: .3rem .65rem;
+      border: 1px solid var(--fuwari-border);
+      border-radius: .55rem;
+      color: var(--fuwari-muted);
+      font-size: .825rem;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+    }
+    #theme-fuwari .fuwari-category-pill:hover {
+      color: var(--fuwari-primary);
+      border-color: var(--fuwari-primary);
+      background: var(--fuwari-primary-soft);
+    }
+    #theme-fuwari .fuwari-category-pill span { font-size: .72rem; opacity: .65; }
     #theme-fuwari.fuwari-route-leaving .fuwari-hero,
     #theme-fuwari.fuwari-route-leaving main {
       animation: fuwari-route-leave 120ms cubic-bezier(.55,.055,.675,.19) both;
@@ -302,7 +336,7 @@ const Style = () => {
         padding-left: 0.75rem;
         padding-right: 0.75rem;
       }
-      #theme-fuwari #posts-wrapper > article {
+      #theme-fuwari #post-list-container > article {
         border-radius: 1rem;
       }
       #theme-fuwari .fuwari-post-title {
@@ -640,16 +674,16 @@ const Style = () => {
       color: var(--fuwari-muted);
       font-size: .8rem;
     }
-    #theme-fuwari #posts-wrapper article:hover .fuwari-readmore-rail {
+    #theme-fuwari #post-list-container article:hover .fuwari-readmore-rail {
       background: color-mix(in oklab, var(--fuwari-primary) 10%, var(--fuwari-surface));
       transform: translateX(1px);
     }
-    #theme-fuwari #posts-wrapper {
+    #theme-fuwari #post-list-container {
       width: 100%;
       max-width: 100%;
       min-width: 0;
     }
-    #theme-fuwari #posts-wrapper article {
+    #theme-fuwari #post-list-container article {
       border-radius: 1.15rem;
       max-width: 100%;
       min-width: 0;
@@ -669,7 +703,7 @@ const Style = () => {
       letter-spacing: .06em;
     }
     #theme-fuwari .fuwari-card,
-    #theme-fuwari #posts-wrapper > article {
+    #theme-fuwari #post-list-container > article {
       animation: fuwari-enter .28s ease both;
     }
     .animate-fuwari-enter {
