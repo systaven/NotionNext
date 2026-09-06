@@ -73,7 +73,7 @@ const Notice = ({ notice, locale }) => {
 }
 
 const TocCard = ({ post, locale }) => {
-  if (!siteConfig('FUWARI_ARTICLE_TOC', true, CONFIG) || post?.toc?.length <= 1) return null
+  if (!siteConfig('FUWARI_ARTICLE_TOC', true, CONFIG) || !post?.toc || post.toc.length <= 1) return null
   return <section className='fuwari-card fuwari-widget-card fuwari-toc-card p-4'><WidgetTitle>{locale?.ARTICLE?.TABLE_OF_CONTENT || '目录'}</WidgetTitle><Toc toc={post.toc} /></section>
 }
 
