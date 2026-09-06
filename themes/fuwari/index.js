@@ -146,8 +146,8 @@ const LayoutBase = props => {
       {showHomeHero && <HeroBanner {...props} />}
 
       <main
-        className={`${showRightSidebar ? 'max-w-[96rem]' : 'max-w-7xl'} mx-auto px-3 md:px-5 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'}`}>
-        <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[300px_minmax(0,1fr)_300px] md:grid-cols-[260px_minmax(0,1fr)]' : 'md:grid-cols-[300px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
+        className={`${showRightSidebar ? 'max-w-[106rem]' : 'max-w-7xl'} mx-auto px-3 md:px-5 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'}`}>
+        <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[320px_minmax(0,1fr)_320px] md:grid-cols-[280px_minmax(0,1fr)]' : 'md:grid-cols-[320px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
           <div className='hidden md:block sticky top-4 self-start'>
             <SidePanel {...props} isLeft={threeColumns} />
           </div>
@@ -155,7 +155,7 @@ const LayoutBase = props => {
           <section className='min-w-0 w-full max-w-full'>
             {children}
             <div className='md:hidden mt-4'>
-              <SidePanel {...props} />
+              <SidePanel {...props} mobile />
             </div>
           </section>
 

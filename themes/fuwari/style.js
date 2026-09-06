@@ -109,6 +109,28 @@ const Style = () => {
     #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img {
       transform: scale(1.03);
     }
+    #theme-fuwari .fuwari-widget-title {
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    #theme-fuwari .fuwari-category-item {
+      color: var(--fuwari-text);
+      transition: background-color .18s ease, color .18s ease;
+    }
+    #theme-fuwari .fuwari-category-item:hover {
+      color: var(--fuwari-primary);
+      background: var(--fuwari-primary-soft);
+    }
+    #theme-fuwari .fuwari-category-count {
+      min-width: 1.45rem;
+      padding: .08rem .38rem;
+      border-radius: 999px;
+      color: var(--fuwari-muted);
+      background: var(--fuwari-bg-soft);
+      font-size: .72rem;
+      text-align: center;
+    }
+    #theme-fuwari .fuwari-profile-greeting { cursor: pointer; }
 
     #theme-fuwari .fuwari-link {
       color: var(--fuwari-primary);
@@ -764,6 +786,21 @@ const Style = () => {
       #theme-fuwari.fuwari-route-leaving main,
       #theme-fuwari.fuwari-route-entering .fuwari-hero,
       #theme-fuwari.fuwari-route-entering main { animation: none; }
+    }
+    @media (hover: none), (max-width: 768px) {
+      #theme-fuwari .fuwari-card-hover:hover,
+      #theme-fuwari .fuwari-card-hover:active {
+        transform: none;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      }
+      #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img,
+      #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb img {
+        transform: none;
+        filter: none;
+      }
+      #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-overlay { opacity: 0; }
+      #theme-fuwari .fuwari-sidebar-mobile { display: grid; grid-template-columns: 1fr; }
+      #theme-fuwari .fuwari-sidebar-mobile .fuwari-card { border-radius: 1rem; }
     }
 
       ${themeConsoleStyle('fuwari', CONFIG)}

@@ -98,6 +98,12 @@ const PostCard = ({ post, layout }) => {
                   )}
                 </>
               )}
+              {post.wordCount > 0 && (
+                <span className='fuwari-meta-item flex items-center gap-1'>
+                  <i className='far fa-file-alt text-xs' aria-hidden='true' />
+                  <span>{post.wordCount} 字</span>
+                </span>
+              )}
             </div>
             <h2 className={`fuwari-post-title font-bold mb-1.5 leading-tight ${isGrid ? 'text-xl md:text-2xl line-clamp-2' : 'text-[2rem]'}`}>
               <SmartLink href={post.href || `/${post.slug}`} className='hover:opacity-90 transition-opacity'>

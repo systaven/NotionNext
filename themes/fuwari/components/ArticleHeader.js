@@ -52,6 +52,15 @@ const ArticleHeader = ({ post }) => {
               </SmartLink>
             </>
           )}
+          {post.wordCount > 0 && (
+            <>
+              <span>·</span>
+              <span className='fuwari-meta-item flex items-center gap-1'>
+                <i className='far fa-file-alt' aria-hidden='true' />
+                <span>{post.wordCount} 字</span>
+              </span>
+            </>
+          )}
           {!!post.tagItems?.length && (
             <>
               <span>·</span>
