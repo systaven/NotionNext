@@ -105,23 +105,25 @@ const Style = () => {
       opacity: 1;
       transform: scale(1);
     }
-    /* 资料卡是导航入口，不使用悬停遮罩或缩放，以免遮住头像和下方内容。 */
-    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb,
-    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb img {
-      transform: none;
-      filter: none;
-    }
-    #theme-fuwari .fuwari-profile-overlay,
-    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-overlay {
-      display: none;
-    }
-
     #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img {
       transform: scale(1.03);
     }
     #theme-fuwari .fuwari-widget-title {
-      text-transform: uppercase;
-      letter-spacing: .08em;
+      position: relative;
+      padding-left: 1rem;
+      font-size: 1rem;
+      letter-spacing: 0;
+      color: var(--fuwari-text);
+    }
+    #theme-fuwari .fuwari-widget-title::before {
+      position: absolute;
+      left: 0;
+      top: .2rem;
+      width: .24rem;
+      height: 1rem;
+      border-radius: 999px;
+      background: var(--fuwari-primary);
+      content: '';
     }
     #theme-fuwari .fuwari-category-item {
       color: var(--fuwari-text);
@@ -129,18 +131,24 @@ const Style = () => {
     }
     #theme-fuwari .fuwari-category-item:hover {
       color: var(--fuwari-primary);
-      background: var(--fuwari-primary-soft);
+      background: color-mix(in oklab, var(--fuwari-primary-soft) 72%, transparent);
+      padding-left: .8rem;
     }
     #theme-fuwari .fuwari-category-count {
       min-width: 1.45rem;
-      padding: .08rem .38rem;
-      border-radius: 999px;
-      color: var(--fuwari-muted);
-      background: var(--fuwari-bg-soft);
-      font-size: .72rem;
+      padding: .22rem .55rem;
+      border-radius: .55rem;
+      color: var(--fuwari-primary);
+      background: var(--fuwari-primary-soft);
+      font-size: .76rem;
+      font-weight: 700;
       text-align: center;
     }
     #theme-fuwari .fuwari-profile-greeting { cursor: pointer; }
+    #theme-fuwari .fuwari-sidebar-sticky {
+      position: sticky;
+      top: 5rem;
+    }
 
     #theme-fuwari .fuwari-link {
       color: var(--fuwari-primary);
@@ -306,7 +314,7 @@ const Style = () => {
     #theme-fuwari .fuwari-category-pill:hover {
       color: var(--fuwari-primary);
       border-color: var(--fuwari-primary);
-      background: var(--fuwari-primary-soft);
+      background: transparent;
     }
     #theme-fuwari .fuwari-category-pill span { font-size: .72rem; opacity: .65; }
     #theme-fuwari.fuwari-route-leaving .fuwari-hero,
@@ -437,13 +445,22 @@ const Style = () => {
     }
 
     #theme-fuwari .fuwari-chip {
-      background: var(--fuwari-bg-soft);
+      display: inline-flex;
+      align-items: center;
+      min-height: 2rem;
       border: 1px solid var(--fuwari-border);
-      border-radius: 999px;
+      border-radius: .55rem;
       color: var(--fuwari-muted);
-      font-size: 12px;
+      background: transparent;
+      font-size: .82rem;
       line-height: 1;
-      padding: 0.45rem 0.75rem;
+      padding: .45rem .7rem;
+      transition: color .18s ease, border-color .18s ease, background-color .18s ease;
+    }
+    #theme-fuwari .fuwari-chip:hover {
+      color: var(--fuwari-primary);
+      border-color: var(--fuwari-primary);
+      background: transparent;
     }
 
     #theme-fuwari .fuwari-title-gradient {
@@ -461,8 +478,31 @@ const Style = () => {
       font-size: 1rem;
     }
 
-    #theme-fuwari .catalog-item span {
+    #theme-fuwari .catalog-item {
+      position: relative;
+      padding-left: 1rem;
+      border-radius: .5rem;
       color: var(--fuwari-muted);
+    }
+    #theme-fuwari .catalog-item::before {
+      position: absolute;
+      top: 50%;
+      left: .15rem;
+      width: .38rem;
+      height: .38rem;
+      border-radius: 999px;
+      background: color-mix(in oklab, var(--fuwari-primary) 35%, var(--fuwari-border));
+      transform: translateY(-50%);
+      content: '';
+    }
+    #theme-fuwari .catalog-item:has(.text-\[var\(--fuwari-primary\)\])::before {
+      width: .7rem;
+      height: .7rem;
+      left: 0;
+      background: var(--fuwari-primary-soft);
+    }
+    #theme-fuwari .catalog-item span {
+      color: inherit;
     }
 
     #theme-fuwari .fuwari-summary {
@@ -803,12 +843,9 @@ const Style = () => {
         transform: none;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
       }
-      #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img,
-      #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb img {
+      #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img {
         transform: none;
-        filter: none;
       }
-      #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-overlay { opacity: 0; }
       #theme-fuwari .fuwari-sidebar-mobile { display: grid; grid-template-columns: 1fr; }
       #theme-fuwari .fuwari-sidebar-mobile .fuwari-card { border-radius: 1rem; }
     }
