@@ -5,8 +5,10 @@ import { useGlobal } from '@/lib/global'
 import { useState } from 'react'
 import CONFIG from '../config'
 import SocialButton from './SocialButton'
-import Toc from './Toc'
 import MusicPlayer from './MusicPlayer'
+import DailyQuote from './DailyQuote'
+import Calendar from './Calendar'
+import Toc from './Toc'
 import dynamic from 'next/dynamic'
 
 const NotionPage = dynamic(() => import('@/components/NotionPage'))
@@ -38,16 +40,16 @@ const Notice = ({ notice, locale }) => {
   return <section className='fuwari-card fuwari-widget-card p-4'><WidgetTitle>{locale?.COMMON?.ANNOUNCEMENT || '公告'}</WidgetTitle><div id='announcement-content' className='text-sm'><NotionPage post={notice} /></div></section>
 }
 
-const SidePanel = ({ tagOptions = [], categoryOptions = [], post, notice, siteInfo, mobile = false }) => {
+const SidePanel = ({ tagOptions = [], categoryOptions = [], notice, siteInfo, post, allNavPages, mobile = false }) => {
   const { locale } = useGlobal()
   const title = siteConfig('TITLE')
   const description = siteConfig('DESCRIPTION')
   const greetings = siteConfig('FUWARI_PROFILE_GREETINGS', [], CONFIG)
   const [greetingIndex, setGreetingIndex] = useState(0)
   const avatar = siteConfig('FUWARI_AVATAR', '', CONFIG) || siteInfo?.icon
-  const showToc = !mobile && siteConfig('FUWARI_ARTICLE_TOC', true, CONFIG) && post?.toc?.length > 1
+  const showMobileToc = mobile && siteConfig('FUWARI_ARTICLE_TOC', true, CONFIG) && post?.toc?.length > 1
   const nextGreeting = () => setGreetingIndex(index => (index + 1) % greetings.length)
-  return <aside className={`fuwari-sidebar space-y-4 ${mobile ? 'fuwari-sidebar-mobile' : ''}`}><Profile avatar={avatar} title={title} description={description} greetings={greetings} greetingIndex={greetingIndex} nextGreeting={nextGreeting} /><Notice notice={notice} locale={locale} />{mobile && <MusicPlayer />}{mobile && <CategoryList categoryOptions={categoryOptions} locale={locale} />}<TagCloud tagOptions={tagOptions} locale={locale} />{showToc && <section className='fuwari-card fuwari-widget-card p-4'><WidgetTitle>{locale?.ARTICLE?.TABLE_OF_CONTENT || '目录'}</WidgetTitle><Toc toc={post.toc} /></section>}</aside>
+  return <aside className={`fuwari-sidebar space-y-4 ${mobile ? 'fuwari-sidebar-mobile' : ''}`}><Profile avatar={avatar} title={title} description={description} greetings={greetings} greetingIndex={greetingIndex} nextGreeting={nextGreeting} /><Notice notice={notice} locale={locale} />{mobile && <DailyQuote />}{mobile && <MusicPlayer />}{mobile && <Calendar allNavPages={allNavPages} />}<TagCloud tagOptions={tagOptions} locale={locale} /><CategoryList categoryOptions={categoryOptions} locale={locale} />{showMobileToc && <section className='fuwari-card fuwari-widget-card p-4'><WidgetTitle>{locale?.ARTICLE?.TABLE_OF_CONTENT || '目录'}</WidgetTitle><Toc toc={post.toc} /></section>}</aside>
 }
 
 export { CategoryList, WidgetTitle }

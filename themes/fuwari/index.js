@@ -152,12 +152,18 @@ const LayoutBase = props => {
             <SidePanel {...props} isLeft={threeColumns} />
           </div>
 
-          <section className='min-w-0 w-full max-w-full'>
+          <section className='fuwari-content-column min-w-0 w-full max-w-full'>
             {children}
             <div className='md:hidden mt-4'>
               <SidePanel {...props} mobile />
             </div>
           </section>
+
+          {showRightSidebar && (
+            <div className='hidden md:block xl:hidden md:col-span-2'>
+              <SidePanelRight {...props} />
+            </div>
+          )}
 
           {showRightSidebar && (
             <div className='hidden xl:block self-stretch'>

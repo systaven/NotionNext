@@ -5,7 +5,7 @@ import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 const Style = () => {
   return <style jsx global>{`
     #theme-fuwari {
-      --fuwari-hue: 350;
+      --fuwari-hue: 200;
       --fuwari-bg: hsl(var(--fuwari-hue), 100%, 97%);
       --fuwari-bg-soft: hsl(var(--fuwari-hue), 100%, 94%);
       --fuwari-surface: #ffffff;
@@ -104,6 +104,16 @@ const Style = () => {
     #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-overlay {
       opacity: 1;
       transform: scale(1);
+    }
+    /* 资料卡是导航入口，不使用悬停遮罩或缩放，以免遮住头像和下方内容。 */
+    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb,
+    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-thumb img {
+      transform: none;
+      filter: none;
+    }
+    #theme-fuwari .fuwari-profile-overlay,
+    #theme-fuwari .fuwari-profile-link:hover .fuwari-profile-overlay {
+      display: none;
     }
 
     #theme-fuwari .fuwari-card-hover:hover .fuwari-cover-enlarge img {
@@ -300,11 +310,11 @@ const Style = () => {
     }
     #theme-fuwari .fuwari-category-pill span { font-size: .72rem; opacity: .65; }
     #theme-fuwari.fuwari-route-leaving .fuwari-hero,
-    #theme-fuwari.fuwari-route-leaving main {
+    #theme-fuwari.fuwari-route-leaving .fuwari-content-column {
       animation: fuwari-route-leave 120ms cubic-bezier(.55,.055,.675,.19) both;
     }
     #theme-fuwari.fuwari-route-entering .fuwari-hero,
-    #theme-fuwari.fuwari-route-entering main {
+    #theme-fuwari.fuwari-route-entering .fuwari-content-column {
       animation: fuwari-route-enter 150ms cubic-bezier(.25,.46,.45,.94) both;
     }
     #theme-fuwari .fuwari-hero.hero-fullscreen {
@@ -783,9 +793,9 @@ const Style = () => {
     @media (prefers-reduced-motion: reduce) {
       #theme-fuwari .fuwari-hero-bg,
       #theme-fuwari.fuwari-route-leaving .fuwari-hero,
-      #theme-fuwari.fuwari-route-leaving main,
+      #theme-fuwari.fuwari-route-leaving .fuwari-content-column,
       #theme-fuwari.fuwari-route-entering .fuwari-hero,
-      #theme-fuwari.fuwari-route-entering main { animation: none; }
+      #theme-fuwari.fuwari-route-entering .fuwari-content-column { animation: none; }
     }
     @media (hover: none), (max-width: 768px) {
       #theme-fuwari .fuwari-card-hover:hover,

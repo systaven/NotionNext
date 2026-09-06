@@ -18,7 +18,7 @@ function hslToHex(h, s, l) {
 
 const ThemeColorSwitch = ({ onColorChange }) => {
   const enabled = siteConfig('FUWARI_WIDGET_THEME_COLOR_SWITCHER', true, CONFIG)
-  const defaultHue = siteConfig('FUWARI_THEME_COLOR_HUE', 350, CONFIG)
+  const defaultHue = siteConfig('FUWARI_THEME_COLOR_HUE', 200, CONFIG)
   const [hue, setHue] = useState(defaultHue)
   const color = useMemo(() => hslToHex(hue, 85, 62), [hue])
 
@@ -32,10 +32,10 @@ const ThemeColorSwitch = ({ onColorChange }) => {
   }
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_HUE_KEY)
-    const initialHue = stored ? parseInt(stored, 10) : defaultHue
-    setHue(initialHue)
-    applyColor(hslToHex(initialHue, 85, 62), initialHue)
+    // 主题默认色由站点配置统一控制，避免旧版本地缓存把页面恢复成粉色。
+    localStorage.removeItem(STORAGE_HUE_KEY)
+    setHue(defaultHue)
+    applyColor(hslToHex(defaultHue, 85, 62), defaultHue)
   }, [])
 
   const handleSelect = nextHue => {
@@ -89,4 +89,3 @@ const ThemeColorSwitch = ({ onColorChange }) => {
 }
 
 export default ThemeColorSwitch
-

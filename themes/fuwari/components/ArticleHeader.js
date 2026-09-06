@@ -61,6 +61,15 @@ const ArticleHeader = ({ post }) => {
               </span>
             </>
           )}
+          {post.readTime > 0 && (
+            <>
+              <span>·</span>
+              <span className='fuwari-meta-item flex items-center gap-1'>
+                <i className='far fa-clock' aria-hidden='true' />
+                <span>{post.readTime} 分钟</span>
+              </span>
+            </>
+          )}
           {!!post.tagItems?.length && (
             <>
               <span>·</span>

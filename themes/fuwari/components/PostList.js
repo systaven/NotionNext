@@ -46,6 +46,7 @@ const PostCard = ({ post, layout }) => {
   const showRail = !showCover
   const listCoverOn = siteConfig('FUWARI_POST_LIST_COVER', true, CONFIG)
   const showCoverBlock = listCoverOn && showCover
+  const wordCount = Number(post.wordCount) || String(post.summary || post.title || '').replace(/\s/g, '').length
 
   const gridTemplateColumns = (() => {
     if (showCoverBlock) {
@@ -98,10 +99,16 @@ const PostCard = ({ post, layout }) => {
                   )}
                 </>
               )}
-              {post.wordCount > 0 && (
+              {wordCount > 0 && (
                 <span className='fuwari-meta-item flex items-center gap-1'>
                   <i className='far fa-file-alt text-xs' aria-hidden='true' />
-                  <span>{post.wordCount} 字</span>
+                  <span>{wordCount} 字</span>
+                </span>
+              )}
+              {post.readTime > 0 && (
+                <span className='fuwari-meta-item flex items-center gap-1'>
+                  <i className='far fa-clock text-xs' aria-hidden='true' />
+                  <span>{post.readTime} 分钟</span>
                 </span>
               )}
             </div>

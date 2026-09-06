@@ -16,6 +16,12 @@ const MusicPlayer = () => {
   const metingType = 'playlist'
   const autoPlay = JSON.parse(siteConfig('MUSIC_PLAYER_AUTO_PLAY', 'false'))
   const musicMetingEnable = siteConfig('MUSIC_PLAYER_METING', true)
+  const fallbackPlaylist = [{
+    name: 'SoundHelix Song 1',
+    artist: 'SoundHelix',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    cover: '/favicon.png'
+  }]
 
   const [playlist, setPlaylist] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -312,7 +318,23 @@ const MusicPlayer = () => {
         }
       }
     } else {
-      showErrorMessage('本地播放列表为空')
+      // Notion 配置为空时仍给播放器一首可播放的兜底曲目，避免永久 Loading。
+      const fallback = fallbackPlaylist.map((song, index) => ({
+        id: `fallback-${index}`,
+        title: song.name,
+        artist: song.artist,
+        cover: song.cover,
+        url: song.url,
+        duration: 0
+      }))
+      setPlaylist(fallback)
+      setCurrentSong(fallback[0])
+      setCurrentIndex(0)
+      const audio = audioRef.current
+      if (audio) {
+        audio.src = fallback[0].url
+        audio.load()
+      }
     }
   }
 

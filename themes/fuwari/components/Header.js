@@ -46,9 +46,9 @@ const Header = ({ locale, customNav, customMenu, searchModal, siteInfo }) => {
   }, [showPalette])
 
   return (
-    <header className={`${threeColumns ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-4 pt-0 pb-3 sticky top-0 z-40`}>
-      <div className='fuwari-card fuwari-navbar relative px-4 py-2.5 flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]'>
-        <SmartLink href='/' className='text-[1.35rem] md:text-[1.45rem] font-bold fuwari-title-gradient text-left flex items-center shrink-0'>
+    <header className={`${threeColumns ? 'max-w-[106rem]' : 'max-w-6xl'} mx-auto px-3 md:px-4 pt-0 pb-3 sticky top-0 z-40`}>
+      <div className='fuwari-card fuwari-navbar relative px-3 md:px-4 py-2.5 flex items-center justify-between xl:grid xl:grid-cols-[auto_minmax(0,1fr)_auto]'>
+        <SmartLink href='/' className='text-[1.2rem] md:text-[1.35rem] font-bold fuwari-title-gradient text-left flex items-center shrink-0 whitespace-nowrap'>
           {siteInfo?.icon && (
             <img
               src={siteInfo.icon}
@@ -60,8 +60,8 @@ const Header = ({ locale, customNav, customMenu, searchModal, siteInfo }) => {
           )}
           {siteConfig('TITLE')}
         </SmartLink>
-        <MenuList locale={locale} customNav={customNav} customMenu={customMenu} />
-        <div className='hidden md:flex items-center justify-end gap-2 relative'>
+        <div className='hidden xl:block min-w-0'><MenuList locale={locale} customNav={customNav} customMenu={customMenu} /></div>
+        <div className='hidden xl:flex items-center justify-end gap-2 relative'>
           {algoliaEnabled ? (
             <button type='button' onClick={handleSearch} className='fuwari-tool-btn'>
               <i className='fas fa-search' />
@@ -85,7 +85,7 @@ const Header = ({ locale, customNav, customMenu, searchModal, siteInfo }) => {
           </button>
           <ClerkAuthControls />
         </div>
-        <div className='md:hidden flex items-center justify-end gap-2 relative'>
+        <div className='xl:hidden flex items-center justify-end gap-2 relative'>
           {algoliaEnabled ? (
             <button type='button' onClick={handleSearch} className='fuwari-tool-btn'>
               <i className='fas fa-search' />
