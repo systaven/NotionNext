@@ -5,7 +5,7 @@ import { themeConsoleStyle } from '@/lib/themeConsoleStyle'
 const Style = () => {
   return <style jsx global>{`
     #theme-fuwari {
-      --fuwari-hue: 200;
+      --fuwari-hue: 350;
       --fuwari-bg: hsl(var(--fuwari-hue), 100%, 97%);
       --fuwari-bg-soft: hsl(var(--fuwari-hue), 100%, 94%);
       --fuwari-surface: #ffffff;
@@ -250,18 +250,6 @@ const Style = () => {
     #theme-fuwari .fuwari-hero.hero-none {
       display: none;
     }
-    #theme-fuwari .fuwari-hero-leaving {
-      animation: fuwari-hero-leave .16s ease-in both;
-      will-change: opacity, transform;
-    }
-    #theme-fuwari .fuwari-hero-entering {
-      animation: fuwari-hero-enter .18s ease-out both;
-      will-change: transform;
-    }
-    #theme-fuwari .fuwari-article-route-enter {
-      animation: fuwari-article-route-enter .18s ease-out both;
-      will-change: transform;
-    }
     /* 全屏布局下的卡片透明度 */
     .fuwari-fullscreen-layout .fuwari-card {
       background-color: rgba(255, 255, 255, 0.45) !important;
@@ -281,6 +269,11 @@ const Style = () => {
       background-color: rgba(0, 0, 0, 0.35) !important;
     }
     @media (max-width: 768px) {
+      /* 移动端由浏览器原生滚动和导航承担操作；浮动工具在部分 WebView 中
+         会落在手势层下方，因此不渲染不可点击的按钮。 */
+      #theme-fuwari .fuwari-float-wrap {
+        display: none;
+      }
       #theme-fuwari .fuwari-hero {
         min-height: 26vh;
         max-height: 36vh;
@@ -319,8 +312,9 @@ const Style = () => {
       inset: 0;
       background-size: cover;
       background-position: center;
-      transform: scale(1.01);
+      transform: scale(1.03);
       filter: saturate(1.05);
+      animation: fuwari-hero-ken-burns 8s ease-out both;
     }
     #theme-fuwari .fuwari-hero-mask {
       position: absolute;
@@ -711,20 +705,12 @@ const Style = () => {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
-    @keyframes fuwari-hero-leave {
-      to { opacity: 0; transform: translateY(-8px); }
-    }
-    @keyframes fuwari-hero-enter {
-      from { transform: translateY(6px); }
-      to { transform: none; }
-    }
-    @keyframes fuwari-article-route-enter {
-      from { transform: translateY(6px); }
-      to { transform: none; }
+    @keyframes fuwari-hero-ken-burns {
+      from { transform: scale(1.03); }
+      to { transform: scale(1.1); }
     }
     @media (prefers-reduced-motion: reduce) {
-      #theme-fuwari .fuwari-hero-entering,
-      #theme-fuwari .fuwari-article-route-enter { animation: none; }
+      #theme-fuwari .fuwari-hero-bg { animation: none; }
     }
 
       ${themeConsoleStyle('fuwari', CONFIG)}

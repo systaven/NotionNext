@@ -1,13 +1,11 @@
 import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
-import { useRouter } from 'next/router'
 import { useEffect, useState, useMemo } from 'react'
 import CONFIG from '../config'
 import WavesArea from './WavesArea'
 
 const HeroBanner = (props) => {
-  const { siteInfo, allNavPages, post, leaving = false, entering = false } = props
-  const router = useRouter()
+  const { siteInfo, post } = props
   const isPostPage = !!post
 
   // 获取打字机相关配置
@@ -84,10 +82,27 @@ const HeroBanner = (props) => {
     }
   }, [strings, isPostPage, speed, deleteSpeed, pauseTime])
 
-  // 整理当前页面所需的背景图片
-  const cover = isPostPage
+  if (!siteConfig('FUWARI_HERO_ENABLE', true, CONFIG)) return null
+
+  const fallbackCover = isPostPage
     ? (post.pageCover || post.pageCoverThumbnail || siteConfig('FUWARI_HERO_BG_IMAGE', '', CONFIG) || siteConfig('HOME_BANNER_IMAGE'))
     : (siteInfo?.pageCover || siteConfig('FUWARI_HERO_BG_IMAGE', '', CONFIG) || siteConfig('HOME_BANNER_IMAGE'))
+  const configuredImages = siteConfig('FUWARI_HERO_IMAGES', [], CONFIG)
+  const images = useMemo(() => {
+    if (isPostPage) return [fallbackCover].filter(Boolean)
+    const list = Array.isArray(configuredImages) ? configuredImages : [configuredImages]
+    return [...list, fallbackCover].filter(Boolean)
+  }, [configuredImages, fallbackCover, isPostPage])
+  const [imageIndex, setImageIndex] = useState(0)
+  const cover = images[imageIndex % Math.max(images.length, 1)] || ''
+
+  useEffect(() => {
+    setImageIndex(0)
+    if (images.length < 2 || isPostPage) return undefined
+    const interval = Math.max(3, Number(siteConfig('FUWARI_HERO_CAROUSEL_INTERVAL', 7, CONFIG)) || 7) * 1000
+    const timer = window.setInterval(() => setImageIndex(index => (index + 1) % images.length), interval)
+    return () => window.clearInterval(timer)
+  }, [images, isPostPage])
 
   // 背景图片平滑淡入淡出（实现类似 Astro Mizuki 路由切换时的横幅渐变过渡效果，双层交替以彻底解决二次切换无动画或闪现的 bug）
   const [bgImage1, setBgImage1] = useState(cover)
@@ -114,14 +129,10 @@ const HeroBanner = (props) => {
 
   const title2 = siteConfig('HEO_HERO_TITLE_2', null, CONFIG)
   const title3 = siteConfig('HEO_HERO_TITLE_3', null, CONFIG)
-  const title4 = siteConfig('HEO_HERO_TITLE_4', null, CONFIG)
-  const title5 = siteConfig('HEO_HERO_TITLE_5', null, CONFIG)
   const heroStyle = siteConfig('FUWARI_HERO_STYLE', 'banner', CONFIG)
 
-  if (!siteConfig('FUWARI_HERO_ENABLE', true, CONFIG)) return null
-
   return (
-    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle} ${leaving ? 'fuwari-hero-leaving' : ''} ${entering ? 'fuwari-hero-entering' : ''}`}>
+    <section className={`fuwari-hero mb-4 overflow-hidden hero-${heroStyle}`}>
       <style dangerouslySetInnerHTML={{ __html: `
         .fuwari-typewriter-cursor {
           animation: fuwari-blink 0.9s infinite;

@@ -32,7 +32,6 @@ const getArchiveHref = (publishDay, router) => {
 const PostCard = ({ post, layout }) => {
   const router = useRouter()
   const isGrid = layout === 'grid'
-  const postHref = post.href || `/${post.slug}`
 
   const coverColPx = Math.min(
     360,
@@ -65,7 +64,7 @@ const PostCard = ({ post, layout }) => {
         {/* Cover Image for Grid Mode (renders at top) */}
         {showCoverBlock && isGrid && (
           <div className='w-full aspect-[2/1] rounded-xl overflow-hidden mb-3.5 shrink-0'>
-            <SmartLink href={postHref}>
+            <SmartLink href={post.href || `/${post.slug}`}>
               <div
                 className={`fuwari-cover-wrap h-full ${siteConfig('FUWARI_POST_LIST_COVER_HOVER_ENLARGE', true, CONFIG) ? 'fuwari-cover-enlarge' : ''}`}>
                 <img
@@ -83,7 +82,7 @@ const PostCard = ({ post, layout }) => {
         <div className={`min-w-0 flex-1 flex flex-col justify-between ${!isGrid ? 'md:pr-1' : ''}`}>
           <div>
             <h2 className={`fuwari-post-title font-bold mb-1.5 leading-tight ${isGrid ? 'text-xl md:text-2xl line-clamp-2' : 'text-[2rem]'}`}>
-              <SmartLink href={postHref} className='hover:opacity-90 transition-opacity'>
+              <SmartLink href={post.href || `/${post.slug}`} className='hover:opacity-90 transition-opacity'>
                 {post.title}
               </SmartLink>
             </h2>
@@ -133,7 +132,7 @@ const PostCard = ({ post, layout }) => {
         {/* Cover Image for List Mode (renders at right on desktop) */}
         {showCoverBlock && !isGrid && (
           <div className='mt-4 md:mt-0'>
-            <SmartLink href={postHref}>
+            <SmartLink href={post.href || `/${post.slug}`}>
               <div
                 className={`fuwari-cover-wrap h-full ${siteConfig('FUWARI_POST_LIST_COVER_HOVER_ENLARGE', true, CONFIG) ? 'fuwari-cover-enlarge' : ''}`}>
                 <img
@@ -148,7 +147,7 @@ const PostCard = ({ post, layout }) => {
         )}
 
         {!isGrid && showRail && (
-          <SmartLink href={postHref} className='hidden md:flex fuwari-readmore-rail'>
+          <SmartLink href={post.href || `/${post.slug}`} className='hidden md:flex fuwari-readmore-rail'>
             <i className='fas fa-chevron-right' />
           </SmartLink>
         )}

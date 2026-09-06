@@ -6,7 +6,7 @@ const ArticleHeroCover = ({ coverSrc, title }) => {
 
   return (
     <div className='fuwari-article-card-cover mb-6 min-w-0 w-full'>
-      <div className='relative h-[120px] w-full overflow-hidden sm:h-[150px] md:h-[180px]'>
+      <div className='relative h-[200px] w-full overflow-hidden sm:h-[240px] md:h-[260px]'>
         <img
           src={coverSrc}
           alt={title ? `封面：${title}` : ''}

@@ -59,6 +59,10 @@ const CONFIG = {
   FUWARI_HERO_STYLE: 'banner',
   /** 自定义背景图 URL；留空则用 Notion 站点封面或 HOME_BANNER_IMAGE */
   FUWARI_HERO_BG_IMAGE: '',
+  /** Mizuki 风格首页轮播图；留空时仍使用站点封面或 FUWARI_HERO_BG_IMAGE */
+  FUWARI_HERO_IMAGES: [],
+  /** 轮播间隔（秒），最小 3 秒 */
+  FUWARI_HERO_CAROUSEL_INTERVAL: 7,
   /** 右下角署名文案；留空不显示 */
   FUWARI_HERO_CREDIT_TEXT: '',
   /** 署名链接 */
@@ -99,8 +103,8 @@ const CONFIG = {
   FUWARI_WIDGET_ANALYTICS: true,
   /** 顶栏调色板内的色相滑块等；false 时展开调色板无控件 */
   FUWARI_WIDGET_THEME_COLOR_SWITCHER: true,
-  /** 默认品牌色相 0–360，200 为蓝色 */
-  FUWARI_THEME_COLOR_HUE: 200,
+  /** 默认品牌色相 0–360 (HEO 风格推荐 350 左右) */
+  FUWARI_THEME_COLOR_HUE: 350,
   /** true：隐藏顶栏调色盘按钮，无法在站内改色相 */
   FUWARI_THEME_COLOR_FIXED: false,
   /** 文章页右侧浮动区：跳转评论区按钮 */
@@ -164,14 +168,12 @@ const CONFIG = {
   FUWARI_EFFECT_LENIS: false,
   /** 自定义光标圆点 */
   FUWARI_EFFECT_CURSOR_DOT: true,
-  /** 从首页打开文章时，显示横幅离场与文章入场过渡 */
-  FUWARI_EFFECT_ARTICLE_TRANSITION: true,
 
   // ---------------------------------------------------------------------------
   // 文章页
   // ---------------------------------------------------------------------------
-  /** 详情页卡片内展示短封面；无文章封面时沿用站点背景图 */
-  FUWARI_ARTICLE_COVER_HERO: true,
+  /** 有 Notion 封面时，在详情页文章卡片内顶部展示封面图（object-cover，不占满屏） */
+  FUWARI_ARTICLE_COVER_HERO: false,
   /** 文首：日期、分类、标签等元信息 */
   FUWARI_ARTICLE_META: true,
   /** 分享条 */

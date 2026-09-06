@@ -42,6 +42,7 @@ const Lenis = dynamic(() => import('@/components/Lenis'), { ssr: false })
 const CursorDot = dynamic(() => import('@/components/CursorDot'), { ssr: false })
 const Live2D = dynamic(() => import('@/components/Live2D'), { ssr: false })
 const getLocale = () => generateLocaleDict(siteConfig('LANG', 'zh-CN'))
+
 const LayoutBase = props => {
   const { children } = props
   const locale = getLocale()
@@ -76,7 +77,6 @@ const LayoutBase = props => {
   const showHomeHero =
     !props.post &&
     (router.pathname === '/' || router.pathname === '/page/[page]') &&
-    siteConfig('FUWARI_HERO_ENABLE', true, CONFIG) &&
     heroStyle === 'banner'
   const threeColumns = siteConfig('FUWARI_LAYOUT_THREE_COLUMNS', true, CONFIG)
   const showRightSidebar = threeColumns && postListLayout !== 'grid'
@@ -98,18 +98,11 @@ const LayoutBase = props => {
       />
       <AlgoliaSearchModal cRef={searchModal} {...props} />
 
-      {showHomeHero && (
-        <HeroBanner
-          key={router.asPath}
-          {...props}
-          entering={siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG)}
-        />
-      )}
+      {showHomeHero && <HeroBanner {...props} />}
 
       <main
-        key={router.asPath}
-        className={`${showRightSidebar ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-3 md:px-4 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'} ${props.post && siteConfig('FUWARI_EFFECT_ARTICLE_TRANSITION', true, CONFIG) ? 'fuwari-article-route-enter' : ''}`}>
-        <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[280px_minmax(0,1fr)_280px] md:grid-cols-[240px_minmax(0,1fr)]' : 'md:grid-cols-[280px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
+        className={`${showRightSidebar ? 'max-w-[96rem]' : 'max-w-7xl'} mx-auto px-3 md:px-5 pb-12 min-w-0 w-full ${showHomeHero ? 'fuwari-main-overlap' : 'pt-4 md:pt-8'}`}>
+        <div className={`grid grid-cols-1 ${showRightSidebar ? 'xl:grid-cols-[300px_minmax(0,1fr)_300px] md:grid-cols-[260px_minmax(0,1fr)]' : 'md:grid-cols-[300px_minmax(0,1fr)]'} gap-4 lg:gap-6 min-w-0`}>
           <div className='hidden md:block sticky top-4 self-start'>
             <SidePanel {...props} isLeft={threeColumns} />
           </div>
@@ -175,9 +168,7 @@ const LayoutSlug = props => {
     post?.comment !== 'Hide'
   const articleCoverSrc =
     siteConfig('FUWARI_ARTICLE_COVER_HERO', true, CONFIG) &&
-    (post.pageCover || post.pageCoverThumbnail ||
-      siteConfig('FUWARI_HERO_BG_IMAGE', '', CONFIG) ||
-      props.siteInfo?.pageCover || siteConfig('HOME_BANNER_IMAGE'))
+    (post.pageCover || post.pageCoverThumbnail)
   return (
     <>
       {lock ? (

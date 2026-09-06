@@ -156,7 +156,7 @@ export const THEME_SWITCH_MANIFEST = {
     name: 'Fuwari',
     summary: '日系轻量双栏与主题色板。',
     palette: [
-      { key: 'FUWARI_THEME_COLOR_HUE', cssVar: '--fuwari-primary', label: '主色色相', defaultValue: '#4cbaf0' }
+      { key: 'FUWARI_THEME_COLOR_HUE', cssVar: '--fuwari-primary', label: '主色色相', defaultValue: '#b8a320' }
     ]
   },
   fukasawa: {

@@ -3,36 +3,24 @@
 import FontFaceObserver from 'fontfaceobserver'
 import { useEffect } from 'react'
 
-const FONT_READY_CLASS = 'font-wenkai-ready'
-const FONT_TRANSITION_CLASS = 'font-wenkai-transition'
-
-/**
- * Keep the system stack visible while the first local font slice arrives.
- * Font Face Observer verifies the face with Latin glyphs from the small base
- * slice; page-specific CJK slices remain browser-managed through unicode-range.
- */
 const FontLoader = () => {
   useEffect(() => {
     const root = document.documentElement
-    const font = new FontFaceObserver('LXGW WenKai', { weight: 400 })
-    let transitionTimer
+    const observer = new FontFaceObserver('ChillRound', { weight: 400 })
+    let timer
 
-    font.load('BESbwy', 5000)
+    observer.load('Mizuki', 5000)
       .then(() => {
-        root.classList.add(FONT_TRANSITION_CLASS, FONT_READY_CLASS)
-        transitionTimer = window.setTimeout(() => {
-          root.classList.remove(FONT_TRANSITION_CLASS)
+        root.classList.add('font-chillround-ready', 'font-chillround-transition')
+        timer = window.setTimeout(() => {
+          root.classList.remove('font-chillround-transition')
         }, 180)
       })
       .catch(() => {
-        // Keep the system font if the connection is too slow or the font fails.
-        root.classList.remove(FONT_TRANSITION_CLASS, FONT_READY_CLASS)
+        root.classList.remove('font-chillround-ready', 'font-chillround-transition')
       })
 
-    return () => {
-      window.clearTimeout(transitionTimer)
-      root.classList.remove(FONT_TRANSITION_CLASS)
-    }
+    return () => window.clearTimeout(timer)
   }, [])
 
   return null

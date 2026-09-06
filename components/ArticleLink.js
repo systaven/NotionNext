@@ -7,7 +7,6 @@ import {
   mergeRelValues
 } from '@/lib/utils/externalLink'
 import { siteConfig } from '@/lib/config'
-import { getFaviconServiceUrl } from '@/lib/utils/linkPreview'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -31,6 +30,15 @@ const getUrlString = href => {
     return href.pathname
   }
   return ''
+}
+
+const getFallbackFavicon = href => {
+  try {
+    const url = new URL(href)
+    return `${url.origin}/favicon.ico`
+  } catch {
+    return null
+  }
 }
 
 const buildPreviewPosition = rect => {
@@ -91,8 +99,10 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
     ? mergeRelValues(rest.rel, 'noopener noreferrer nofollow external')
     : rest.rel
   const favicon = useMemo(() => {
-    return isExternal ? getFaviconServiceUrl(urlString) : null
-  }, [isExternal, urlString])
+    if (preview?.favicon) return preview.favicon
+    if (isExternal) return getFallbackFavicon(urlString)
+    return null
+  }, [preview?.favicon, isExternal, urlString])
 
   useEffect(() => {
     if (!open || !shouldShowPreview || !anchorRef.current) return
@@ -146,7 +156,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
             title: null,
             description: null,
             image: null,
-            favicon: getFaviconServiceUrl(urlString),
+            favicon: getFallbackFavicon(urlString),
             siteName: null,
             url: urlString
           }
