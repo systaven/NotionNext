@@ -33,7 +33,7 @@ const ArticleHeader = ({ post }) => {
   if (!post) return null
 
   return (
-    <header className='mb-6'>
+    <header id='fuwari-article-title' className='mb-6 scroll-mt-24'>
       <h1 className='text-3xl lg:text-4xl font-bold mb-3 leading-tight'>{post.title}</h1>
       {siteConfig('FUWARI_ARTICLE_META', true, CONFIG) && (
         <div className='text-sm text-[var(--fuwari-muted)] flex flex-wrap items-center gap-2'>

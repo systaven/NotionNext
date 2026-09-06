@@ -50,6 +50,7 @@ const LayoutBase = props => {
   const router = useRouter()
   const [heroStyle, setHeroStyle] = useState(siteConfig('FUWARI_HERO_STYLE', 'banner', CONFIG))
   const [postListLayout, setPostListLayout] = useState('list')
+  const autoScrolledArticle = useRef('')
 
   useEffect(() => {
     // 加载初始状态
@@ -74,9 +75,25 @@ const LayoutBase = props => {
     }
   }, [])
 
+  useEffect(() => {
+    if (!props.post || autoScrolledArticle.current === router.asPath) return
+
+    const scrollToTitle = () => {
+      const title = document.getElementById('fuwari-article-title')
+      if (!title) return
+      autoScrolledArticle.current = router.asPath
+      window.scrollTo({
+        top: Math.max(0, title.getBoundingClientRect().top + window.scrollY - 88),
+        behavior: 'auto'
+      })
+    }
+
+    const frame = window.requestAnimationFrame(scrollToTitle)
+    return () => window.cancelAnimationFrame(frame)
+  }, [props.post, router.asPath])
+
   const showHomeHero =
-    !props.post &&
-    (router.pathname === '/' || router.pathname === '/page/[page]') &&
+    (router.pathname === '/' || router.pathname === '/page/[page]' || props.post) &&
     heroStyle === 'banner'
   const threeColumns = siteConfig('FUWARI_LAYOUT_THREE_COLUMNS', true, CONFIG)
   const showRightSidebar = threeColumns && postListLayout !== 'grid'
