@@ -69,12 +69,16 @@ const CONFIG = {
   FUWARI_HERO_CREDIT_LINK: '',
 
   // HEO 风格标题适配
-  HEO_HERO_TITLE_1: '分享事情',
+  HEO_HERO_TITLE_1: '清河小屋',
   HEO_HERO_TITLE_2: 'To look up future',
   HEO_HERO_TITLE_3: 'Stavmb',
   HEO_HERO_TITLE_4: '点击进入',
   HEO_HERO_TITLE_5: '神奇的小房间',
   HEO_HERO_TITLE_LINK: 'https://blog.vachiika.me/',
+  /** Mizuki 风格打字机：较慢输入，完整停留后再切换下一句 */
+  FUWARI_HERO_TYPEWRITER_SPEED: 135,
+  FUWARI_HERO_TYPEWRITER_DELETE_SPEED: 85,
+  FUWARI_HERO_TYPEWRITER_PAUSE_TIME: 3600,
 
   // ---------------------------------------------------------------------------
   // 侧栏（SidePanel）小部件

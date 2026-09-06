@@ -22,9 +22,9 @@ const HeroBanner = (props) => {
       ?.map(s => s.trim())
       ?.filter(Boolean) || []
 
-    let rawStrings = (title2 || title3)
-      ? [`${title2 || ''} ${title3 || ''}`.trim()]
-      : greetings
+    const rawStrings = greetings.length > 0
+      ? greetings
+      : [`${title2 || ''} ${title3 || ''}`.trim()].filter(Boolean)
 
     return rawStrings
   }, [])
@@ -170,7 +170,7 @@ const HeroBanner = (props) => {
 
       <div className='max-w-6xl mx-auto px-6 h-full flex flex-col justify-center items-center text-center relative z-10 text-white'>
         <div className='space-y-2 animate-fuwari-enter flex flex-col items-center justify-center w-full pt-10 md:pt-16'>
-          {displayTitle1 && <div className='text-sm font-bold opacity-90 text-center'>{displayTitle1}</div>}
+          {displayTitle1 && <div className='text-lg md:text-xl font-semibold tracking-wide opacity-95 text-center'>{displayTitle1}</div>}
           {isPostPage ? (
             <h1 className='text-3xl md:text-4xl font-extrabold tracking-tight text-center'>
               {post.title}
