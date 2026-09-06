@@ -50,7 +50,9 @@ const LayoutBase = props => {
   const router = useRouter()
   const [heroStyle, setHeroStyle] = useState(siteConfig('FUWARI_HERO_STYLE', 'banner', CONFIG))
   const [postListLayout, setPostListLayout] = useState('list')
+  const [routePhase, setRoutePhase] = useState('idle')
   const autoScrolledArticle = useRef('')
+  const routeTimer = useRef(null)
 
   useEffect(() => {
     // 加载初始状态
@@ -74,6 +76,31 @@ const LayoutBase = props => {
       window.removeEventListener('fuwari-post-list-layout-change', handleLayoutChange)
     }
   }, [])
+
+  useEffect(() => {
+    const clearRoutePhase = () => {
+      window.clearTimeout(routeTimer.current)
+      setRoutePhase('idle')
+    }
+    const leaveRoute = () => {
+      window.clearTimeout(routeTimer.current)
+      setRoutePhase('leaving')
+    }
+    const enterRoute = () => {
+      setRoutePhase('entering')
+      routeTimer.current = window.setTimeout(clearRoutePhase, 150)
+    }
+
+    router.events.on('routeChangeStart', leaveRoute)
+    router.events.on('routeChangeComplete', enterRoute)
+    router.events.on('routeChangeError', clearRoutePhase)
+    return () => {
+      window.clearTimeout(routeTimer.current)
+      router.events.off('routeChangeStart', leaveRoute)
+      router.events.off('routeChangeComplete', enterRoute)
+      router.events.off('routeChangeError', clearRoutePhase)
+    }
+  }, [router.events])
 
   useEffect(() => {
     if (!props.post || autoScrolledArticle.current === router.asPath) return
@@ -101,7 +128,7 @@ const LayoutBase = props => {
   return (
     <div
       id='theme-fuwari'
-      className={`${siteConfig('FONT_STYLE')} fuwari-bg min-h-screen text-[var(--fuwari-text)] ${heroStyle === 'fullscreen' ? 'fuwari-fullscreen-layout' : ''}`}>
+      className={`${siteConfig('FONT_STYLE')} fuwari-bg min-h-screen text-[var(--fuwari-text)] ${heroStyle === 'fullscreen' ? 'fuwari-fullscreen-layout' : ''} ${routePhase === 'leaving' ? 'fuwari-route-leaving' : ''} ${routePhase === 'entering' ? 'fuwari-route-entering' : ''}`}>
       <Style />
       <FullscreenWallpaper {...props} />
       {!siteConfig('FUWARI_EFFECT_CURSOR_DOT', false, CONFIG) && <CursorFollower />}

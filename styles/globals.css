@@ -1,20 +1,28 @@
 @font-face {
-  font-family: 'ChillRound';
+  font-family: 'Maruko Gothic SC';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-display: swap;
-  src: url('/fonts/chillround-subsets/base.woff2') format('woff2');
-  unicode-range: U+0-4DFF, U+A000-FFFF;
+  src: url('/fonts/maruko-sc-subsets/base.woff2') format('woff2');
+  unicode-range: U+0020-2FFF, U+3000-303F, U+FF00-FFEF;
 }
 
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-0.woff2') format('woff2'); unicode-range: U+4E00-583F; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-1.woff2') format('woff2'); unicode-range: U+5840-627F; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-2.woff2') format('woff2'); unicode-range: U+6280-6CBF; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-3.woff2') format('woff2'); unicode-range: U+6CC0-76FF; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-4.woff2') format('woff2'); unicode-range: U+7700-813F; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-5.woff2') format('woff2'); unicode-range: U+8140-8B7F; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-6.woff2') format('woff2'); unicode-range: U+8B80-95BF; }
-@font-face { font-family: 'ChillRound'; font-style: normal; font-weight: 400; font-display: swap; src: url('/fonts/chillround-subsets/cjk-7.woff2') format('woff2'); unicode-range: U+95C0-9FFF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-0.woff2') format('woff2'); unicode-range: U+4E00-531F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-1.woff2') format('woff2'); unicode-range: U+5320-583F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-2.woff2') format('woff2'); unicode-range: U+5840-5D5F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-3.woff2') format('woff2'); unicode-range: U+5D60-627F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-4.woff2') format('woff2'); unicode-range: U+6280-679F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-5.woff2') format('woff2'); unicode-range: U+67A0-6CBF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-6.woff2') format('woff2'); unicode-range: U+6CC0-71DF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-7.woff2') format('woff2'); unicode-range: U+71E0-76FF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-8.woff2') format('woff2'); unicode-range: U+7700-7C1F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-9.woff2') format('woff2'); unicode-range: U+7C20-813F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-10.woff2') format('woff2'); unicode-range: U+8140-865F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-11.woff2') format('woff2'); unicode-range: U+8660-8B7F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-12.woff2') format('woff2'); unicode-range: U+8B80-909F; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-13.woff2') format('woff2'); unicode-range: U+90A0-95BF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-14.woff2') format('woff2'); unicode-range: U+95C0-9ADF; }
+@font-face { font-family: 'Maruko Gothic SC'; font-style: normal; font-weight: 500; font-display: swap; src: url('/fonts/maruko-sc-subsets/cjk-15.woff2') format('woff2'); unicode-range: U+9AE0-9FFF; }
 
 @tailwind base;
 @tailwind components;
@@ -25,11 +33,11 @@ body {
   transition: font-family 180ms ease-out;
 }
 
-html.font-chillround-ready body {
-  font-family: 'ChillRound', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+html.font-maruko-ready body {
+  font-family: 'Maruko Gothic SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-html.font-chillround-transition body {
+html.font-maruko-transition body {
   transition: font-family 180ms ease-out;
 }
 

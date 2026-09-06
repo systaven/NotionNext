@@ -243,6 +243,14 @@ const Style = () => {
       padding-top: 92px;
       transition: all 0.5s ease;
     }
+    #theme-fuwari.fuwari-route-leaving .fuwari-hero,
+    #theme-fuwari.fuwari-route-leaving main {
+      animation: fuwari-route-leave 120ms cubic-bezier(.55,.055,.675,.19) both;
+    }
+    #theme-fuwari.fuwari-route-entering .fuwari-hero,
+    #theme-fuwari.fuwari-route-entering main {
+      animation: fuwari-route-enter 150ms cubic-bezier(.25,.46,.45,.94) both;
+    }
     #theme-fuwari .fuwari-hero.hero-fullscreen {
       min-height: 100vh;
       max-height: 100vh;
@@ -705,12 +713,23 @@ const Style = () => {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: none; }
     }
+    @keyframes fuwari-route-leave {
+      to { opacity: 0; transform: translateY(-12px); }
+    }
+    @keyframes fuwari-route-enter {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     @keyframes fuwari-hero-ken-burns {
       from { transform: scale(1.03); }
       to { transform: scale(1.1); }
     }
     @media (prefers-reduced-motion: reduce) {
-      #theme-fuwari .fuwari-hero-bg { animation: none; }
+      #theme-fuwari .fuwari-hero-bg,
+      #theme-fuwari.fuwari-route-leaving .fuwari-hero,
+      #theme-fuwari.fuwari-route-leaving main,
+      #theme-fuwari.fuwari-route-entering .fuwari-hero,
+      #theme-fuwari.fuwari-route-entering main { animation: none; }
     }
 
       ${themeConsoleStyle('fuwari', CONFIG)}
