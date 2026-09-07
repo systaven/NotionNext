@@ -32,10 +32,10 @@ const getUrlString = href => {
   return ''
 }
 
-const getFallbackFavicon = href => {
+const getFaviconProxyUrl = href => {
   try {
     const url = new URL(href)
-    return `${url.origin}/favicon.ico`
+    return `https://a.favicon.im/${encodeURIComponent(url.hostname)}`
   } catch {
     return null
   }
@@ -90,8 +90,21 @@ const shouldDecorateHyperlink = className => {
 
 const isFileLikeLink = href => FILE_LIKE_URL_PATTERN.test(href)
 const isManagedShortLink = href => /^\/r\/[A-Za-z0-9]+(?:[?#].*)?$/.test(href)
+const isNotionFileLink = href => {
+  try {
+    return /(^|\.)file\.notion\.(?:com|so)$/i.test(new URL(href).hostname)
+  } catch {
+    return false
+  }
+}
 
-const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) => {
+const ExternalArticleLink = ({
+  href,
+  children,
+  useShortlink = false,
+  shortLinkRoutes,
+  ...rest
+}) => {
   const anchorRef = useRef(null)
   const hoverTimerRef = useRef(null)
   const [open, setOpen] = useState(false)
@@ -106,7 +119,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   const isShortLink = isManagedShortLink(urlString)
   const targetUrl = resolvedShortLink || urlString
   const isExternal = isExternalHttpLink(targetUrl, LINK)
-  const isFileLike = isFileLikeLink(targetUrl)
+  const isFileLike = isFileLikeLink(targetUrl) || isNotionFileLink(targetUrl)
   const shouldShowPreview =
     linkPreviewEnabled &&
     isExternal &&
@@ -116,16 +129,18 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   const shouldDecorate = isExternal && shouldDecorateHyperlink(rest.className)
   const shouldUseShortlink =
     isExternal && useShortlink && shouldDecorate && !isFileLike && !isShortLink
+  const precomputedShortLink = shortLinkRoutes?.[targetUrl]
 
-  const finalHref = shouldUseShortlink ? buildExternalRedirectPath(targetUrl) : href
+  const finalHref =
+    precomputedShortLink ||
+    (shouldUseShortlink ? buildExternalRedirectPath(targetUrl) : href)
   const rel = isExternal
     ? mergeRelValues(rest.rel, 'noopener noreferrer nofollow external')
     : rest.rel
   const favicon = useMemo(() => {
-    if (preview?.favicon) return preview.favicon
-    if (isExternal) return getFallbackFavicon(targetUrl)
+    if (isExternal) return getFaviconProxyUrl(targetUrl)
     return null
-  }, [preview?.favicon, isExternal, targetUrl])
+  }, [isExternal, targetUrl])
 
   useEffect(() => {
     if (!isShortLink) {

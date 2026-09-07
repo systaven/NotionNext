@@ -40,8 +40,8 @@ const ExternalLinkIntercepter = ({ enabled = true }) => {
         }
 
         const isNotionFile =
-          /amazonaws\.com|notion-static|file\.notion\.so/i.test(href) ||
-          /\.(zip|rar|7z|pdf|docx?|xlsx?|pptx?|txt|exe|dmg|apk)$/i.test(href)
+          /amazonaws\.com|notion-static|file\.notion\.(?:com|so)/i.test(href) ||
+          /\.(zip|rar|7z|pdf|docx?|xlsx?|pptx?|txt|exe|dmg|apk)(?:[?#]|$)/i.test(href)
 
         if (isNotionFile) {
           link.setAttribute('target', '_blank')

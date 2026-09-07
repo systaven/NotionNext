@@ -36,19 +36,34 @@ describe('post short-link preparation', () => {
     ])
   })
 
-  it('rewrites ordinary links and Bookmark cards to the same short route', () => {
+  it('rewrites ordinary links while preserving a Bookmark URL for display', () => {
     const blockMap = makeBlockMap()
     const rewritten = applyShortLinkRoutes(
       blockMap,
       new Map([['https://example.com/article?ref=notion', '/r/A1b2C3d4']])
     )
 
-    expect(rewritten).toBe(2)
+    expect(rewritten).toBe(1)
     expect(blockMap.block.text.value.properties.title[0][1][0][1]).toBe(
       '/r/A1b2C3d4'
     )
     expect(blockMap.block.bookmark.value.properties.link[0][0]).toBe(
-      '/r/A1b2C3d4'
+      'https://example.com/article?ref=notion'
     )
+  })
+
+  it('excludes Notion attachments from short-link creation', () => {
+    const blockMap = makeBlockMap()
+    blockMap.block.text.value.properties.title.push([
+      '附件',
+      [[
+        'a',
+        'https://file.notion.com/f/file/astra-html-lab.zip?table=block'
+      ]]
+    ])
+
+    expect(collectPostExternalUrls(blockMap)).toEqual([
+      'https://example.com/article?ref=notion'
+    ])
   })
 })

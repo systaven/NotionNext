@@ -16,7 +16,6 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
 import { NotionRenderer } from 'react-notion-x'
 import ArticleLink from '@/components/ArticleLink'
-import ArticleLinkPreview from '@/components/ArticleLinkPreview'
 import { getTextContent } from 'notion-utils'
 import OriginalityProof from './OriginalityProof'
 
@@ -146,6 +145,7 @@ const NotionPage = ({ post, className }) => {
               {...props}
               target='_blank'
               useShortlink={useShortlinkForArticle}
+              shortLinkRoutes={post?.shortLinkRoutes}
             />
           ),
           Code,
@@ -157,8 +157,6 @@ const NotionPage = ({ post, className }) => {
           Tweet
         }}
       />
-      <ArticleLinkPreview />
-
       <AdEmbed />
       <OriginalityProof proof={post?.originalityProof} />
       {hasCodeBlock(post?.blockMap) && <PrismMac />}
@@ -195,7 +193,7 @@ const COLLECTION_TEXT_LINK_SELECTORS = [
 
 const ARTICLE_LINK_SELECTOR = '#notion-article a[href]'
 const FORCE_DOWNLOAD_FILE_PATTERN =
-  /amazonaws\.com|notion-static|file\.notion\.so|secure\.notion-static\.com/i
+  /amazonaws\.com|notion-static|file\.notion\.(?:com|so)|secure\.notion-static\.com/i
 const FORCE_DOWNLOAD_EXT_PATTERN =
   /\.(zip|rar|7z|pdf|docx?|xlsx?|pptx?|txt|csv|json|xml|mp3|mp4|mov|avi|apk|dmg|exe|iso)(?:[?#]|$)/i
 const FORCE_NEW_TAB_SHORTLINK_PATTERN = /^\/(?:r\/|go(?:\?|$))/i
