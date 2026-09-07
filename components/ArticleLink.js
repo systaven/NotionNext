@@ -41,6 +41,24 @@ const getFallbackFavicon = href => {
   }
 }
 
+const getLinkMetadataPreview = async href => {
+  const response = await fetch(
+    `https://api.linkmetadata.com/v1/metadata?url=${encodeURIComponent(href)}`
+  )
+  if (!response.ok) throw new Error('link metadata request failed')
+
+  const metadata = await response.json()
+  const hostname = new URL(metadata.url || href).hostname
+  return {
+    title: metadata.title || null,
+    description: metadata.description || null,
+    image: metadata.image?.url || null,
+    favicon: metadata.favicon?.url || null,
+    siteName: hostname,
+    url: metadata.url || href
+  }
+}
+
 const buildPreviewPosition = rect => {
   const viewportWidth = window.innerWidth
   const viewportHeight = window.innerHeight
@@ -86,12 +104,15 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   const isExternal = isExternalHttpLink(urlString, LINK)
   const isShortLink = isManagedShortLink(urlString)
   const isFileLike = isFileLikeLink(urlString)
+  const supportsHover =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
   const shouldShowPreview =
     linkPreviewEnabled &&
     isExternal &&
     shouldDecorateHyperlink(rest.className) &&
     !isFileLike &&
-    typeof window !== 'undefined'
+    supportsHover
   const shouldDecorate = isExternal && shouldDecorateHyperlink(rest.className)
   const shouldUseShortlink =
     isExternal && useShortlink && shouldDecorate && !isFileLike
@@ -139,13 +160,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
     let cancelled = false
     setLoading(true)
 
-    fetch(`/api/link-preview?url=${encodeURIComponent(urlString)}`)
-      .then(async response => {
-        if (!response.ok) {
-          throw new Error('preview request failed')
-        }
-        return await response.json()
-      })
+    getLinkMetadataPreview(urlString)
       .then(data => {
         if (!cancelled) {
           previewCache.set(urlString, data)
@@ -154,16 +169,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
       })
       .catch(() => {
         if (!cancelled) {
-          const fallbackPreview = {
-            title: null,
-            description: null,
-            image: null,
-            favicon: getFallbackFavicon(urlString),
-            siteName: null,
-            url: urlString
-          }
-          previewCache.set(urlString, fallbackPreview)
-          setPreview(fallbackPreview)
+          setOpen(false)
         }
       })
       .finally(() => {
@@ -254,20 +260,22 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
         onMouseLeave={closePreview}
         onFocus={() => setOpen(true)}
         onBlur={closePreview}
-        className={`notion-article-link group inline-flex max-w-full items-center gap-1.5 align-baseline ${rest.className || ''}`}
+        data-link-preview-managed='true'
+        data-link-preview-url={urlString}
+        className={`notion-article-link ${rest.className || ''}`}
       >
         {favicon ? (
           <img
             src={favicon}
             alt=''
             aria-hidden='true'
-            className='h-4 w-4 shrink-0 rounded-[4px] border border-black/5 bg-white/80 object-cover'
+            className='inline-block h-4 w-4 rounded-[4px] border border-black/5 bg-white/80 object-cover align-[-0.15em] mr-1'
             onError={event => {
               event.currentTarget.style.display = 'none'
             }}
           />
         ) : null}
-        <span className='min-w-0 break-all'>{children}</span>
+        <span className='break-all'>{children}</span>
       </a>
       {open && shouldShowPreview && position && typeof document !== 'undefined'
         ? createPortal(

@@ -54,6 +54,9 @@ const ExternalLinkIntercepter = ({ enabled = true }) => {
         )
         if (inWhitelist) return
 
+        // Preserve the real destination for the hover preview before navigation
+        // is converted to the site's /r/... redirect route.
+        link.dataset.linkPreviewUrl = url.toString()
         link.setAttribute('href', buildExternalRedirectPath(url.toString()))
         link.setAttribute(
           'rel',

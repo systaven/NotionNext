@@ -159,28 +159,14 @@ const Style = () => {
     }
     #theme-fuwari .notion-article-link {
       color: var(--fuwari-primary);
-      text-decoration: none;
-      border-bottom: 1px solid color-mix(in oklab, var(--fuwari-primary) 28%, transparent);
-      padding: 0 .08rem;
-      border-radius: .45rem;
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        transparent 62%,
-        color-mix(in oklab, var(--fuwari-primary-soft) 92%, transparent) 100%
-      );
-      transition: transform .18s ease, border-color .18s ease, background-color .18s ease, opacity .18s ease;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .18em;
+      text-decoration-color: color-mix(in oklab, var(--fuwari-primary) 48%, transparent);
+      transition: color .18s ease, text-decoration-color .18s ease;
     }
     #theme-fuwari .notion-article-link:hover {
-      opacity: 1;
-      transform: translateY(-1px);
-      border-bottom-color: color-mix(in oklab, var(--fuwari-primary) 50%, transparent);
-      background: linear-gradient(
-        180deg,
-        transparent 0%,
-        transparent 54%,
-        color-mix(in oklab, var(--fuwari-primary-soft) 100%, transparent) 100%
-      );
+      text-decoration-color: currentColor;
     }
     #theme-fuwari .notion-article-link img {
       box-shadow: 0 2px 8px rgba(15, 23, 42, .08);

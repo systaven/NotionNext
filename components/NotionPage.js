@@ -16,6 +16,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
 import { NotionRenderer } from 'react-notion-x'
 import ArticleLink from '@/components/ArticleLink'
+import ArticleLinkPreview from '@/components/ArticleLinkPreview'
 import { getTextContent } from 'notion-utils'
 import OriginalityProof from './OriginalityProof'
 
@@ -156,6 +157,7 @@ const NotionPage = ({ post, className }) => {
           Tweet
         }}
       />
+      <ArticleLinkPreview />
 
       <AdEmbed />
       <OriginalityProof proof={post?.originalityProof} />

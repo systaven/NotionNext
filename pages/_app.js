@@ -87,15 +87,26 @@ const MyApp = ({ Component, pageProps }) => {
 
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
 
-  // 根据路由路径决定页面内容
-  const pageContent = (
-    <GLayout {...pageProps}>
-      <SEO {...pageProps} />
-      <Component {...pageProps} />
-    </GLayout>
-  )
+  // Redirect/utility pages can opt out of the blog theme chrome entirely.
+  // This keeps security notices focused and prevents theme sidebars/widgets
+  // from appearing around them.
+  const isStandalonePage = Component.isStandalonePage === true
+  const pageContent = isStandalonePage
+    ? <Component {...pageProps} />
+    : (
+      <GLayout {...pageProps}>
+        <SEO {...pageProps} />
+        <Component {...pageProps} />
+      </GLayout>
+      )
 
-  const content = (
+  const content = isStandalonePage
+    ? (
+    <AppErrorBoundary>
+      {pageContent}
+    </AppErrorBoundary>
+      )
+    : (
     <AppErrorBoundary>
       <GlobalContextProvider {...pageProps}>
         <FontLoader />
@@ -104,7 +115,7 @@ const MyApp = ({ Component, pageProps }) => {
         <ExternalPlugins {...pageProps} />
       </GlobalContextProvider>
     </AppErrorBoundary>
-  )
+      )
 
   return (
     <>

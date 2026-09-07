@@ -77,6 +77,9 @@ export default function RedirectPage({ target }) {
   )
 }
 
+// Do not wrap this safety notice in the blog theme's navigation or sidebars.
+RedirectPage.isStandalonePage = true
+
 export async function getServerSideProps(context) {
   const { params, res } = context
   applyNoIndexHeaders(res)

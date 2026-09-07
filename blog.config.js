@@ -19,7 +19,7 @@ const BLOG = {
   BIO: process.env.NEXT_PUBLIC_BIO || '今天也是可爱一天呢', // 作者简介
   LINK: process.env.NEXT_PUBLIC_LINK || 'https://blog.vachiika.me', // 网站地址
   LINK_WHITELIST: ['vachiika.me', 'tangly1024.com', 'gov.moe', 'notion.so', 'github.com'], // 外链跳转白名单，凡是链接中包含以下域名的，点击时不会进入中转页面
-  LINK_PREVIEW_ENABLE: process.env.NEXT_PUBLIC_LINK_PREVIEW_ENABLE ?? false, // 文章超链接悬浮预览开关
+  LINK_PREVIEW_ENABLE: process.env.NEXT_PUBLIC_LINK_PREVIEW_ENABLE ?? true, // 文章超链接悬浮预览开关
   KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || '博客', // 网站关键词 英文逗号隔开
   BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || '/favicon.ico', // blog favicon 配置, 默认使用 /favicon.ico，支持在线图片，如 https://img.imesong.com/favicon.png
   PWA_ENABLE: process.env.NEXT_PUBLIC_PWA_ENABLE || false, // 是否启用 PWA 安装入口；也可在 Notion_Config 中配置 PWA_ENABLE=true
