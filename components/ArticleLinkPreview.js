@@ -12,6 +12,14 @@ const FILE_LIKE_URL_PATTERN =
   /\.(pdf|zip|rar|7z|docx?|xlsx?|pptx?|txt|mp3|mp4|mov|avi|apk|dmg|exe)(?:[?#]|$)/i
 const previewCache = new Map()
 
+const getFaviconProxyUrl = href => {
+  try {
+    return `https://a.favicon.im/${encodeURIComponent(new URL(href).hostname)}`
+  } catch {
+    return null
+  }
+}
+
 const getPreviewPosition = rect => {
   const left = Math.min(
     Math.max(12, rect.left),
@@ -47,7 +55,6 @@ const fetchPreview = async url => {
     title: metadata.title || null,
     description: metadata.description || null,
     image: metadata.image?.url || null,
-    favicon: metadata.favicon?.url || null,
     siteName: new URL(metadata.url || url).hostname
   }
 }
@@ -146,6 +153,8 @@ const ArticleLinkPreview = () => {
 
   if (!activeLink || typeof document === 'undefined') return null
 
+  const favicon = getFaviconProxyUrl(activeLink.url)
+
   return createPortal(
     <div className='pointer-events-none fixed z-[10020] w-80' style={position}>
       <div className='article-link-preview overflow-hidden rounded-2xl'>
@@ -160,9 +169,9 @@ const ArticleLinkPreview = () => {
         )}
         <div className='space-y-2 p-4'>
           <div className='flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400'>
-            {preview?.favicon && (
+            {favicon && (
               <img
-                src={preview.favicon}
+                src={favicon}
                 alt=''
                 className='h-4 w-4 rounded-[4px] border border-black/5 bg-white/80'
               />

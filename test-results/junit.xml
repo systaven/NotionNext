@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="9" failures="0" errors="0" time="1.303">
-  <testsuite name="post short-link preparation" errors="0" failures="0" skipped="0" timestamp="2026-09-07T00:29:10" time="0.455" tests="2">
-    <testcase classname="post short-link preparation collects ordinary Notion hyperlinks and Bookmark URLs once" name="post short-link preparation collects ordinary Notion hyperlinks and Bookmark URLs once" time="0.007">
+<testsuites name="jest tests" tests="3" failures="0" errors="0" time="0.725">
+  <testsuite name="post short-link preparation" errors="0" failures="0" skipped="0" timestamp="2026-09-07T17:07:38" time="0.397" tests="3">
+    <testcase classname="post short-link preparation collects ordinary Notion hyperlinks and Bookmark URLs once" name="post short-link preparation collects ordinary Notion hyperlinks and Bookmark URLs once" time="0.008">
     </testcase>
-    <testcase classname="post short-link preparation rewrites ordinary links and Bookmark cards to the same short route" name="post short-link preparation rewrites ordinary links and Bookmark cards to the same short route" time="0.004">
+    <testcase classname="post short-link preparation rewrites ordinary links while preserving a Bookmark URL for display" name="post short-link preparation rewrites ordinary links while preserving a Bookmark URL for display" time="0.002">
     </testcase>
-  </testsuite>
-  <testsuite name="NotionLink" errors="0" failures="0" skipped="0" timestamp="2026-09-07T00:29:11" time="0.469" tests="7">
-    <testcase classname="NotionLink opens external http links in a new tab" name="NotionLink opens external http links in a new tab" time="0.063">
-    </testcase>
-    <testcase classname="NotionLink keeps same-origin absolute links in current tab" name="NotionLink keeps same-origin absolute links in current tab" time="0.001">
-    </testcase>
-    <testcase classname="NotionLink preserves existing rel tokens when forcing a new tab" name="NotionLink preserves existing rel tokens when forcing a new tab" time="0.011">
-    </testcase>
-    <testcase classname="NotionLink keeps mailto links in current tab by default" name="NotionLink keeps mailto links in current tab by default" time="0.007">
-    </testcase>
-    <testcase classname="NotionLink keeps explicit blank targets and adds safe rel tokens" name="NotionLink keeps explicit blank targets and adds safe rel tokens" time="0.006">
-    </testcase>
-    <testcase classname="shouldOpenNotionLinkInNewTab returns true for explicit blank targets and cross-origin http links" name="shouldOpenNotionLinkInNewTab returns true for explicit blank targets and cross-origin http links" time="0.002">
-    </testcase>
-    <testcase classname="shouldOpenNotionLinkInNewTab returns false for non-http links and same-origin http links" name="shouldOpenNotionLinkInNewTab returns false for non-http links and same-origin http links" time="0.001">
+    <testcase classname="post short-link preparation excludes Notion attachments from short-link creation" name="post short-link preparation excludes Notion attachments from short-link creation" time="0.002">
     </testcase>
   </testsuite>
 </testsuites>
