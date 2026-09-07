@@ -71,6 +71,7 @@ const shouldDecorateHyperlink = className => {
 }
 
 const isFileLikeLink = href => FILE_LIKE_URL_PATTERN.test(href)
+const isManagedShortLink = href => /^\/r\/[A-Za-z0-9]+(?:[?#].*)?$/.test(href)
 
 const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) => {
   const anchorRef = useRef(null)
@@ -83,6 +84,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   const linkPreviewEnabled = siteConfig('LINK_PREVIEW_ENABLE', true)
   const urlString = getUrlString(href)
   const isExternal = isExternalHttpLink(urlString, LINK)
+  const isShortLink = isManagedShortLink(urlString)
   const isFileLike = isFileLikeLink(urlString)
   const shouldShowPreview =
     linkPreviewEnabled &&
@@ -201,6 +203,19 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
       hoverTimerRef.current = null
     }
     setOpen(false)
+  }
+
+  if (isShortLink) {
+    return (
+      <a
+        {...rest}
+        href={href}
+        target={rest.target || '_blank'}
+        rel={mergeRelValues(rest.rel, 'noopener noreferrer nofollow external')}
+      >
+        {children}
+      </a>
+    )
   }
 
   if (!isExternal) {

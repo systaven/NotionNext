@@ -2,5 +2,98 @@
     "organizationId": "69ca8d4bad3c80e99034",
     "projectId": "69ca8e510018b435866c",
     "projectName": "Main",
-    "endpoint": "https://sgp.cloud.appwrite.io/v1"
+    "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "tablesDB": [
+        {
+            "$id": "t2_data",
+            "name": "T2 Data",
+            "enabled": true
+        }
+    ],
+    "tables": [
+        {
+            "$id": "short_links",
+            "name": "Short links",
+            "databaseId": "t2_data",
+            "enabled": true,
+            "rowSecurity": false,
+            "$permissions": [],
+            "columns": [
+                {
+                    "key": "code",
+                    "type": "varchar",
+                    "size": 12,
+                    "required": true
+                },
+                {
+                    "key": "targetHash",
+                    "type": "varchar",
+                    "size": 64,
+                    "required": true
+                },
+                {
+                    "key": "targetUrl",
+                    "type": "text",
+                    "required": true
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "short_links_code_unique",
+                    "type": "unique",
+                    "attributes": ["code"]
+                },
+                {
+                    "key": "short_links_target_hash_unique",
+                    "type": "unique",
+                    "attributes": ["targetHash"]
+                }
+            ]
+        },
+        {
+            "$id": "short_link_sources",
+            "name": "Short link sources",
+            "databaseId": "t2_data",
+            "enabled": true,
+            "rowSecurity": false,
+            "$permissions": [],
+            "columns": [
+                {
+                    "key": "postId",
+                    "type": "varchar",
+                    "size": 64,
+                    "required": true
+                },
+                {
+                    "key": "targetHash",
+                    "type": "varchar",
+                    "size": 64,
+                    "required": true
+                },
+                {
+                    "key": "sourceKey",
+                    "type": "varchar",
+                    "size": 64,
+                    "required": true
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "short_link_sources_source_key_unique",
+                    "type": "unique",
+                    "attributes": ["sourceKey"]
+                },
+                {
+                    "key": "short_link_sources_post_id",
+                    "type": "key",
+                    "attributes": ["postId"]
+                },
+                {
+                    "key": "short_link_sources_target_hash",
+                    "type": "key",
+                    "attributes": ["targetHash"]
+                }
+            ]
+        }
+    ]
 }

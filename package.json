@@ -90,6 +90,7 @@
     "medium-zoom": "^1.1.0",
     "memory-cache": "^0.2.0",
     "next": "^15.5.23",
+    "node-appwrite": "^29.0.0",
     "notion-client": "7.10.0",
     "notion-utils": "7.10.0",
     "p-limit": "^7.3.1",
