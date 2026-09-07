@@ -1,99 +1,156 @@
 {
-    "organizationId": "69ca8d4bad3c80e99034",
-    "projectId": "69ca8e510018b435866c",
-    "projectName": "Main",
-    "endpoint": "https://sgp.cloud.appwrite.io/v1",
-    "tablesDB": [
+  "organizationId": "69ca8d4bad3c80e99034",
+  "projectId": "69ca8e510018b435866c",
+  "projectName": "Main",
+  "endpoint": "https://sgp.cloud.appwrite.io/v1",
+  "tablesDB": [
+    {
+      "$id": "t2_data",
+      "name": "T2 Data",
+      "enabled": true
+    }
+  ],
+  "tables": [
+    {
+      "$id": "short_links",
+      "name": "Short links",
+      "databaseId": "t2_data",
+      "enabled": true,
+      "rowSecurity": false,
+      "$permissions": [],
+      "columns": [
         {
-            "$id": "t2_data",
-            "name": "T2 Data",
-            "enabled": true
-        }
-    ],
-    "tables": [
-        {
-            "$id": "short_links",
-            "name": "Short links",
-            "databaseId": "t2_data",
-            "enabled": true,
-            "rowSecurity": false,
-            "$permissions": [],
-            "columns": [
-                {
-                    "key": "code",
-                    "type": "varchar",
-                    "size": 12,
-                    "required": true
-                },
-                {
-                    "key": "targetHash",
-                    "type": "varchar",
-                    "size": 64,
-                    "required": true
-                },
-                {
-                    "key": "targetUrl",
-                    "type": "text",
-                    "required": true
-                }
-            ],
-            "indexes": [
-                {
-                    "key": "short_links_code_unique",
-                    "type": "unique",
-                    "attributes": ["code"]
-                },
-                {
-                    "key": "short_links_target_hash_unique",
-                    "type": "unique",
-                    "attributes": ["targetHash"]
-                }
-            ]
+          "key": "code",
+          "type": "varchar",
+          "size": 12,
+          "required": true
         },
         {
-            "$id": "short_link_sources",
-            "name": "Short link sources",
-            "databaseId": "t2_data",
-            "enabled": true,
-            "rowSecurity": false,
-            "$permissions": [],
-            "columns": [
-                {
-                    "key": "postId",
-                    "type": "varchar",
-                    "size": 64,
-                    "required": true
-                },
-                {
-                    "key": "targetHash",
-                    "type": "varchar",
-                    "size": 64,
-                    "required": true
-                },
-                {
-                    "key": "sourceKey",
-                    "type": "varchar",
-                    "size": 64,
-                    "required": true
-                }
-            ],
-            "indexes": [
-                {
-                    "key": "short_link_sources_source_key_unique",
-                    "type": "unique",
-                    "attributes": ["sourceKey"]
-                },
-                {
-                    "key": "short_link_sources_post_id",
-                    "type": "key",
-                    "attributes": ["postId"]
-                },
-                {
-                    "key": "short_link_sources_target_hash",
-                    "type": "key",
-                    "attributes": ["targetHash"]
-                }
-            ]
+          "key": "targetHash",
+          "type": "varchar",
+          "size": 64,
+          "required": true
+        },
+        {
+          "key": "targetUrl",
+          "type": "text",
+          "required": true
         }
-    ]
+      ],
+      "indexes": [
+        {
+          "key": "short_links_code_unique",
+          "type": "unique",
+          "attributes": ["code"]
+        },
+        {
+          "key": "short_links_target_hash_unique",
+          "type": "unique",
+          "attributes": ["targetHash"]
+        }
+      ]
+    },
+    {
+      "$id": "short_link_sources",
+      "name": "Short link sources",
+      "databaseId": "t2_data",
+      "enabled": true,
+      "rowSecurity": false,
+      "$permissions": [],
+      "columns": [
+        {
+          "key": "postId",
+          "type": "varchar",
+          "size": 64,
+          "required": true
+        },
+        {
+          "key": "targetHash",
+          "type": "varchar",
+          "size": 64,
+          "required": true
+        },
+        {
+          "key": "sourceKey",
+          "type": "varchar",
+          "size": 64,
+          "required": true
+        }
+      ],
+      "indexes": [
+        {
+          "key": "short_link_sources_source_key_unique",
+          "type": "unique",
+          "attributes": ["sourceKey"]
+        },
+        {
+          "key": "short_link_sources_post_id",
+          "type": "key",
+          "attributes": ["postId"]
+        },
+        {
+          "key": "short_link_sources_target_hash",
+          "type": "key",
+          "attributes": ["targetHash"]
+        }
+      ]
+    },
+    {
+      "$id": "admin_roles",
+      "name": "Admin roles",
+      "databaseId": "t2_data",
+      "enabled": true,
+      "rowSecurity": false,
+      "$permissions": [],
+      "columns": [
+        { "key": "userId", "type": "varchar", "size": 128, "required": true },
+        { "key": "email", "type": "varchar", "size": 320, "required": true },
+        { "key": "role", "type": "varchar", "size": 16, "required": true }
+      ],
+      "indexes": [
+        {
+          "key": "admin_roles_user_id_unique",
+          "type": "unique",
+          "attributes": ["userId"]
+        }
+      ]
+    },
+    {
+      "$id": "admin_announcements",
+      "name": "Admin announcements",
+      "databaseId": "t2_data",
+      "enabled": true,
+      "rowSecurity": false,
+      "$permissions": [],
+      "columns": [
+        { "key": "title", "type": "varchar", "size": 255, "required": true },
+        { "key": "content", "type": "text", "required": false },
+        {
+          "key": "published",
+          "type": "boolean",
+          "required": true,
+          "default": true
+        },
+        { "key": "authorId", "type": "varchar", "size": 128, "required": true }
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "admin_settings",
+      "name": "Admin settings",
+      "databaseId": "t2_data",
+      "enabled": true,
+      "rowSecurity": false,
+      "$permissions": [],
+      "columns": [
+        {
+          "key": "adminUserId",
+          "type": "varchar",
+          "size": 128,
+          "required": true
+        }
+      ],
+      "indexes": []
+    }
+  ]
 }
