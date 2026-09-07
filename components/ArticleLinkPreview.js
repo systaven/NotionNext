@@ -148,9 +148,9 @@ const ArticleLinkPreview = () => {
 
   return createPortal(
     <div className='pointer-events-none fixed z-[10020] w-80' style={position}>
-      <div className='overflow-hidden rounded-2xl border border-[var(--fuwari-border)] bg-[var(--fuwari-surface)] shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-sm'>
+      <div className='article-link-preview overflow-hidden rounded-2xl'>
         {preview?.image && (
-          <div className='h-36 w-full overflow-hidden bg-[var(--fuwari-bg-soft)]'>
+          <div className='h-36 w-full overflow-hidden bg-slate-100 dark:bg-slate-800'>
             <img
               src={preview.image}
               alt=''
@@ -159,7 +159,7 @@ const ArticleLinkPreview = () => {
           </div>
         )}
         <div className='space-y-2 p-4'>
-          <div className='flex items-center gap-2 text-xs text-[var(--fuwari-muted)]'>
+          <div className='flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400'>
             {preview?.favicon && (
               <img
                 src={preview.favicon}
@@ -171,11 +171,11 @@ const ArticleLinkPreview = () => {
               {preview?.siteName || new URL(activeLink.url).hostname}
             </span>
           </div>
-          <div className='text-sm font-semibold leading-6 text-[var(--fuwari-text)]'>
+          <div className='text-sm font-semibold leading-6 text-slate-900 dark:text-slate-100'>
             {loading ? '正在读取网页信息...' : preview?.title || '外部链接预览'}
           </div>
           {(loading || preview?.description) && (
-            <p className='line-clamp-3 text-sm leading-6 text-[var(--fuwari-muted)]'>
+            <p className='line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-300'>
               {loading
                 ? '鼠标停留时会读取网页标题、简介和首图。'
                 : preview.description}

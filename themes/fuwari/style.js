@@ -159,17 +159,38 @@ const Style = () => {
     }
     #theme-fuwari .notion-article-link {
       color: var(--fuwari-primary);
-      text-decoration: underline;
+      text-decoration: underline !important;
       text-decoration-thickness: 1px;
       text-underline-offset: .18em;
       text-decoration-color: color-mix(in oklab, var(--fuwari-primary) 48%, transparent);
       transition: color .18s ease, text-decoration-color .18s ease;
+      border-bottom: 0 !important;
+      background: transparent !important;
+      opacity: 1;
+      padding: 0 !important;
+      margin: 0 !important;
     }
     #theme-fuwari .notion-article-link:hover {
       text-decoration-color: currentColor;
     }
     #theme-fuwari .notion-article-link img {
       box-shadow: 0 2px 8px rgba(15, 23, 42, .08);
+    }
+    .article-link-preview {
+      border: 1px solid rgba(148, 163, 184, .38);
+      background: rgba(255, 255, 255, .98);
+      box-shadow: 0 20px 60px rgba(15, 23, 42, .22);
+      backdrop-filter: blur(16px);
+      animation: article-link-preview-in .18s ease-out both;
+    }
+    .dark .article-link-preview {
+      border-color: rgba(148, 163, 184, .3);
+      background: rgba(15, 23, 42, .98);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+    }
+    @keyframes article-link-preview-in {
+      from { opacity: 0; transform: translateY(4px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     #theme-fuwari .fuwari-footer {
       border-top: 1px dashed color-mix(in oklab, var(--fuwari-border) 85%, transparent);
