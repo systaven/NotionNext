@@ -98,15 +98,15 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   const [preview, setPreview] = useState(null)
   const [loading, setLoading] = useState(false)
   const [position, setPosition] = useState(null)
+  const [supportsHover, setSupportsHover] = useState(false)
+  const [resolvedShortLink, setResolvedShortLink] = useState(null)
   const LINK = siteConfig('LINK')
   const linkPreviewEnabled = siteConfig('LINK_PREVIEW_ENABLE', true)
   const urlString = getUrlString(href)
-  const isExternal = isExternalHttpLink(urlString, LINK)
   const isShortLink = isManagedShortLink(urlString)
-  const isFileLike = isFileLikeLink(urlString)
-  const supportsHover =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  const targetUrl = resolvedShortLink || urlString
+  const isExternal = isExternalHttpLink(targetUrl, LINK)
+  const isFileLike = isFileLikeLink(targetUrl)
   const shouldShowPreview =
     linkPreviewEnabled &&
     isExternal &&
@@ -115,17 +115,39 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
     supportsHover
   const shouldDecorate = isExternal && shouldDecorateHyperlink(rest.className)
   const shouldUseShortlink =
-    isExternal && useShortlink && shouldDecorate && !isFileLike
+    isExternal && useShortlink && shouldDecorate && !isFileLike && !isShortLink
 
-  const finalHref = shouldUseShortlink ? buildExternalRedirectPath(urlString) : href
+  const finalHref = shouldUseShortlink ? buildExternalRedirectPath(targetUrl) : href
   const rel = isExternal
     ? mergeRelValues(rest.rel, 'noopener noreferrer nofollow external')
     : rest.rel
   const favicon = useMemo(() => {
     if (preview?.favicon) return preview.favicon
-    if (isExternal) return getFallbackFavicon(urlString)
+    if (isExternal) return getFallbackFavicon(targetUrl)
     return null
-  }, [preview?.favicon, isExternal, urlString])
+  }, [preview?.favicon, isExternal, targetUrl])
+
+  useEffect(() => {
+    if (!isShortLink) {
+      setResolvedShortLink(null)
+      return
+    }
+    const token = urlString.match(/^\/r\/([^?#/]+)/)?.[1]
+    if (!token) return
+    fetch(`/api/short-link-target?token=${encodeURIComponent(token)}`)
+      .then(response => (response.ok ? response.json() : null))
+      .then(data => setResolvedShortLink(data?.url || null))
+      .catch(() => setResolvedShortLink(null))
+  }, [isShortLink, urlString])
+
+  useEffect(() => {
+    const media = window.matchMedia('(hover: hover) and (pointer: fine)')
+    const updateSupportsHover = () => setSupportsHover(media.matches)
+
+    updateSupportsHover()
+    media.addEventListener('change', updateSupportsHover)
+    return () => media.removeEventListener('change', updateSupportsHover)
+  }, [])
 
   useEffect(() => {
     if (!open || !shouldShowPreview || !anchorRef.current) return
@@ -148,11 +170,11 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
   useEffect(() => {
     if (!shouldShowPreview) return
 
-    const cachedPreview = previewCache.get(urlString)
+    const cachedPreview = previewCache.get(targetUrl)
     if (cachedPreview && !preview) {
       setPreview(cachedPreview)
     }
-  }, [preview, shouldShowPreview, urlString])
+  }, [preview, shouldShowPreview, targetUrl])
 
   useEffect(() => {
     if (!open || !shouldShowPreview || loading || preview) return
@@ -160,10 +182,10 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
     let cancelled = false
     setLoading(true)
 
-    getLinkMetadataPreview(urlString)
+    getLinkMetadataPreview(targetUrl)
       .then(data => {
         if (!cancelled) {
-          previewCache.set(urlString, data)
+          previewCache.set(targetUrl, data)
           setPreview(data)
         }
       })
@@ -181,7 +203,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
     return () => {
       cancelled = true
     }
-  }, [open, shouldShowPreview, loading, preview, urlString])
+  }, [open, shouldShowPreview, loading, preview, targetUrl])
 
   useEffect(() => {
     return () => {
@@ -209,19 +231,6 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
       hoverTimerRef.current = null
     }
     setOpen(false)
-  }
-
-  if (isShortLink) {
-    return (
-      <a
-        {...rest}
-        href={href}
-        target={rest.target || '_blank'}
-        rel={mergeRelValues(rest.rel, 'noopener noreferrer nofollow external')}
-      >
-        {children}
-      </a>
-    )
   }
 
   if (!isExternal) {
@@ -261,7 +270,7 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
         onFocus={() => setOpen(true)}
         onBlur={closePreview}
         data-link-preview-managed='true'
-        data-link-preview-url={urlString}
+        data-link-preview-url={targetUrl}
         className={`notion-article-link ${rest.className || ''}`}
       >
         {favicon ? (
@@ -312,9 +321,9 @@ const ExternalArticleLink = ({ href, children, useShortlink = false, ...rest }) 
                     <span className='truncate'>
                       {preview?.siteName || (() => {
                         try {
-                          return new URL(urlString).hostname
+                          return new URL(targetUrl).hostname
                         } catch {
-                          return urlString
+                          return targetUrl
                         }
                       })()}
                     </span>
