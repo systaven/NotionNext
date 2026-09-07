@@ -295,6 +295,25 @@ describe('formatNotionBlock', () => {
     ).toBe(true)
   })
 
+  it('detects expired signed URLs stored directly on newer Notion file blocks', () => {
+    expect(
+      hasExpiredSignedUrls({
+        block: {
+          video: {
+            value: {
+              type: 'video',
+              properties: {
+                source: [[
+                  'https://file.notion.com/f/f/space/attachment/video.mp4?expirationTimestamp=1'
+                ]]
+              }
+            }
+          }
+        }
+      })
+    ).toBe(true)
+  })
+
   it('requests a signed URL for Notion HTML attachment embeds', () => {
     const recordMap = {
       signed_urls: {},
